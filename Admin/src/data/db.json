@@ -1,0 +1,25 @@
+{
+  "users": [
+    { "id": "1", "name": "Leanne Graham" },
+    { "id": "2", "name": "Ervin Howell" },
+    { "id": "3", "name": "Clementine Bauch" },
+    { "id": "4", "name": "Patricia Lebsack" },
+    { "id": "5", "name": "Chelsey Dietrich" },
+    { "id": "6", "name": "Mrs. Dennis Schulist" },
+    { "id": "7", "name": "Kurtis Weissnat" },
+    { "id": "8", "name": "Nicholas Runolfsdottir V" },
+    { "id": "9", "name": "Glenna Reichert" },
+    { "id": "10", "name": "Clementina DuBuque" }
+  ],
+  "posts": [
+    { "id": "1", "title": "a title", "views": 100 },
+    { "id": "2", "title": "another title", "views": 200 }
+  ],
+  "comments": [
+    { "id": "1", "text": "a comment about post 1", "postId": "1" },
+    { "id": "2", "text": "another comment about post 1", "postId": "1" }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

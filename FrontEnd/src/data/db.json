@@ -1,0 +1,163 @@
+{
+  "products": [
+    {
+      "_id": "1",
+      "id": "1",
+      "name": "Wireless Headphones",
+      "price": 2499,
+      "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
+      "description": "High-quality wireless headphones with noise cancellation",
+      "rating": 4,
+      "category": {
+        "_id": "cat1",
+        "name": "Electronics"
+      },
+      "reviews": [
+        {
+          "name": "John Doe",
+          "rating": 5,
+          "comment": "Amazing sound quality!"
+        }
+      ]
+    },
+    {
+      "_id": "2",
+      "id": "2",
+      "name": "Smart Watch",
+      "price": 3999,
+      "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop",
+      "description": "Feature-rich smartwatch with health tracking",
+      "rating": 4,
+      "category": {
+        "_id": "cat1",
+        "name": "Electronics"
+      },
+      "reviews": []
+    },
+    {
+      "_id": "3",
+      "id": "3",
+      "name": "USB-C Cable",
+      "price": 399,
+      "image": "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=400&h=400&fit=crop",
+      "description": "Durable USB-C charging cable",
+      "rating": 5,
+      "category": {
+        "_id": "cat1",
+        "name": "Electronics"
+      },
+      "reviews": []
+    },
+    {
+      "_id": "4",
+      "id": "4",
+      "name": "Gaming Mouse",
+      "price": 1499,
+      "image": "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=400&h=400&fit=crop",
+      "description": "Professional gaming mouse with RGB lighting",
+      "rating": 5,
+      "category": {
+        "_id": "cat1",
+        "name": "Electronics"
+      },
+      "reviews": []
+    },
+    {
+      "_id": "5",
+      "id": "5",
+      "name": "Mechanical Keyboard",
+      "price": 4999,
+      "image": "https://images.unsplash.com/photo-1587829191301-d1a47cf75ffd?w=400&h=400&fit=crop",
+      "description": "Premium mechanical keyboard for professionals",
+      "rating": 5,
+      "category": {
+        "_id": "cat1",
+        "name": "Electronics"
+      },
+      "reviews": []
+    },
+    {
+      "_id": "6",
+      "id": "6",
+      "name": "Portable Speaker",
+      "price": 2999,
+      "image": "https://images.unsplash.com/photo-1589003077984-894e133dabab?w=400&h=400&fit=crop",
+      "description": "Waterproof Bluetooth speaker",
+      "rating": 4,
+      "category": {
+        "_id": "cat1",
+        "name": "Electronics"
+      },
+      "reviews": []
+    },
+    {
+      "_id": "7",
+      "id": "7",
+      "name": "Wireless Charger",
+      "price": 999,
+      "image": "https://images.unsplash.com/photo-1591584663623-e6a6e30d0c15?w=400&h=400&fit=crop",
+      "description": "Fast charging wireless pad",
+      "rating": 4,
+      "category": {
+        "_id": "cat1",
+        "name": "Electronics"
+      },
+      "reviews": []
+    },
+    {
+      "_id": "8",
+      "id": "8",
+      "name": "4K Webcam",
+      "price": 5999,
+      "image": "https://images.unsplash.com/photo-1577935945942-26ec58bae069?w=400&h=400&fit=crop",
+      "description": "Professional 4K streaming webcam",
+      "rating": 5,
+      "category": {
+        "_id": "cat1",
+        "name": "Electronics"
+      },
+      "reviews": []
+    }
+  ],
+  "categories": [
+    {
+      "_id": "cat1",
+      "name": "Electronics",
+      "image": "https://images.unsplash.com/photo-1550355291-bbee04a92027?w=400&h=400&fit=crop"
+    },
+    {
+      "_id": "cat2",
+      "name": "Fashion",
+      "image": "https://images.unsplash.com/photo-1595777707802-5b5c02f30858?w=400&h=400&fit=crop"
+    },
+    {
+      "_id": "cat3",
+      "name": "Home & Kitchen",
+      "image": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=400&fit=crop"
+    }
+  ],
+  "orders": [
+    {
+      "_id": "order1",
+      "items": [
+        {
+          "productId": "1",
+          "name": "Wireless Headphones",
+          "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
+          "price": 2499,
+          "qty": 1
+        }
+      ],
+      "totalPrice": 2499,
+      "address": {
+        "fullName": "John Doe",
+        "city": "New York"
+      },
+      "createdAt": "2026-05-20T10:00:00Z"
+    }
+  ],
+  "users": [
+    { "id": "1", "name": "Leanne Graham" },
+    { "id": "2", "name": "Ervin Howell" }
+  ]
+}

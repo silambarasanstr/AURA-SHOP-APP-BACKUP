@@ -1,0 +1,35 @@
+import { NavLink } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
+
+const NavBar = () => {
+  const { cartItems } = useCart();
+
+  const cartCount = cartItems?.items?.length || 0;
+
+  const linkClass = ({ isActive }) =>
+    `relative px-3 py-2 text-sm font-medium transition-all duration-200 ${
+      isActive ? "text-blue-600" : "text-gray-600 hover:text-black"
+    }`;
+
+  return (
+    <nav className="flex items-center gap-6">
+      <NavLink to="/" end className={linkClass}>
+        Home
+      </NavLink>
+
+      <NavLink to="/products" className={linkClass}>
+        Products
+      </NavLink>
+
+      <NavLink to="/checkout" className={linkClass}>
+        Checkout
+      </NavLink>
+
+      <NavLink to="/orders" className={linkClass}>
+        Orders
+      </NavLink>
+    </nav>
+  );
+};
+
+export default NavBar;
