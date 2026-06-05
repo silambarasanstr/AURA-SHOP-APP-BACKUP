@@ -60,12 +60,13 @@ const CheckoutContainer = () => {
     }
   };
 
-  // Empty Cart
-  if (!cartItems.items || cartItems.items.length === 0) {
+  // Empty
+  if (!cartItems.items.length || cartItems.items.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center gap-3 h-60">
-        <p className="text-lg font-semibold text-gray-600">Your checkout is empty 🛒</p>
-
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-2 text-center px-4">
+        <p className="text-4xl">❤️</p>
+        <h2 className="text-xl font-semibold text-gray-800">No items in Checkout</h2>
+        <p className="text-sm text-gray-500">Your selected items will appear here.</p>
         <Link
           to="/"
           className="px-4 py-2 text-sm text-white transition bg-blue-600 rounded-md hover:bg-blue-700"

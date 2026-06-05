@@ -6,28 +6,30 @@ import useFetch from "../hooks/useFetch";
 
 
 const CategoriesContainer = () => {
-  
-  const { data: categories, loading, error } = useFetch(getCategories);
-
-  if (error) {
-    return <div className="py-10 text-center text-red-500">{error}</div>;
-  }
+  const { data: categories, loading } = useFetch(getCategories);
 
   if (loading) {
     return <Loading />;
   }
 
+  const activeCategories =
+    categories?.filter((category) => category.isActive) || [];
+
   return (
     <div className="px-4 py-10 mx-auto max-w-7xl">
-      <h1 className="mb-8 text-3xl font-bold">Shop By Category</h1>
+      <h1 className="mb-8 text-2xl font-bold">Shop By Category</h1>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {categories
-          ?.filter((category) => category.isActive)
-          .map((category) => (
+      {activeCategories.length === 0 ? (
+        <div className="py-16 text-center">
+          <p className="text-gray-500">Categories will be available soon.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {activeCategories.map((category) => (
             <CategoryCard key={category._id} category={category} />
           ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

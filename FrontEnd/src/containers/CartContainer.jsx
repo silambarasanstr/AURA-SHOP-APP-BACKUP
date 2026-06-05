@@ -16,21 +16,38 @@ const CartContainer = () => {
     );
   }
 
-  // Empty Cart
-  if (!cartItems.items || cartItems.items.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center gap-3 h-60">
-        <p className="text-lg font-semibold text-gray-600">Your cart is empty 🛒</p>
+  // // Empty Cart
+  // if (!cartItems.items || cartItems.items.length === 0) {
+  //   return (
+  //     <div className="flex flex-col items-center justify-center gap-3 h-60">
+  //       <p className="text-lg font-semibold text-gray-600">Your cart is empty 🛒</p>
 
-        <Link
-          to="/"
-          className="px-4 py-2 text-sm text-white transition bg-blue-600 rounded-md hover:bg-blue-700"
-        >
-          Continue Shopping
-        </Link>
+  //       <Link
+  //         to="/"
+  //         className="px-4 py-2 text-sm text-white transition bg-blue-600 rounded-md hover:bg-blue-700"
+  //       >
+  //         Continue Shopping
+  //       </Link>
+  //     </div>
+  //   );
+  // }
+
+
+
+ // Empty
+  if (!cartItems.items.length) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-2 text-center px-4">
+        <p className="text-4xl">🛒 </p>
+        <h2 className="text-xl font-semibold text-gray-800">No items in cart</h2>
+        <p className="text-sm text-gray-500">Your selected items will appear here.</p>
       </div>
     );
   }
+
+
+
+  
 
   return (
     <div className="max-w-4xl px-3 py-4 mx-auto">

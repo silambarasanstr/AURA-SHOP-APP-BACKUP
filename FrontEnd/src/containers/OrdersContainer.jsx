@@ -30,11 +30,13 @@ const OrdersContainer = () => {
     const fetchOrders = async () => {
       try {
         const data = await getOrders();
-        setOrders(data);
-        console.log(data)
+
+        setOrders(Array.isArray(data) ? data : []);
       } catch (err) {
-        setError("Failed to load orders. Please try again.");
         console.error(err);
+
+        // show empty state instead of error page
+        setOrders([]);
       } finally {
         setLoading(false);
       }
@@ -60,7 +62,21 @@ const OrdersContainer = () => {
     }
   };
 
-  const formatPrice = (n) => n.toLocaleString("en-IN", { maximumFractionDigits: 0 }); // FIX 5
+  const formatPrice = (amount = 0) => {
+    return Number(amount).toLocaleString("en-IN", {
+      maximumFractionDigits: 0,
+    });
+  };
+
+  const formatDate = (date) => {
+    if (!date) return "N/A";
+
+    return new Date(date).toLocaleDateString("en-IN", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  };
 
   // Loading
   if (loading) {
@@ -138,26 +154,21 @@ const OrdersContainer = () => {
                     Order ID
                   </p>
                   <p className="font-mono text-xs font-medium leading-snug text-gray-700 break-all">
-                   #{order.orderNumber || order._id.slice(-6).toUpperCase()}
+                    #{order.orderNumber || order._id.slice(-6).toUpperCase()}
                   </p>
                 </div>
 
                 <div className="flex items-center flex-shrink-0 gap-2">
                   <span className="text-xs text-gray-400">
-                    {order.items.length} item{order.items.length !== 1 ? "s" : ""}
+                    {order.items?.length || 0} item
+                    {(order.items?.length || 0) !== 1 ? "s" : ""}
                   </span>
                   <StatusBadge status={order.status} /> {/* FIX 4 */}
                 </div>
 
                 <div className="flex-shrink-0 text-right">
                   <p className="text-[10px] text-gray-400 uppercase tracking-wide mb-0.5">Date</p>
-                  <p className="text-xs text-gray-700">
-                    {new Date(order.createdAt).toLocaleDateString("en-IN", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </p>
+                  <p className="text-xs text-gray-700">{formatDate(order.createdAt)}</p>
                 </div>
               </div>
 
@@ -168,17 +179,19 @@ const OrdersContainer = () => {
                 </p>
 
                 <div className="space-y-2">
-                  {order.items.map((item, index) => (
+                  {order.items?.map((item, index) => (
                     <div
                       key={index}
                       className="flex items-center justify-between px-3 py-2.5 bg-gray-50 border border-gray-300 rounded-xl"
                     >
                       <div>
-                        <p className="text-sm font-medium text-gray-800">{item.name}</p>
-                        <p className="text-xs text-gray-400 mt-0.5">Qty: {item.qty}</p>
+                        <p className="text-sm font-medium text-gray-800">
+                          {item.name || "Product"}
+                        </p>
+                        <p className="text-xs text-gray-400 mt-0.5">Qty: {item.qty || 0}</p>
                       </div>
                       <p className="text-sm font-semibold text-gray-700">
-                        ₹{formatPrice(item.price * item.qty)} {/* FIX 5 */}
+                        ₹{formatPrice(item.price * (item.qty || 0))} {/* FIX 5 */}
                       </p>
                     </div>
                   ))}
@@ -190,13 +203,15 @@ const OrdersContainer = () => {
                     <p className="text-[10px] text-gray-400 uppercase tracking-wide mb-1">
                       Delivery address
                     </p>
-                    <p className="text-sm font-medium text-gray-800">{order.address.fullName}</p>
-                    <p className="text-xs text-gray-500">{order.address.city}</p>
+                    <p className="text-sm font-medium text-gray-800">
+                      {order.address?.fullName || "Customer"}
+                    </p>
+                    <p className="text-xs text-gray-500">{order.address?.city || "N/A"}</p>
                   </div>
                   <div className="sm:text-right">
                     <p className="text-[10px] text-gray-400 uppercase tracking-wide mb-1">Total</p>
                     <p className="text-2xl font-bold text-green-600">
-                      ₹{formatPrice(order.totalPrice)}
+                      ₹{formatPrice(order.totalPrice || 0)}
                     </p>
                   </div>
                 </div>
