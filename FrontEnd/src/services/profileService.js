@@ -1,6 +1,4 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/users";
+import api from "./api";
 
 const getToken = () => localStorage.getItem("token");
 
@@ -8,7 +6,7 @@ const getToken = () => localStorage.getItem("token");
 export const getProfile = async () => {
   const token = getToken();
 
-  const res = await axios.get(`${API_URL}/profile`, {
+  const res = await api.get(`/users/profile`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -21,7 +19,7 @@ export const getProfile = async () => {
 export const updateProfile = async (data) => {
   const token = getToken();
 
-  const res = await axios.put(`${API_URL}/profile`, data, {
+  const res = await api.put(`/users/profile`, data, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

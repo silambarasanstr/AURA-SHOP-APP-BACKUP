@@ -1,23 +1,14 @@
-import axios from "axios";
+import api from "./api";
 
-const api = axios.create({
-  baseURL:
-    import.meta.env.VITE_API_URL || "http://localhost:5000/api/products",
-});
-
-export const getProducts = async ({
-  search = "",
-  page = 1,
-  limit = 12,
-} = {}) => {
-  const { data } = await api.get("/", {
-    params: { search, page, limit },
+export const getProducts = async ({ search = "", page = 1, limit = 12, category = "" } = {}) => {
+  const { data } = await api.get("/products", {
+    params: { search, page, limit, category },
   });
 
   return data;
 };
 
 export const getProductById = async (id) => {
-  const { data } = await api.get(`/${id}`);
+  const { data } = await api.get(`/products/${id}`);
   return data;
 };

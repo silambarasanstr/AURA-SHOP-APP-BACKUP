@@ -134,7 +134,7 @@ const ProductContainer = () => {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto ">
+      <div className="overflow-x-auto bg-white border border-gray-200 rounded-xl">
         <table className="min-w-full border border-gray-200 divide-y divide-gray-200 rounded-lg">
           <thead className="border-b border-gray-200 bg-gray-50">
             <tr>
@@ -147,7 +147,7 @@ const ProductContainer = () => {
 
               <th
                 scope="col"
-                className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase "
               >
                 <button className="flex items-center gap-2 text-sm font-semibold text-gray-900 uppercase transition-colors hover:text-gray-600">
                   PRODUCT NAME
@@ -165,13 +165,56 @@ const ProductContainer = () => {
               </th>
               <th
                 scope="col"
-                className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase "
               >
                 <button className="flex items-center gap-2 text-sm font-semibold text-gray-900 uppercase transition-colors hover:text-gray-600">
                   Category
                   <ChevronDown size={10} />
                 </button>
               </th>
+
+              {/* <th className="w-32 px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                <button className="flex items-center gap-2 text-sm font-semibold text-gray-900 uppercase transition-colors hover:text-gray-600">
+                  Brand
+                  <ChevronDown size={10} />
+                </button>
+              </th>
+
+              <th className="w-24 px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                <button className="flex items-center gap-2 text-sm font-semibold text-gray-900 uppercase transition-colors hover:text-gray-600">
+                  Stock
+                  <ChevronDown size={10} />
+                </button>
+              </th>
+
+              <th className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase w-28">
+                <button className="flex items-center gap-2 text-sm font-semibold text-gray-900 uppercase transition-colors hover:text-gray-600">
+                  Discount
+                  <ChevronDown size={10} />
+                </button>
+              </th> */}
+
+              <th className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                <button className="flex items-center gap-2 text-sm font-semibold text-gray-900 uppercase transition-colors hover:text-gray-600">
+                  Final Price
+                  <ChevronDown size={10} />
+                </button>
+              </th>
+
+              {/* <th className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase w-28">
+                <button className="flex items-center gap-2 text-sm font-semibold text-gray-900 uppercase transition-colors hover:text-gray-600">
+                  Status
+                  <ChevronDown size={10} />
+                </button>
+              </th>
+
+              <th className="w-32 px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                <button className="flex items-center gap-2 text-sm font-semibold text-gray-900 uppercase transition-colors hover:text-gray-600">
+                  Featured
+                  <ChevronDown size={10} />
+                </button>
+              </th> */}
+
               <th
                 scope="col"
                 className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
@@ -183,7 +226,7 @@ const ProductContainer = () => {
               </th>
               <th
                 scope="col"
-                className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                className="px-6 py-4 text-sm font-semibold tracking-wider text-left text-gray-900 uppercase"
               >
                 Action
               </th>
@@ -193,7 +236,7 @@ const ProductContainer = () => {
             {products.length === 0 ? (
               <tr>
                 <td
-                  colSpan={6}
+                  colSpan={12}
                   className="px-6 py-10 text-center text-gray-500"
                 >
                   No products found
@@ -213,8 +256,8 @@ const ProductContainer = () => {
                   </td>
 
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 inline-block w-10 h-10 border rounded-md border-translucent">
+                    <div className="flex items-center min-w-0">
+                      <div className="flex-shrink-0 w-10 h-10">
                         <img
                           className="object-cover w-10 h-10"
                           src={
@@ -228,8 +271,8 @@ const ProductContainer = () => {
                           }}
                         />
                       </div>
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">
+                      <div className="min-w-0 ml-4">
+                        <div className="text-sm font-medium text-gray-900 truncate">
                           {product.name}
                         </div>
                       </div>
@@ -248,25 +291,89 @@ const ProductContainer = () => {
                     </span>
                   </td>
 
+                  {/* <td className="px-6 py-4 whitespace-nowrap">
+                    <span className="text-sm text-gray-900">
+                      {product.brand || "-"}
+                    </span>
+                  </td>
+
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span
+                      className={`font-medium ${
+                        product.stock > 10
+                          ? "text-green-600"
+                          : product.stock > 0
+                            ? "text-yellow-600"
+                            : "text-red-600"
+                      }`}
+                    >
+                      {product.stock || 0}
+                    </span>
+                  </td>
+
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {product.discount ? (
+                      <span className="px-2 py-1 text-xs text-white bg-red-500 rounded-full">
+                        {product.discount}%
+                      </span>
+                    ) : (
+                      "-"
+                    )}
+                  </td> */}
+
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className="font-semibold text-green-600">
+                      ₹
+                      {product.finalPrice ||
+                        product.price -
+                          (product.price * (product.discount || 0)) / 100}
+                    </span>
+                  </td>
+
+                  {/* <td className="px-6 py-4 whitespace-nowrap">
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                        product.status === "active"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-gray-100 text-gray-800"
+                      }`}
+                    >
+                      {product.status || "draft"}
+                    </span>
+                  </td>
+
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {product.featured ? (
+                      <span className="px-2 py-1 text-xs font-semibold text-orange-700 bg-orange-100 rounded-full">
+                        Featured
+                      </span>
+                    ) : (
+                      "-"
+                    )}
+                  </td> */}
+
                   <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                     {product.createdAt
                       ? new Date(product.createdAt).toLocaleDateString()
                       : "-"}
                   </td>
 
-                  <td className="px-6 py-4">
-                    <button
-                      onClick={() => navigate(`/edit-product/${product._id}`)}
-                      className="text-indigo-600 hover:text-indigo-900"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(product._id)}
-                      className="ml-3 text-red-600 hover:text-red-900"
-                    >
-                      Delete
-                    </button>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => navigate(`/edit-product/${product._id}`)}
+                        className="text-indigo-600 hover:text-indigo-900"
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        onClick={() => handleDelete(product._id)}
+                        className="text-red-600 hover:text-red-900"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))

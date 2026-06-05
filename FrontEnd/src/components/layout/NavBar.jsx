@@ -21,8 +21,8 @@ const NavBar = () => {
         Products
       </NavLink>
 
-      <NavLink to="/checkout" className={linkClass}>
-        Checkout
+      <NavLink to="/categories" className={linkClass}>
+        Categories
       </NavLink>
 
       <NavLink to="/orders" className={linkClass}>

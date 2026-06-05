@@ -15,13 +15,13 @@ const useFetch = (fetchFunction, deps = []) => {
     } catch (err) {
       setError("Something went wrong");
     } finally {
-      setLoading(false); // ❌ timeout வேண்டாம்
+      setLoading(false); 
     }
   };
 
   useEffect(() => {
     fetchData();
-  }, deps); // ✅ dynamic dependencies
+  }, deps); 
 
   return { data, loading, error, refetch: fetchData };
 };

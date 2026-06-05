@@ -1,5 +1,6 @@
 import Product from "../models/Product.js";
 import Category from "../models/Category.js";
+import mongoose from "mongoose";
 
 // ✅ Create Product
 export const createProduct = async (req, res) => {
@@ -19,34 +20,38 @@ export const createProduct = async (req, res) => {
 };
 
 // ✅ Get Products (Search + Pagination + Category FIXED)
+
 export const getProducts = async (req, res) => {
   try {
     const search = req.query.search || "";
+    const category = req.query.category || "";
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 3;
 
     const skip = (page - 1) * limit;
 
-    // 🔥 Category search
-    const categories = await Category.find({
-      name: { $regex: search, $options: "i" },
-    });
-
-    const categoryIds = categories.map((cat) => cat._id);
-
     let query = {};
 
-    if (search) {
-      const conditions = [
+    // ---------------- SEARCH FILTER ----------------
+    if (search.trim()) {
+      query.$or = [
         { name: { $regex: search, $options: "i" } },
         { description: { $regex: search, $options: "i" } },
       ];
+    }
 
-      if (categoryIds.length > 0) {
-        conditions.push({ category: { $in: categoryIds } });
+    // ---------------- CATEGORY FILTER (FIXED) ----------------
+    if (category) {
+      if (mongoose.Types.ObjectId.isValid(category)) {
+        query.category = category;
+      } else {
+        // slug fallback
+        const cat = await Category.findOne({ slug: category });
+
+        if (cat) {
+          query.category = cat._id;
+        }
       }
-
-      query = { $or: conditions };
     }
 
     const total = await Product.countDocuments(query);
@@ -63,10 +68,6 @@ export const getProducts = async (req, res) => {
       pages: Math.ceil(total / limit),
       products,
     });
-
-    console.log("🔍 SEARCH:", search);
-    console.log("📂 CATEGORY IDS:", categoryIds);
-    console.log("🧠 FINAL QUERY:", JSON.stringify(query, null, 2));
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

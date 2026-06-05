@@ -20,8 +20,19 @@ const AddProductFormContainer = () => {
     name: "",
     description: "",
     image: "",
+    images: [],
+
     category: "",
+
     price: "",
+    discount: "",
+
+    stock: "",
+    sku: "",
+    brand: "",
+
+    featured: false,
+    status: "active",
   });
 
   const [activeSection, setActiveSection] = useState("pricing");
@@ -59,8 +70,19 @@ const AddProductFormContainer = () => {
           name: product?.name || "",
           description: product?.description || "",
           image: product?.image || "",
+          images: product?.images || [],
+
           category: product?.category?._id || product?.category || "",
+
           price: product?.price || "",
+          discount: product?.discount || "",
+
+          stock: product?.stock || "",
+          sku: product?.sku || "",
+          brand: product?.brand || "",
+
+          featured: product?.featured || false,
+          status: product?.status || "active",
         });
       } catch (error) {
         console.error("Product fetch error:", error);
@@ -89,9 +111,14 @@ const AddProductFormContainer = () => {
 
       const payload = {
         ...formData,
+
         price: Number(formData.price) || 0,
-        regularPrice: Number(formData.regularPrice) || 0,
-        salePrice: Number(formData.salePrice) || 0,
+        stock: Number(formData.stock) || 0,
+        discount: Number(formData.discount) || 0,
+
+        finalPrice:
+          Number(formData.price || 0) -
+          (Number(formData.price || 0) * Number(formData.discount || 0)) / 100,
       };
 
       let res;
@@ -129,10 +156,30 @@ const AddProductFormContainer = () => {
     } finally {
       setLoading(false);
     }
+
+    setFormData({
+      name: "",
+      description: "",
+      image: "",
+      images: [],
+
+      category: "",
+
+      price: "",
+      discount: "",
+
+      stock: "",
+      sku: "",
+      brand: "",
+
+      featured: false,
+      status: "active",
+    });
   };
 
   const price = Number(formData.price) || 0;
-  
+  const discount = Number(formData.discount) || 0;
+  const finalPrice = price - (price * discount) / 100;
 
   return (
     <div className="min-h-screen p-6 bg-gray-50">
@@ -207,6 +254,35 @@ const AddProductFormContainer = () => {
                 />
               )}
             </div>
+            <div className="p-6 bg-white border rounded-lg">
+              <label className="block mb-3 font-bold">Gallery Images</label>
+
+              <textarea
+                rows={5}
+                placeholder="One image URL per line"
+                defaultValue={formData.images.join("\n")}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    images: e.target.value.split("\n").filter(Boolean),
+                  })
+                }
+                className="w-full p-3 border rounded-lg"
+              />
+
+              {formData.images.length > 0 && (
+                <div className="grid grid-cols-4 gap-2 mt-4">
+                  {formData.images.map((img, index) => (
+                    <img
+                      key={index}
+                      src={img}
+                      alt=""
+                      className="object-cover w-full h-20 rounded-lg"
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* RIGHT SIDE */}
@@ -233,36 +309,102 @@ const AddProductFormContainer = () => {
               </select>
             </div>
 
+            <div className="p-6 bg-white border rounded-lg">
+              <h2 className="mb-4 font-bold">Product Information</h2>
+
+              <div className="space-y-3">
+                <input
+                  type="text"
+                  name="brand"
+                  value={formData.brand}
+                  onChange={handleInputChange}
+                  placeholder="Brand Name"
+                  className="w-full p-3 border rounded-lg"
+                />
+
+                <input
+                  type="text"
+                  name="sku"
+                  value={formData.sku}
+                  onChange={handleInputChange}
+                  placeholder="SKU"
+                  className="w-full p-3 border rounded-lg"
+                />
+
+                <input
+                  type="number"
+                  name="stock"
+                  value={formData.stock}
+                  onChange={handleInputChange}
+                  placeholder="Available Stock"
+                  className="w-full p-3 border rounded-lg"
+                />
+              </div>
+            </div>
+
             {/* PRICING */}
             <div className="p-6 bg-white border rounded-lg">
-              <button
-                type="button"
-                onClick={() =>
-                  setActiveSection(activeSection === "pricing" ? "" : "pricing")
-                }
-                className="flex justify-between w-full"
-              >
-                <span className="font-bold">Pricing</span>
-                <ChevronDown
-                  className={`transition ${
-                    activeSection === "pricing" ? "rotate-180" : ""
-                  }`}
+              <div className="mt-4 space-y-4">
+                <input
+                  type="number"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleInputChange}
+                  placeholder="Product Price"
+                  className="w-full p-3 border rounded-lg"
                 />
-              </button>
 
-              {activeSection === "pricing" && (
-                <div className="mt-4 space-y-3">
-                  {/* PRICE */}
-                  <input
-                    type="number"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleInputChange}
-                    placeholder="Main price"
-                    className="w-full p-3 border rounded-lg"
-                  />
+                <input
+                  type="number"
+                  name="discount"
+                  value={formData.discount}
+                  onChange={handleInputChange}
+                  placeholder="Discount %"
+                  className="w-full p-3 border rounded-lg"
+                />
+
+                <div className="p-4 rounded-lg bg-green-50">
+                  <p className="text-sm text-gray-600">Final Price</p>
+
+                  <p className="text-2xl font-bold text-green-600">
+                    ₹{finalPrice.toFixed(2)}
+                  </p>
                 </div>
-              )}
+              </div>
+            </div>
+
+            {/* Add Product Options Card */}
+            <div className="p-6 bg-white border rounded-lg">
+              <h2 className="mb-4 font-bold">Product Options</h2>
+
+              <label className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  checked={formData.featured}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      featured: e.target.checked,
+                    })
+                  }
+                />
+                Featured Product
+              </label>
+            </div>
+
+            <div className="p-6 bg-white border rounded-lg">
+              <h2 className="mb-4 font-bold">Product Status</h2>
+
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleInputChange}
+                className="w-full p-3 border rounded-lg"
+              >
+                <option value="active">Active</option>
+
+                <option value="draft">Draft</option>
+              </select>
             </div>
           </div>
         </div>

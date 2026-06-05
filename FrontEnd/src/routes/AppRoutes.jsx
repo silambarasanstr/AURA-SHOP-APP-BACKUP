@@ -12,6 +12,7 @@ import NotFound from "../pages/NotFound";
 import ProtectedRoute from "./ProtectedRoute";
 import Wishlist from "../containers/WishlistContainer";
 import Register from "../pages/Register";
+import Categories from "../containers/CategoriesContainer";
 
 const AppRoutes = () => {
   return (
@@ -21,6 +22,7 @@ const AppRoutes = () => {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetailContainer />} />
+          <Route path="/categories" element={<Categories />} />
           <Route path="/cart" element={<CartContainer />} />
           <Route
             path="/checkout"
