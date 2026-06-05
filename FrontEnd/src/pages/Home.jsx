@@ -22,7 +22,6 @@ const Home = () => {
 
   return (
     <div>
-      Home simbu
       <BannerSlider images={bannerImages} />
 
       <div className="bg-gray-100">
