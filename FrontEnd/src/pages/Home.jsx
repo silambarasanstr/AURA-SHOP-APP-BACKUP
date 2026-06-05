@@ -22,7 +22,7 @@ const Home = () => {
 
   return (
     <div>
-      Home
+      Home simbu
       <BannerSlider images={bannerImages} />
 
       <div className="bg-gray-100">
