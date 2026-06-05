@@ -22,6 +22,7 @@ const Home = () => {
 
   return (
     <div>
+      Home
       <BannerSlider images={bannerImages} />
 
       <div className="bg-gray-100">
