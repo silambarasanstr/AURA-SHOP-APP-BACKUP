@@ -1,8 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Trash2 } from "lucide-react";
+import { Trash2,Heart } from "lucide-react";
 import { removeFromWishlist } from "../features/wishlist/wishlistSlice";
+import EmptyState from "../components/common/EmptyState";
 
 const NO_IMAGE = "https://via.placeholder.com/300?text=No+Image";
 
@@ -18,17 +19,15 @@ const WishlistContainer = () => {
   // Empty
   if (!wishlist.length || wishlist.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-2 text-center px-4">
-        <p className="text-4xl">❤️ </p>
-        <h2 className="text-xl font-semibold text-gray-800">No items in wishlist</h2>
-        <p className="text-sm text-gray-500">Your selected items will appear here.</p>
-        <Link
-          to="/"
-          className="px-4 py-2 text-sm text-white transition bg-blue-600 rounded-md hover:bg-blue-700"
-        >
-          Continue Shopping
-        </Link>
-      </div>
+
+      <EmptyState
+        icon={<Heart size={48} />}
+        title="No items in Wishlist"
+        description="Your selected items will appear here."
+        buttonText="Continue Shopping"
+        buttonLink="/"
+      />
+     
     );
   }
 

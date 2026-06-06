@@ -1,22 +1,20 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-
 import ProductCard from "../components/ProductCard";
 import ProductSkeleton from "../components/common/ProductSkeleton";
 import Pagination from "../components/common/Pagination";
 import SearchInput from "../components/common/SearchInput";
 import CategoryFilter from "../components/common/CategoryFilter";
-
 import { getProducts } from "../services/productService";
 import { getCategories } from "../services/categoryService";
-
 import { useCart } from "../context/CartContext";
 import useFetch from "../hooks/useFetch";
+
 
 const ProductContainer = () => {
   const { addToCart } = useCart();
   const [searchParams, setSearchParams] = useSearchParams();
-
+  
   const category = searchParams.get("category") || "";
   const searchParam = searchParams.get("search") || "";
   const pageParam = Number(searchParams.get("page")) || 1;
@@ -97,9 +95,7 @@ const ProductContainer = () => {
           {/* Header */}
           <div className="mb-6">
             <h1 className="text-3xl font-bold">Our Products</h1>
-            <p className="mt-1 text-gray-500">
-              Browse our latest collection
-            </p>
+            <p className="mt-1 text-gray-500">Browse our latest collection</p>
           </div>
 
           {/* Search */}
@@ -123,29 +119,19 @@ const ProductContainer = () => {
             <div className="py-20 text-center">
               <div className="mb-4 text-6xl">📦</div>
 
-              <h2 className="text-2xl font-semibold">
-                No Products Found
-              </h2>
+              <h2 className="text-2xl font-semibold">No Products Found</h2>
 
-              <p className="mt-2 text-gray-500">
-                Try changing your search or category filter.
-              </p>
+              <p className="mt-2 text-gray-500">Try changing your search or category filter.</p>
             </div>
           ) : (
             <>
               {/* Product Count */}
-              <div className="mb-4 text-sm text-gray-500">
-                {products.length} products found
-              </div>
+              <div className="mb-4 text-sm text-gray-500">{products.length} products found</div>
 
               {/* Product Grid */}
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
                 {products.map((product) => (
-                  <ProductCard
-                    key={product._id}
-                    product={product}
-                    addToCart={addToCart}
-                  />
+                  <ProductCard key={product._id} product={product} addToCart={addToCart} />
                 ))}
               </div>
 

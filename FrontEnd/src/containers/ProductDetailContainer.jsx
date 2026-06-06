@@ -2,6 +2,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProductById } from "../services/productService";
 import { useCart } from "../context/CartContext";
+import toast from "react-hot-toast";
+import Loading from "../components/common/Loading";
 
 const ProductDetailContainer = () => {
   const { id } = useParams();
@@ -53,11 +55,11 @@ const ProductDetailContainer = () => {
       quantity,
     });
 
-    alert("Product added to cart");
+    toast.success("Product added to cart");
   };
 
   if (loading) {
-    return <div className="py-20 text-xl font-semibold text-center">Loading...</div>;
+    return <Loading />;
   }
 
   if (!product) {

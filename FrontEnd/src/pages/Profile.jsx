@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/users/profile";
+import { getProfile, updateProfile } from "../services/profileService";
+import toast from "react-hot-toast";
+import Loading from "../components/common/Loading";
 
 const Profile = () => {
   const [user, setUser] = useState({
@@ -17,22 +18,19 @@ const Profile = () => {
 
   const token = localStorage.getItem("token");
 
-  // GET PROFILE
   const fetchProfile = useCallback(async () => {
     if (!token) return;
 
     try {
       setFetching(true);
 
-      const res = await axios.get(API_URL, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const data = await getProfile();
 
       setUser({
-        name: res.data.name || "",
-        email: res.data.email || "",
-        phone: res.data.phone || "",
-        address: res.data.address || "",
+        name: data.name || "",
+        email: data.email || "",
+        phone: data.phone || "",
+        address: data.address || "",
       });
     } catch (err) {
       console.log("Fetch profile error:", err);
@@ -45,7 +43,6 @@ const Profile = () => {
     fetchProfile();
   }, [fetchProfile]);
 
-  // INPUT CHANGE
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser((prev) => ({
@@ -54,106 +51,149 @@ const Profile = () => {
     }));
   };
 
-  // UPDATE PROFILE
   const handleUpdate = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const res = await axios.put(API_URL, user, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const data = await updateProfile(user);
 
-      setUser((prev) => ({ ...prev, ...res.data }));
+      setUser((prev) => ({ ...prev, ...data }));
       setEditMode(false);
 
-      alert("Profile updated successfully");
+      toast.success("Profile updated successfully");
     } catch (err) {
       console.log("Update error:", err);
-      alert("Failed to update profile");
+      toast.error("Failed to update profile");
     } finally {
       setLoading(false);
     }
   };
 
   if (fetching) {
-    return (
-      <div className="mt-10 text-center text-gray-500">
-        Loading profile...
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
-    <div className="max-w-md p-6 mx-auto mt-10 bg-white rounded-lg shadow-md">
-      <h2 className="mb-4 text-2xl font-bold text-center">My Profile</h2>
+    <div className="min-h-screen px-4 py-5 bg-gray-50">
+      <div className="max-w-2xl mx-auto overflow-hidden bg-white border border-gray-100 shadow-lg rounded-2xl">
+        {/* Header */}
+        <div className="p-5 text-center bg-gradient-to-r from-blue-600 to-indigo-600">
+          <div className="flex items-center justify-center w-20 h-20 mx-auto mb-4 text-3xl font-bold text-white rounded-full bg-white/20">
+            {user?.name?.charAt(0)?.toUpperCase() || "U"}
+          </div>
 
-      {/* VIEW MODE */}
-      {!editMode ? (
-        <div className="space-y-3">
-          <p><b>Name:</b> {user.name}</p>
-          <p><b>Email:</b> {user.email}</p>
-          <p><b>Phone:</b> {user.phone || "Not added"}</p>
-          <p><b>Address:</b> {user.address || "Not added"}</p>
+          <h2 className="text-2xl font-bold text-white">{user.name || "User"}</h2>
 
-          <button
-            onClick={() => setEditMode(true)}
-            className="w-full p-2 mt-4 text-white bg-green-600 rounded"
-          >
-            Edit Profile
-          </button>
+          <p className="mt-1 text-blue-100">{user.email}</p>
         </div>
-      ) : (
-        /* EDIT MODE */
-        <form onSubmit={handleUpdate} className="space-y-3">
-          <input
-            name="name"
-            value={user.name}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            placeholder="Name"
-          />
 
-          <input
-            name="email"
-            value={user.email}
-            disabled
-            className="w-full p-2 bg-gray-100 border rounded cursor-not-allowed"
-          />
+        <div className="p-8">
+          {!editMode ? (
+            <>
+              {/* Profile Details */}
+              <div className="grid gap-5">
+                <div>
+                  <label className="text-sm font-medium text-gray-500">Full Name</label>
+                  <div className="p-3 mt-1 border rounded-lg bg-gray-50">{user.name || "-"}</div>
+                </div>
 
-          <input
-            name="phone"
-            value={user.phone}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            placeholder="Phone"
-          />
+                <div>
+                  <label className="text-sm font-medium text-gray-500">Email Address</label>
+                  <div className="p-3 mt-1 border rounded-lg bg-gray-50">{user.email || "-"}</div>
+                </div>
 
-          <input
-            name="address"
-            value={user.address}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            placeholder="Address"
-          />
+                <div>
+                  <label className="text-sm font-medium text-gray-500">Phone Number</label>
+                  <div className="p-3 mt-1 border rounded-lg bg-gray-50">
+                    {user.phone || "Not Added"}
+                  </div>
+                </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full p-2 text-white bg-blue-600 rounded"
-          >
-            {loading ? "Updating..." : "Save Changes"}
-          </button>
+                <div>
+                  <label className="text-sm font-medium text-gray-500">Address</label>
+                  <div className="p-3 mt-1 border rounded-lg bg-gray-50">
+                    {user.address || "Not Added"}
+                  </div>
+                </div>
+              </div>
 
-          <button
-            type="button"
-            onClick={() => setEditMode(false)}
-            className="w-full p-2 text-gray-700 border rounded"
-          >
-            Cancel
-          </button>
-        </form>
-      )}
+              <button
+                onClick={() => setEditMode(true)}
+                className="w-full py-3 mt-8 font-medium text-white transition bg-blue-600 rounded-lg hover:bg-blue-700"
+              >
+                Edit Profile
+              </button>
+            </>
+          ) : (
+            <form onSubmit={handleUpdate} className="space-y-5">
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-600">Full Name</label>
+                <input
+                  name="name"
+                  value={user.name}
+                  onChange={handleChange}
+                  className="w-full p-3 transition border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter your name"
+                />
+              </div>
+
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-600">
+                  Email Address
+                </label>
+                <input
+                  name="email"
+                  value={user.email}
+                  disabled
+                  className="w-full p-3 bg-gray-100 border rounded-lg cursor-not-allowed"
+                />
+              </div>
+
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-600">Phone Number</label>
+                <input
+                  name="phone"
+                  value={user.phone}
+                  onChange={handleChange}
+                  className="w-full p-3 transition border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter phone number"
+                />
+              </div>
+
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-600">Address</label>
+                <textarea
+                  name="address"
+                  value={user.address}
+                  onChange={handleChange}
+                  rows="3"
+                  className="w-full p-3 transition border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter address"
+                />
+              </div>
+
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="flex-1 py-3 font-medium text-white transition bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                >
+                  {loading ? "Updating..." : "Save Changes"}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setEditMode(false)}
+                  className="flex-1 py-3 font-medium text-gray-700 transition border rounded-lg hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

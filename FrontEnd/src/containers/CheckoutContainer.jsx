@@ -3,16 +3,15 @@ import axios from "axios";
 import { useCart } from "../context/CartContext";
 import { useNavigate, Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import { ShoppingCart } from "lucide-react";
+import EmptyState from "../components/common/EmptyState";
 
 const NO_IMAGE = "https://via.placeholder.com/60?text=No+Image";
 
 const CheckoutContainer = () => {
   const navigate = useNavigate();
-
   const { cartItems, clearCart } = useCart();
-
   const [loading, setLoading] = useState(false);
-
   const [fullName, setFullName] = useState("");
   const [city, setCity] = useState("");
 
@@ -63,101 +62,144 @@ const CheckoutContainer = () => {
   // Empty
   if (!cartItems.items.length || cartItems.items.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-2 text-center px-4">
-        <p className="text-4xl">❤️</p>
-        <h2 className="text-xl font-semibold text-gray-800">No items in Checkout</h2>
-        <p className="text-sm text-gray-500">Your selected items will appear here.</p>
-        <Link
-          to="/"
-          className="px-4 py-2 text-sm text-white transition bg-blue-600 rounded-md hover:bg-blue-700"
-        >
-          Continue Shopping
-        </Link>
-      </div>
+      <EmptyState
+        icon={<ShoppingCart size={48} />}
+        title="No items in Checkout"
+        description="Your selected items will appear here."
+        buttonText="Continue Shopping"
+        buttonLink="/"
+      />
     );
   }
 
   return (
-    <div className="min-h-screen px-3 py-4 bg-gray-100">
-      <div className="max-w-xl mx-auto bg-white border border-gray-200 shadow-sm rounded-xl">
-        {/* Heading */}
-        <div className="p-4 border-b">
-          <h2 className="text-xl font-bold text-center text-gray-800">Checkout</h2>
+    <div className="min-h-screen px-4 py-8 bg-gray-100">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="mb-8 text-3xl font-bold text-center text-gray-800">Checkout</h1>
 
-          <p className="mt-1 text-sm text-center text-gray-500">Complete your order</p>
-        </div>
+        <div className="grid gap-6 lg:grid-cols-3">
+          {/* LEFT SIDE - FORM */}
+          <div className="lg:col-span-2">
+            <div className="p-6 bg-white border border-gray-200 shadow-sm rounded-xl">
+              <h2 className="mb-6 text-xl font-semibold text-gray-800">Shipping Details</h2>
 
-        {/* Order Summary */}
-        <div className="p-4">
-          <h3 className="mb-3 text-sm font-semibold text-gray-700">Order Summary</h3>
+              <div className="grid gap-4 md:grid-cols-2">
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-700">Full Name</label>
 
-          <div className="space-y-3">
-            {cartItems.items.map((item) => (
-              <div
-                key={item.product._id}
-                className="flex items-center gap-3 p-2 rounded-lg bg-gray-50"
-              >
-                {/* Product Image */}
-                <img
-                  src={item.product.image || NO_IMAGE}
-                  alt={item.product.name}
-                  className="object-contain p-1 bg-white border rounded-md w-14 h-14"
-                  onError={(e) => {
-                    e.target.src = NO_IMAGE;
-                  }}
-                />
-
-                {/* Product Details */}
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-700 truncate">{item.product.name}</p>
-
-                  <p className="text-xs text-gray-500">Qty: {item.quantity}</p>
+                  <input
+                    type="text"
+                    placeholder="Enter full name"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-green-500"
+                  />
                 </div>
 
-                {/* Price */}
-                <p className="text-sm font-semibold text-gray-700">
-                  ₹{item.product.price * item.quantity}
-                </p>
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-700">City</label>
+
+                  <input
+                    type="text"
+                    placeholder="Enter city"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    className="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="block mb-2 text-sm font-medium text-gray-700">Address</label>
+
+                  <textarea
+                    rows={4}
+                    placeholder="Enter complete address"
+                    className="w-full px-4 py-2 border rounded-lg outline-none resize-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                    Phone Number
+                  </label>
+
+                  <input
+                    type="text"
+                    placeholder="Enter phone number"
+                    className="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-700">Pincode</label>
+
+                  <input
+                    type="text"
+                    placeholder="Enter pincode"
+                    className="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
               </div>
-            ))}
-          </div>
-
-          {/* Total */}
-          <div className="pt-3 mt-4 border-t">
-            <div className="flex items-center justify-between">
-              <p className="text-sm font-semibold text-gray-700">Total Amount</p>
-
-              <p className="text-xl font-bold text-green-600">₹{cartItems.totalPrice}</p>
             </div>
           </div>
 
-          {/* Address Form */}
-          <div className="mt-5 space-y-3">
-            <input
-              type="text"
-              placeholder="Full Name"
-              className="w-full px-3 py-2 text-sm border rounded-md outline-none focus:ring-1 focus:ring-green-500"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-            />
+          {/* RIGHT SIDE - ORDER SUMMARY */}
+          <div>
+            <div className="sticky p-5 bg-white border border-gray-200 shadow-sm rounded-xl top-5">
+              <h2 className="pb-3 mb-4 text-lg font-semibold border-b">Order Summary</h2>
 
-            <input
-              type="text"
-              placeholder="City"
-              className="w-full px-3 py-2 text-sm border rounded-md outline-none focus:ring-1 focus:ring-green-500"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-            />
+              <div className="space-y-3 max-h-[350px] overflow-y-auto">
+                {cartItems.items.map((item) => (
+                  <div key={item.product._id} className="flex items-center gap-3">
+                    <img
+                      src={item.product.image || NO_IMAGE}
+                      alt={item.product.name}
+                      className="object-contain w-16 h-16 p-1 bg-white border rounded-md"
+                      onError={(e) => {
+                        e.target.src = NO_IMAGE;
+                      }}
+                    />
+
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-gray-700 line-clamp-2">
+                        {item.product.name}
+                      </p>
+
+                      <p className="text-xs text-gray-500">Qty: {item.quantity}</p>
+                    </div>
+
+                    <p className="text-sm font-semibold">₹{item.product.price * item.quantity}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="pt-4 mt-4 border-t">
+                <div className="flex justify-between mb-2">
+                  <span className="text-gray-600">Items</span>
+                  <span>{cartItems.totalItems}</span>
+                </div>
+
+                <div className="flex justify-between mb-2">
+                  <span className="text-gray-600">Delivery</span>
+                  <span className="text-green-600">Free</span>
+                </div>
+
+                <div className="flex justify-between pt-3 mt-3 border-t">
+                  <span className="font-semibold">Total</span>
+
+                  <span className="text-xl font-bold text-green-600">₹{cartItems.totalPrice}</span>
+                </div>
+              </div>
+
+              <button
+                onClick={handleOrder}
+                disabled={loading}
+                className="w-full py-3 mt-5 font-medium text-white transition bg-green-600 rounded-lg hover:bg-green-700 disabled:bg-gray-400"
+              >
+                {loading ? "Placing Order..." : "Place Order"}
+              </button>
+            </div>
           </div>
-
-          {/* Button */}
-          <button
-            onClick={handleOrder}
-            disabled={loading}
-            className="w-full py-2.5 mt-5 text-sm font-medium text-white transition bg-green-500 rounded-md hover:bg-green-600 disabled:bg-gray-400"
-          >
-            {loading ? "Placing Order..." : "Place Order"}
-          </button>
         </div>
       </div>
     </div>

@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { getOrders, deleteOrder } from "../services/orderService";
 import toast from "react-hot-toast";
+import Loading from "../components/common/Loading";
+import EmptyState from "../components/common/EmptyState";
+import { Package } from "lucide-react";
 
 const STATUS_STYLES = {
   Pending: { bg: "bg-amber-50 text-amber-700", dot: "bg-amber-400" },
@@ -80,12 +83,7 @@ const OrdersContainer = () => {
 
   // Loading
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh] gap-3">
-        <div className="w-5 h-5 border-2 border-gray-300 rounded-full border-t-gray-600 animate-spin" />
-        <p className="text-sm text-gray-500">Loading orders…</p>
-      </div>
-    );
+    return <Loading />;
   }
 
   // Error
@@ -107,11 +105,13 @@ const OrdersContainer = () => {
   // Empty
   if (!orders.length) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-2 text-center px-4">
-        <p className="text-4xl">🛍️</p>
-        <h2 className="text-xl font-semibold text-gray-800">No orders yet</h2>
-        <p className="text-sm text-gray-500">Your placed orders will appear here.</p>
-      </div>
+      <EmptyState
+        icon={<Package size={48} />}
+        title="No orders yet"
+        description="Your placed orders will appear here."
+        buttonText="Continue Shopping"
+        buttonLink="/"
+      />
     );
   }
 
