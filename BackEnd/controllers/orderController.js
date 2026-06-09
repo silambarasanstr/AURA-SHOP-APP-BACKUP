@@ -2,7 +2,15 @@ import Order from "../models/orderModel.js";
 
 export const createOrder = async (req, res) => {
   try {
-    const { userId, items, totalPrice, address } = req.body;
+    const {
+      userId,
+      items,
+      totalPrice,
+      discount,
+      address,
+      deliveryMethod,
+      payment,
+    } = req.body;
 
     const orderNumber = `ORD-${new Date()
       .toISOString()
@@ -13,8 +21,11 @@ export const createOrder = async (req, res) => {
       userId,
       items,
       totalPrice,
+      discount,
       address,
       orderNumber,
+      deliveryMethod,
+      payment,
     });
 
     const savedOrder = await order.save();

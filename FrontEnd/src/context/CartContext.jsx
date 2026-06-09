@@ -5,16 +5,16 @@ const CartContext = createContext();
 const initialCart = {
   items: [],
   totalPrice: 0,
+  discount: 0,
 };
 
 export const CartProvider = ({ children }) => {
-  // ✅ SAFE LOAD
   const [cartItems, setCartItems] = useState(() => {
     try {
-      const storedCart = localStorage.getItem("cart");
-      const parsed = storedCart ? JSON.parse(storedCart) : null;
+      const stored = localStorage.getItem("cart");
+      const parsed = stored ? JSON.parse(stored) : null;
 
-      if (parsed && Array.isArray(parsed.items) && typeof parsed.totalPrice === "number") {
+      if (parsed && Array.isArray(parsed.items)) {
         return parsed;
       }
 
@@ -24,76 +24,84 @@ export const CartProvider = ({ children }) => {
     }
   });
 
-  // ✅ SAVE
+  // SAVE
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  // ✅ COMMON updater
+  // 🔥 CENTRAL CART UPDATE
   const updateCart = (items) => {
-    const safeItems = items || [];
+    const safeItems = Array.isArray(items) ? items : [];
 
-    const totalPrice = safeItems.reduce(
-      (acc, item) => acc + (item?.product?.price || 0) * (item?.quantity || 0),
-      0
-    );
+    let subtotal = 0;
+    let discountTotal = 0;
 
-    setCartItems({ items: safeItems, totalPrice });
+    safeItems.forEach((item) => {
+      const price = item?.product?.price || 0;
+      const qty = item?.quantity || 0;
+      const discountPercent = item?.product?.discount || 0;
+
+      const itemTotal = price * qty;
+
+      const itemDiscount = (itemTotal * discountPercent) / 100;
+
+      subtotal += itemTotal;
+      discountTotal += itemDiscount;
+    });
+
+    setCartItems(() => ({
+      items: safeItems,
+      totalPrice: Number(subtotal.toFixed(2)),
+      discount: Number(discountTotal.toFixed(2)),
+    }));
   };
 
-  // ✅ ADD
-  const addToCart = (product) => {
+  // ADD
+  const addToCart = (product, quantity = 1) => {
     const items = cartItems?.items || [];
 
-    const existingItem = items.find((item) => item?.product?._id === product?._id);
+    const exists = items.find((i) => i?.product?._id === product?._id);
 
-    let updatedItems;
+    let updated;
 
-    if (existingItem) {
-      updatedItems = items.map((item) =>
-        item?.product?._id === product?._id ? { ...item, quantity: item?.quantity + 1 } : item
+    if (exists) {
+      updated = items.map((i) =>
+        i.product._id === product._id ? { ...i, quantity: quantity } : i
       );
     } else {
-      updatedItems = [...items, { product, quantity: 1 }];
+      updated = [...items, { product, quantity }];
     }
 
-    updateCart(updatedItems);
+    updateCart(updated);
   };
 
-  // ✅ REMOVE
+  // REMOVE
   const removeFromCart = (id) => {
     const items = cartItems?.items || [];
+    const updated = items.filter((i) => i?.product?._id !== id);
 
-    const updatedItems = items.filter((item) => item?.product?._id !== id);
-
-    updateCart(updatedItems);
+    updateCart(updated);
   };
 
-  // ✅ 🔥 UPDATE QUANTITY (NEW)
+  // UPDATE QTY
   const updateQuantity = (id, type) => {
     const items = cartItems?.items || [];
 
-    const updatedItems = items
-      .map((item) => {
-        if (item.product._id === id) {
-          let newQty = type === "inc" ? item.quantity + 1 : item.quantity - 1;
+    const updated = items
+      .map((i) => {
+        if (i.product._id !== id) return i;
 
-          // ❌ remove if qty becomes 0
-          if (newQty <= 0) return null;
+        const qty = type === "inc" ? i.quantity + 1 : i.quantity - 1;
 
-          return { ...item, quantity: newQty };
-        }
-        return item;
+        return qty <= 0 ? null : { ...i, quantity: qty };
       })
       .filter(Boolean);
 
-    updateCart(updatedItems);
+    updateCart(updated);
   };
 
-  // ✅ CLEAR
-  const clearCart = () => {
-    setCartItems(initialCart);
-  };
+  // CLEAR
+  const clearCart = () => setCartItems(initialCart);
 
   return (
     <CartContext.Provider
@@ -102,7 +110,7 @@ export const CartProvider = ({ children }) => {
         addToCart,
         removeFromCart,
         clearCart,
-        updateQuantity, // 🔥 exposed
+        updateQuantity,
       }}
     >
       {children}

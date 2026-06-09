@@ -12,35 +12,53 @@ export const createProduct = async (req, res) => {
       return res.status(400).json({ message: "Invalid category" });
     }
 
-    const data = await Product.create(req.body);
+    let image = "";
+
+    // 1️⃣ If file uploaded (multer)
+    if (req.file) {
+      image = `/uploads/${req.file.filename}`;
+    }
+
+    // 2️⃣ If image URL provided in body
+    if (req.body.imageUrl) {
+      image = req.body.imageUrl;
+    }
+
+    const productData = {
+      ...req.body,
+      image,
+    };
+
+    const data = await Product.create(productData);
     res.status(201).json(data);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-// ✅ Get Products (Search + Pagination + Category FIXED)
-
 export const getProducts = async (req, res) => {
   try {
     const search = req.query.search || "";
     const category = req.query.category || "";
+    const sort = req.query.sort || "";
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 3;
+    const limit = parseInt(req.query.limit) || 8;
 
     const skip = (page - 1) * limit;
 
+    // Only active products on the storefront
     let query = {};
 
-    // ---------------- SEARCH FILTER ----------------
+    // Search filter
     if (search.trim()) {
       query.$or = [
         { name: { $regex: search, $options: "i" } },
         { description: { $regex: search, $options: "i" } },
+        { brand: { $regex: search, $options: "i" } },
       ];
     }
 
-    // ---------------- CATEGORY FILTER (FIXED) ----------------
+    // Category filter — supports both ObjectId and slug
     if (category) {
       if (mongoose.Types.ObjectId.isValid(category)) {
         query.category = category;
@@ -54,13 +72,22 @@ export const getProducts = async (req, res) => {
       }
     }
 
+    // Sort map
+    const sortMap = {
+      price_asc: { price: 1 },
+      price_desc: { price: -1 },
+      newest: { createdAt: -1 },
+      rating: { rating: -1 },
+    };
+    const sortQuery = sortMap[sort] || { createdAt: -1 };
+
     const total = await Product.countDocuments(query);
 
     const products = await Product.find(query)
       .populate("category")
+      .sort(sortQuery)
       .skip(skip)
-      .limit(limit)
-      .sort({ createdAt: -1 });
+      .limit(limit);
 
     res.json({
       total,
@@ -109,10 +136,29 @@ export const getProductById = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
   try {
+    const updateData = {
+      ...req.body,
+    };
+
+    let image = "";
+
+    // 1️⃣ If new file uploaded → override image
+    if (req.file) {
+      updateData.image = `/uploads/${req.file.filename}`;
+    }
+
+    // 2️⃣ If image URL provided → override image
+    if (req.body.imageUrl) {
+      updateData.image = req.body.imageUrl;
+    }
+
     const data = await Product.findByIdAndUpdate(
       req.params.id,
-      req.body,
-      { new: true, runValidators: true }, // ✅ important
+      updateData,
+      {
+        new: true,
+        runValidators: true,
+      }
     ).populate("category");
 
     if (!data) {

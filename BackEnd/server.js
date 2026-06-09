@@ -9,6 +9,7 @@ import orderRoutes from "./routes/orderRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import path from "path";    
 
 dotenv.config();
 
@@ -34,6 +35,8 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
+app.use("/uploads", express.static("uploads"));
 
 app.use("/api/auth", authRoutes);
 

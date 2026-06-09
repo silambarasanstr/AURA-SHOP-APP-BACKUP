@@ -4,16 +4,32 @@ import { getProductById } from "../services/productService";
 import { useCart } from "../context/CartContext";
 import toast from "react-hot-toast";
 import Loading from "../components/common/Loading";
+import WishlistButton from "../components/WishlistButton";
+import ProductImg from "../../assets/product/product1.png";
 
 const ProductDetailContainer = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addToCart } = useCart();
+
+  const { cartItems, addToCart } = useCart();
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState("");
+
+  useEffect(() => {
+    if (product) {
+      document.title = `${product.slug} | My Store`;
+    }
+  }, [product]);
+
+  useEffect(() => {
+    if (product) {
+      const existingItem = cartItems?.items?.find((i) => i?.product?._id === product._id);
+      setQuantity(existingItem ? existingItem.quantity : 1);
+    }
+  }, [product, cartItems]);
 
   useEffect(() => {
     getProductById(id)
@@ -32,69 +48,69 @@ const ProductDetailContainer = () => {
     return [...Array(5)].map((_, index) => (
       <span
         key={index}
-        className={index < Math.round(rating) ? "text-yellow-400" : "text-gray-300"}
+        className={`text-lg ${index < Math.floor(rating) ? "text-yellow-400" : "text-gray-200"}`}
       >
         ★
       </span>
     ));
   };
 
-  const handleQuantityChange = (type) => {
-    if (type === "inc" && quantity < product.stock) {
-      setQuantity((prev) => prev + 1);
-    }
+  const handleIncreaseQuantity = () =>
+    setQuantity((prev) => (prev >= product.stock ? prev : prev + 1));
 
-    if (type === "dec" && quantity > 1) {
-      setQuantity((prev) => prev - 1);
-    }
-  };
+  const handleDecreaseQuantity = () => setQuantity((prev) => (prev <= 1 ? 1 : prev - 1));
 
   const handleAddToCart = () => {
-    addToCart({
-      ...product,
-      quantity,
-    });
-
-    toast.success("Product added to cart");
+    addToCart(product, quantity);
+    toast.success("Added to cart");
+    setQuantity(1);
   };
 
-  if (loading) {
-    return <Loading />;
-  }
+  if (loading) return <Loading />;
 
-  if (!product) {
+  if (!product)
     return (
       <div className="py-20 text-xl font-semibold text-center text-red-500">Product not found</div>
     );
-  }
+
+  // ✅ Correct price logic using API fields
+  const currentPrice = product.price;
+  const originalPrice = product.oldPrice || null;
+  const hasDiscount = product.discount > 0 && originalPrice;
+  const isOutOfStock = product.stock === 0;
+
+  const allImages =
+    product.images?.length > 0
+      ? [product.image, ...product.images.filter((img) => img !== product.image)]
+      : [product.image];
 
   return (
     <div className="px-4 py-10 mx-auto max-w-7xl">
-      <div className="grid gap-10 p-6 bg-white shadow-xl md:grid-cols-2 rounded-3xl">
-        {/* LEFT SECTION */}
+      <div className="grid gap-10 p-6 bg-white border border-gray-300 shadow-xl md:grid-cols-2 rounded-3xl">
+        {/* LEFT — Images */}
         <div>
-          {/* Main Image */}
-          <div className="overflow-hidden border rounded-2xl">
+          <div className="overflow-hidden border border-gray-100 rounded-2xl bg-gray-50">
             <img
               src={selectedImage || product.image}
               alt={product.name}
-              className="w-full h-[500px] object-cover hover:scale-105 transition duration-300"
+              loading="lazy"
+              className="w-full h-[480px] object-cover hover:scale-105 transition duration-300"
             />
           </div>
 
-          {/* Thumbnail Images */}
-          {product.images?.length > 0 && (
-            <div className="flex gap-3 mt-4 overflow-x-auto">
-              {[product.image, ...product.images].map((img, index) => (
+          {allImages.length > 1 && (
+            <div className="flex gap-3 pb-1 mt-4 overflow-x-auto">
+              {allImages.map((img, index) => (
                 <img
                   key={index}
                   src={img}
-                  alt="thumbnail"
+                  alt={`View ${index + 1}`}
+                  loading="lazy"
                   onClick={() => setSelectedImage(img)}
-                  className={`w-20 h-20 object-cover rounded-lg border cursor-pointer transition ${
+                  className={`w-20 h-20 object-cover rounded-xl border-2 cursor-pointer flex-shrink-0 transition-all duration-150 ${
                     selectedImage === img
-                      ? "border-green-500 ring-2 ring-green-300"
-                      : "border-gray-200"
+                      ? "border-green-500 ring-2 ring-green-200 scale-105"
+                      : "border-gray-200 hover:border-gray-300"
                   }`}
                 />
               ))}
@@ -102,135 +118,141 @@ const ProductDetailContainer = () => {
           )}
         </div>
 
-        {/* RIGHT SECTION */}
-        <div className="flex flex-col justify-center">
-          <h1 className="mb-4 text-4xl font-bold">{product.name}</h1>
+        {/* RIGHT — Details */}
+        <div className="flex flex-col justify-center gap-5">
+          {/* Title */}
+          <div>
+            <p className="mb-1 text-sm font-medium tracking-wide text-gray-400 uppercase">
+              {product.brand}
+            </p>
+            <h1 className="text-3xl font-bold leading-snug text-gray-900">{product.name}</h1>
+          </div>
+
+          {/* Rating + Reviews */}
+          <div className="flex items-center gap-3">
+            <div className="flex">{renderStars(product.rating || 0)}</div>
+            <span className="text-sm font-semibold text-gray-700">{product.rating || 0}</span>
+            {product.reviews > 0 && (
+              <span className="text-sm text-gray-400">({product.reviews} reviews)</span>
+            )}
+          </div>
 
           {/* Price */}
-          <div className="flex items-center gap-4 mb-4">
+          <div className="flex items-center gap-3">
             <span className="text-4xl font-bold text-green-600">
-              ₹{product.finalPrice || product.price}
+              ₹{Number(currentPrice).toLocaleString("en-IN")}
             </span>
-
-            {product.discount > 0 && (
+            {hasDiscount && (
               <>
-                <span className="text-xl text-gray-400 line-through">₹{product.price}</span>
-
-                <span className="px-3 py-1 text-sm font-semibold text-white bg-red-500 rounded-full">
+                <span className="text-xl text-gray-400 line-through">
+                  ₹{Number(originalPrice).toLocaleString("en-IN")}
+                </span>
+                <span className="px-2.5 py-1 text-xs font-bold text-white bg-red-500 rounded-full">
                   {product.discount}% OFF
                 </span>
               </>
             )}
           </div>
 
-          {/* Rating */}
-          <div className="flex items-center gap-3 mb-4">
-            <div className="text-xl">{renderStars(product.rating || 0)}</div>
-
-            <span className="px-3 py-1 text-sm font-medium text-green-700 bg-green-100 rounded-full">
-              {product.rating || 0}/5
-            </span>
-          </div>
-
           {/* Description */}
-          <div className="mb-5 leading-relaxed text-gray-600">
-            <div
-              className="prose max-w-none"
-              dangerouslySetInnerHTML={{
-                __html: product.description,
-              }}
-            />
-          </div>
+          <div
+            className="text-sm leading-relaxed prose text-gray-600 max-w-none"
+            dangerouslySetInnerHTML={{ __html: product.description }}
+          />
 
           {/* Stock */}
-          <div className="mb-5">
-            {product.stock > 0 ? (
-              <span className="px-4 py-2 text-sm font-medium text-green-700 bg-green-100 rounded-full">
-                In Stock ({product.stock})
+          <div>
+            {isOutOfStock ? (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-red-700 bg-red-100 rounded-full">
+                <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+                Out of Stock
               </span>
             ) : (
-              <span className="px-4 py-2 text-sm font-medium text-red-700 bg-red-100 rounded-full">
-                Out of Stock
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-green-700 bg-green-100 rounded-full">
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                In Stock ({product.stock} available)
               </span>
             )}
           </div>
 
           {/* Quantity */}
-          <div className="flex items-center gap-4 mb-6">
-            <span className="font-semibold">Quantity:</span>
-
-            <div className="flex items-center border rounded-lg">
-              <button
-                onClick={() => handleQuantityChange("dec")}
-                className="px-4 py-2 text-lg hover:bg-gray-100"
-              >
-                -
-              </button>
-
-              <span className="px-6 font-semibold">{quantity}</span>
-
-              <button
-                onClick={() => handleQuantityChange("inc")}
-                className="px-4 py-2 text-lg hover:bg-gray-100"
-              >
-                +
-              </button>
+          {!isOutOfStock && (
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-semibold text-gray-600">Quantity</span>
+              <div className="flex items-center overflow-hidden border border-gray-200 rounded-xl">
+                <button
+                  onClick={handleDecreaseQuantity}
+                  className="w-10 h-10 text-lg font-medium text-gray-600 transition-colors hover:bg-gray-100"
+                >
+                  −
+                </button>
+                <span className="w-12 font-semibold text-center text-gray-800">{quantity}</span>
+                <button
+                  onClick={handleIncreaseQuantity}
+                  className="w-10 h-10 text-lg font-medium text-gray-600 transition-colors hover:bg-gray-100"
+                >
+                  +
+                </button>
+              </div>
+              {quantity >= product.stock && (
+                <span className="text-xs text-amber-600">Max stock reached</span>
+              )}
             </div>
-          </div>
+          )}
 
-          {/* Buttons */}
-          <div className="flex gap-4 mb-6">
+          {/* Action Buttons */}
+          <div className="flex gap-3">
             <button
               onClick={handleAddToCart}
-              disabled={product.stock === 0}
-              className={`flex-1 py-3 rounded-xl font-semibold text-white transition ${
-                product.stock === 0
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-green-600 hover:bg-green-700"
+              disabled={isOutOfStock}
+              className={`flex-1 py-3 rounded-xl font-semibold text-white transition-all active:scale-95 ${
+                isOutOfStock ? "bg-gray-300 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
               }`}
             >
-              Add To Cart
+              {isOutOfStock ? "Out of Stock" : "Add to Cart"}
             </button>
 
             <button
               onClick={() => navigate("/cart")}
-              className="flex-1 py-3 font-semibold transition border rounded-xl hover:bg-gray-100"
+              className="flex-1 py-3 font-semibold text-gray-700 transition-all border border-gray-200 rounded-xl hover:bg-gray-50 active:scale-95"
             >
               View Cart
             </button>
+
+            {/* ✅ WishlistButton inline with action buttons */}
+            <WishlistButton product={product} showText={false} />
           </div>
 
-          {/* Product Info Card */}
-          <div className="p-5 mt-2 border bg-gray-50 rounded-2xl">
-            <h3 className="mb-4 text-lg font-bold">Product Information</h3>
-
-            <div className="flex justify-between py-3 border-b">
-              <span className="text-gray-500">Brand</span>
-              <span className="font-medium">{product.brand || "N/A"}</span>
-            </div>
-
-            <div className="flex justify-between py-3 border-b">
-              <span className="text-gray-500">Category</span>
-              <span className="font-medium">{product.category?.name || "N/A"}</span>
-            </div>
-
-            <div className="flex justify-between py-3 border-b">
-              <span className="text-gray-500">SKU</span>
-              <span className="font-medium">{product.sku || "N/A"}</span>
-            </div>
-
-            <div className="flex justify-between py-3">
-              <span className="text-gray-500">Featured</span>
-              <span>
-                {product.featured ? (
-                  <span className="px-3 py-1 text-xs text-white bg-orange-500 rounded-full">
+          {/* Product Info */}
+          <div className="p-5 border border-gray-100 bg-gray-50 rounded-2xl">
+            <h3 className="mb-3 text-sm font-semibold tracking-wide text-gray-500 uppercase">
+              Product Details
+            </h3>
+            {[
+              { label: "Brand", value: product.brand || "N/A" },
+              { label: "Category", value: product.category?.name || "N/A" },
+              { label: "SKU", value: product.sku || "N/A" },
+              {
+                label: "Featured",
+                value: product.featured ? (
+                  <span className="px-2.5 py-0.5 text-xs font-semibold text-white bg-orange-500 rounded-full">
                     Yes
                   </span>
                 ) : (
-                  "No"
-                )}
-              </span>
-            </div>
+                  <span className="text-gray-500">No</span>
+                ),
+              },
+            ].map(({ label, value }, i, arr) => (
+              <div
+                key={label}
+                className={`flex justify-between items-center py-2.5 ${
+                  i < arr.length - 1 ? "border-b border-gray-200" : ""
+                }`}
+              >
+                <span className="text-sm text-gray-500">{label}</span>
+                <span className="text-sm font-medium text-gray-800">{value}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>

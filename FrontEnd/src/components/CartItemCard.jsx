@@ -1,12 +1,9 @@
 import { Minus, Plus } from "lucide-react";
 
 const NO_IMAGE = "https://via.placeholder.com/150";
+import ProductImg from "../../assets/product/product1.png";
 
-const CartItemCard = ({
-  item,
-  updateQuantity,
-  removeFromCart,
-}) => {
+const CartItemCard = ({ item, updateQuantity, removeFromCart }) => {
   const product = item?.product;
 
   return (
@@ -15,18 +12,15 @@ const CartItemCard = ({
       <img
         src={product?.image || NO_IMAGE}
         alt={product?.name}
+        loading="lazy"
         className="object-cover w-16 h-16 bg-white border border-gray-300 rounded-md"
       />
 
       {/* Product Details */}
       <div className="flex-1 min-w-0">
-        <h2 className="text-sm font-semibold text-gray-800 truncate">
-          {product?.name}
-        </h2>
+        <h2 className="text-sm font-semibold text-gray-800 truncate">{product?.name}</h2>
 
-        <p className="mt-1 text-xs text-gray-500">
-          ₹{product?.price || 0}
-        </p>
+        <p className="mt-1 text-xs text-gray-500">₹{product?.price || 0}</p>
 
         {/* Quantity Controls */}
         <div className="flex items-center gap-2 mt-2">

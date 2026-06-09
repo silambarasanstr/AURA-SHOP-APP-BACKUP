@@ -152,7 +152,10 @@ const OrderDetails = () => {
               </h1>
               <p className="text-gray-600">
                 Order ID:{" "}
-                <span className="font-mono font-semibold"> #{order.orderNumber || order._id.slice(-6).toUpperCase()}</span>
+                <span className="font-mono font-semibold">
+                  {" "}
+                  #{order.orderNumber || order._id.slice(-6).toUpperCase()}
+                </span>
               </p>
               <p className="mt-1 text-gray-600">
                 Date: {new Date(order.createdAt).toLocaleDateString()} at{" "}
@@ -220,9 +223,15 @@ const OrderDetails = () => {
             </h2>
             <div className="space-y-2 text-gray-600">
               <p>
-                <span className="font-semibold">{order.address?.fullName}</span>
+                <span className="font-semibold">Name:</span>{" "}
+                {order.address?.fullName || order.address?.fullName}
               </p>
-              <p>{order.address?.address}</p>
+              <p>
+                <span className="font-semibold">Address:</span>{" "}
+                {order.address?.streetAddress || "3/19 Pilliyar Koil St"}{" "}
+                {order.address?.city || "Chennai"},{" "}
+                {order.address?.state || "Tamil Nadu"}{" "}
+              </p>
               <p>
                 {order.address?.city},{order.address?.state}
                 {order.address?.zipCode}
@@ -233,7 +242,7 @@ const OrderDetails = () => {
                 {order.address?.email || "admin@example.com"}
               </p>
               <p>
-                <span className="font-semibold">Phone:</span>{" "}
+                <span className="font-semibold">Phone:</span>
                 {order.address?.phone || "123-456-7890"}
               </p>
             </div>
@@ -246,17 +255,24 @@ const OrderDetails = () => {
             </h2>
             <div className="space-y-2 text-gray-600">
               <p>
-                <span className="font-semibold">
-                  {order.shippingAddress?.fullName || order.address?.fullName}
-                </span>
+                <span className="font-semibold">Name:</span>{" "}
+                {order.address?.fullName || order.address?.fullName}
               </p>
-              <p>{order.shippingAddress?.address || order.address?.address}</p>
+
               <p>
-                {order.shippingAddress?.city || order.address?.city},{" "}
-                {order.shippingAddress?.state || order.address?.state}{" "}
-                {order.shippingAddress?.zipCode || order.address?.zipCode}
+                <span className="font-semibold">Address:</span>{" "}
+                {order.address?.streetAddress || "3/19 Pilliyar Koil St"}{" "}
+                {order.address?.city || "Chennai"},{" "}
+                {order.address?.state || "Tamil Nadu"}{" "}
               </p>
-              <p>{order.shippingAddress?.country || order.address?.country}</p>
+              <p>
+                <span className="font-semibold">Phone Number:</span>{" "}
+                {order.address?.phoneNumber || "123-456-7890"}
+              </p>
+              <p>
+                <span className="font-semibold">Pincode:</span>{" "}
+                {order.address?.pincode || "632517"}
+              </p>
             </div>
           </div>
         </div>
@@ -325,58 +341,7 @@ const OrderDetails = () => {
           </div>
         </div>
 
-        {/* Payment & Shipping Info */}
-        <div className="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2">
-          {/* Payment Info */}
-          <div className="p-6 bg-white border border-gray-300 rounded-lg shadow">
-            <h2 className="mb-4 text-lg font-bold text-gray-900">
-              Payment Information
-            </h2>
-            <div className="space-y-2 text-gray-600">
-              <p>
-                <span className="font-semibold">Method:</span>{" "}
-                {order.paymentMethod || "Not specified"}
-              </p>
-              <p>
-                <span className="font-semibold">Status:</span>{" "}
-                <span
-                  className={`inline-block px-2 py-1 rounded text-xs font-semibold ${
-                    order.paymentStatus === "Paid"
-                      ? "bg-green-100 text-green-800"
-                      : "bg-yellow-100 text-yellow-800"
-                  }`}
-                >
-                  {order.paymentStatus || "Pending"}
-                </span>
-              </p>
-            </div>
-          </div>
-
-          {/* Shipping Info */}
-          <div className="p-6 bg-white border border-gray-300 rounded-lg shadow">
-            <h2 className="mb-4 text-lg font-bold text-gray-900">
-              Shipping Information
-            </h2>
-            <div className="space-y-2 text-gray-600">
-              <p>
-                <span className="font-semibold">Courier:</span>{" "}
-                {order.shippingCourier || "Not assigned"}
-              </p>
-              <p>
-                <span className="font-semibold">Tracking ID:</span>{" "}
-                <span className="font-mono text-sm">
-                  {order.trackingId || "Not assigned"}
-                </span>
-              </p>
-              <p>
-                <span className="font-semibold">Estimated Delivery:</span>{" "}
-                {order.estimatedDelivery
-                  ? new Date(order.estimatedDelivery).toLocaleDateString()
-                  : "Not available"}
-              </p>
-            </div>
-          </div>
-        </div>
+       
       </div>
     </div>
   );

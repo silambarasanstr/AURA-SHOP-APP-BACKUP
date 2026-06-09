@@ -18,16 +18,32 @@ const orderSchema = new mongoose.Schema(
       {
         productId: String,
         name: String,
+        image: String,
         price: Number,
         qty: Number,
       },
     ],
 
     totalPrice: Number,
+    discount: Number,
 
     address: {
       fullName: String,
       city: String,
+      streetAddress: String,
+      phoneNumber: String,
+      pincode: String,
+    },
+
+    deliveryMethod: {
+      id: String,
+      label: String,
+      cost: Number,
+    },
+
+    payment: {
+      method: { type: String, default: "cod" },
+      codFee: { type: Number, default: 0 },
     },
 
     status: {
@@ -35,7 +51,7 @@ const orderSchema = new mongoose.Schema(
       default: "Pending",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model("Order", orderSchema);

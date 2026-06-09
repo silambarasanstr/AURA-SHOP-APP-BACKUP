@@ -34,6 +34,7 @@ const BannerSlider = ({ images = [] }) => {
           <img
             key={index}
             src={img}
+            loading="lazy"
             alt={`slide-${index}`}
             className="w-full flex-shrink-0 h-[400px] object-cover border"
             onError={(e) => {

@@ -35,8 +35,20 @@ const productSchema = new mongoose.Schema(
 
     image: {
       type: String,
-      required: true,
+      default: "",
     },
+
+    // image: {
+    //   url: {
+    //     type: String,
+    //     required: true,
+    //   },
+    //   type: {
+    //     type: String,
+    //     enum: ["upload", "url"],
+    //     default: "upload",
+    //   },
+    // },
 
     images: {
       type: [String],
@@ -93,7 +105,11 @@ const productSchema = new mongoose.Schema(
       default: true,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  },
 );
 
 productSchema.virtual("finalPrice").get(function () {
@@ -101,5 +117,3 @@ productSchema.virtual("finalPrice").get(function () {
 });
 
 export default mongoose.model("Product", productSchema);
-
-

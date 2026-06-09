@@ -7,7 +7,29 @@ import {
   deleteProduct,
 } from "../controllers/productController.js";
 
+import multer from "multer";
 const router = express.Router();
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+// Optional: filter only images
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only images are allowed"), false);
+    }
+  },
+});
 
 // GET /api/products
 router.get("/", getProducts);
@@ -16,10 +38,10 @@ router.get("/", getProducts);
 router.get("/:id", getProductById);
 
 // POST /api/products
-router.post("/", createProduct);
+router.post("/", upload.single("image"), createProduct);
 
 // PUT /api/products/:id
-router.put("/:id", updateProduct);
+router.put("/:id", upload.single("image"), updateProduct);
 
 // DELETE /api/products/:id
 router.delete("/:id", deleteProduct);

@@ -1,10 +1,12 @@
-// wishlistSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
-// Load wishlist from localStorage on app start
 const loadWishlist = () => {
   const data = localStorage.getItem("wishlist");
   return data ? JSON.parse(data) : [];
+};
+
+const save = (state) => {
+  localStorage.setItem("wishlist", JSON.stringify(state));
 };
 
 const wishlistSlice = createSlice({
@@ -13,31 +15,17 @@ const wishlistSlice = createSlice({
 
   reducers: {
     addToWishlist: (state, action) => {
-      const exists = state.find(
-        (item) => item._id === action.payload._id
-      );
-
+      const exists = state.find((item) => item._id === action.payload._id);
       if (!exists) {
-        state.push(action.payload);
-
-        localStorage.setItem(
-          "wishlist",
-          JSON.stringify(state)
-        );
+        state.push({ ...action.payload, addedAt: Date.now() });
+        save(state);
       }
     },
 
     removeFromWishlist: (state, action) => {
-      const updatedWishlist = state.filter(
-        (item) => item._id !== action.payload
-      );
-
-      localStorage.setItem(
-        "wishlist",
-        JSON.stringify(updatedWishlist)
-      );
-
-      return updatedWishlist;
+      const updated = state.filter((item) => item._id !== action.payload);
+      save(updated);
+      return updated;
     },
 
     clearWishlist: () => {
@@ -47,10 +35,5 @@ const wishlistSlice = createSlice({
   },
 });
 
-export const {
-  addToWishlist,
-  removeFromWishlist,
-  clearWishlist,
-} = wishlistSlice.actions;
-
+export const { addToWishlist, removeFromWishlist, clearWishlist } = wishlistSlice.actions;
 export default wishlistSlice.reducer;

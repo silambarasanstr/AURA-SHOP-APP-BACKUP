@@ -10,6 +10,7 @@ const useFetch = (fetchFunction, deps = []) => {
     setError(null);
 
     try {
+      
       const result = await fetchFunction();
       setData(result);
     } catch (err) {
