@@ -9,24 +9,17 @@ const Layout = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      {/* Sidebar */}
       <SideBar collapsed={collapsed} setCollapsed={setCollapsed} />
 
-      {/* Main Content Wrapper */}
       <div
-        className={`transition-all duration-300 flex flex-col w-full ${
+        className={`flex flex-col flex-1 min-w-0 transition-all duration-300 ${
           collapsed ? "ml-20" : "ml-64"
         }`}
       >
-        {/* Header */}
         <Header />
-
-        {/* Main Content */}
-        <main className="flex-1 p-6 overflow-y-auto">
+        <main className="flex-1 p-6">
           <Outlet />
         </main>
-
-        {/* Footer */}
         <Footer />
       </div>
     </div>

@@ -134,253 +134,195 @@ const ProductContainer = () => {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto bg-white border border-gray-200 rounded-xl">
-        <table className="min-w-full border border-gray-200 divide-y divide-gray-200 rounded-lg">
+      <div className="w-full overflow-x-auto border border-gray-200 rounded-xl">
+        <table className="w-full border-collapse" style={{ minWidth: "900px" }}>
           <thead className="border-b border-gray-200 bg-gray-50">
             <tr>
-              <th className="px-6 py-4 text-left">
-                <input
-                  type="checkbox"
-                  className="w-4 h-4 text-blue-600 border-gray-300 rounded cursor-pointer accent-blue-600"
-                />
+              <th className="w-10 px-4 py-3">
+                <input type="checkbox" className="w-4 h-4 border-gray-300 rounded cursor-pointer accent-blue-600" />
               </th>
-
-              <th
-                scope="col"
-                className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase "
-              >
-                <button className="flex items-center gap-2 text-sm font-semibold text-gray-900 uppercase transition-colors hover:text-gray-600">
-                  PRODUCT NAME
-                  <ChevronDown size={10} />
+              <th className="px-4 py-3 text-left">
+                <button className="flex items-center gap-1 text-xs font-medium tracking-wider text-gray-500 uppercase hover:text-gray-800">
+                  Product name <ChevronDown size={10} />
                 </button>
               </th>
-              <th
-                scope="col"
-                className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
-              >
-                <button className="flex items-center gap-2 text-sm font-semibold text-gray-900 uppercase transition-colors hover:text-gray-600">
-                  Price
-                  <ChevronDown size={10} />
+              <th className="px-4 py-3 text-left">
+                <button className="flex items-center gap-1 text-xs font-medium tracking-wider text-gray-500 uppercase hover:text-gray-800">
+                  Price <ChevronDown size={10} />
                 </button>
               </th>
-              <th
-                scope="col"
-                className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase "
-              >
-                <button className="flex items-center gap-2 text-sm font-semibold text-gray-900 uppercase transition-colors hover:text-gray-600">
-                  Category
-                  <ChevronDown size={10} />
+              <th className="hidden px-4 py-3 text-left sm:table-cell">
+                <button className="flex items-center gap-1 text-xs font-medium tracking-wider text-gray-500 uppercase hover:text-gray-800">
+                  Category <ChevronDown size={10} />
                 </button>
               </th>
-
-              {/* <th className="w-32 px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                <button className="flex items-center gap-2 text-sm font-semibold text-gray-900 uppercase transition-colors hover:text-gray-600">
-                  Brand
-                  <ChevronDown size={10} />
+              <th className="hidden px-4 py-3 text-left sm:table-cell">
+                <button className="flex items-center gap-1 text-xs font-medium tracking-wider text-gray-500 uppercase hover:text-gray-800">
+                  Brand <ChevronDown size={10} />
                 </button>
               </th>
-
-              <th className="w-24 px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                <button className="flex items-center gap-2 text-sm font-semibold text-gray-900 uppercase transition-colors hover:text-gray-600">
-                  Stock
-                  <ChevronDown size={10} />
+              <th className="px-4 py-3 text-left">
+                <button className="flex items-center gap-1 text-xs font-medium tracking-wider text-gray-500 uppercase hover:text-gray-800">
+                  Stock <ChevronDown size={10} />
                 </button>
               </th>
-
-              <th className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase w-28">
-                <button className="flex items-center gap-2 text-sm font-semibold text-gray-900 uppercase transition-colors hover:text-gray-600">
-                  Discount
-                  <ChevronDown size={10} />
-                </button>
-              </th> */}
-
-              <th className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                <button className="flex items-center gap-2 text-sm font-semibold text-gray-900 uppercase transition-colors hover:text-gray-600">
-                  Final Price
-                  <ChevronDown size={10} />
+              <th className="hidden px-4 py-3 text-left md:table-cell">
+                <button className="flex items-center gap-1 text-xs font-medium tracking-wider text-gray-500 uppercase hover:text-gray-800">
+                  Discount <ChevronDown size={10} />
                 </button>
               </th>
-
-              {/* <th className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase w-28">
-                <button className="flex items-center gap-2 text-sm font-semibold text-gray-900 uppercase transition-colors hover:text-gray-600">
-                  Status
-                  <ChevronDown size={10} />
+              <th className="px-4 py-3 text-left">
+                <button className="flex items-center gap-1 text-xs font-medium tracking-wider text-gray-500 uppercase hover:text-gray-800">
+                  Final price <ChevronDown size={10} />
                 </button>
               </th>
-
-              <th className="w-32 px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                <button className="flex items-center gap-2 text-sm font-semibold text-gray-900 uppercase transition-colors hover:text-gray-600">
-                  Featured
-                  <ChevronDown size={10} />
-                </button>
-              </th> */}
-
-              <th
-                scope="col"
-                className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
-              >
-                <button className="flex items-center gap-2 text-sm font-semibold text-gray-900 uppercase transition-colors hover:text-gray-600">
-                  PUBLISHED ON
-                  <ChevronDown size={10} />
+              <th className="hidden px-4 py-3 text-left md:table-cell">
+                <button className="flex items-center gap-1 text-xs font-medium tracking-wider text-gray-500 uppercase hover:text-gray-800">
+                  Status <ChevronDown size={10} />
                 </button>
               </th>
-              <th
-                scope="col"
-                className="px-6 py-4 text-sm font-semibold tracking-wider text-left text-gray-900 uppercase"
-              >
+              <th className="hidden px-4 py-3 text-left md:table-cell">
+                <button className="flex items-center gap-1 text-xs font-medium tracking-wider text-gray-500 uppercase hover:text-gray-800">
+                  Featured <ChevronDown size={10} />
+                </button>
+              </th>
+              <th className="hidden px-4 py-3 text-left md:table-cell">
+                <button className="flex items-center gap-1 text-xs font-medium tracking-wider text-gray-500 uppercase hover:text-gray-800">
+                  Published on <ChevronDown size={10} />
+                </button>
+              </th>
+              <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                 Action
               </th>
             </tr>
           </thead>
+
           <tbody className="bg-white divide-y divide-gray-200">
             {products.length === 0 ? (
               <tr>
-                <td
-                  colSpan={12}
-                  className="px-6 py-10 text-center text-gray-500"
-                >
+                <td colSpan={12} className="px-6 py-10 text-sm text-center text-gray-500">
                   No products found
                 </td>
               </tr>
             ) : (
-              products.map((product) => (
-                <tr
-                  key={product._id}
-                  className="transition-colors duration-150 hover:bg-gray-50"
-                >
-                  <td className="px-6 py-4">
-                    <input
-                      type="checkbox"
-                      className="w-4 h-4 text-blue-600 border-gray-300 rounded cursor-pointer accent-blue-600"
-                    />
-                  </td>
+              products.map((product) => {
+                const finalPrice =
+                  product.finalPrice ??
+                  product.price - (product.price * (product.discount || 0)) / 100;
 
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center min-w-0">
-                      <div className="flex-shrink-0 w-10 h-10">
+                return (
+                  <tr key={product._id} className="transition-colors hover:bg-gray-50">
+                    <td className="px-4 py-3">
+                      <input type="checkbox" className="w-4 h-4 border-gray-300 rounded cursor-pointer accent-blue-600" />
+                    </td>
+
+                    <td className="px-4 py-3">
+                      <div className="flex items-center min-w-0 gap-3">
                         <img
-                          className="object-cover w-10 h-10"
-                          src={
-                            product.image ||
-                            "https://www.simpleimageconvert.com/images/icons/photo.png"
-                          }
+                          className="flex-shrink-0 object-cover bg-gray-100 rounded w-9 h-9"
+                          src={product.image || "https://placehold.co/36x36/e2e8f0/94a3b8?text=?"}
                           alt={product.name}
-                          onError={(e) => {
-                            e.currentTarget.src =
-                              "https://www.simpleimageconvert.com/images/icons/photo.png";
-                          }}
+                          onError={(e) => { e.currentTarget.src = "https://placehold.co/36x36/e2e8f0/94a3b8?text=?"; }}
                         />
-                      </div>
-                      <div className="min-w-0 ml-4">
-                        <div className="text-sm font-medium text-gray-900 truncate">
+                        <span className="text-sm font-medium text-gray-900 truncate max-w-[160px]">
                           {product.name}
-                        </div>
+                        </span>
                       </div>
-                    </div>
-                  </td>
+                    </td>
 
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">
-                      ₹ {product.price}
-                    </div>
-                  </td>
+                    <td className="px-4 py-3 text-sm text-gray-900 whitespace-nowrap">
+                      ₹{product.price.toLocaleString("en-IN")}
+                    </td>
 
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
-                      {product.category?.name || "No Category"}
-                    </span>
-                  </td>
-
-                  {/* <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="text-sm text-gray-900">
-                      {product.brand || "-"}
-                    </span>
-                  </td>
-
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={`font-medium ${
-                        product.stock > 10
-                          ? "text-green-600"
-                          : product.stock > 0
-                            ? "text-yellow-600"
-                            : "text-red-600"
-                      }`}
-                    >
-                      {product.stock || 0}
-                    </span>
-                  </td>
-
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {product.discount ? (
-                      <span className="px-2 py-1 text-xs text-white bg-red-500 rounded-full">
-                        {product.discount}%
+                    <td className="hidden px-4 py-3 whitespace-nowrap sm:table-cell">
+                      <span className="inline-flex px-2 py-0.5 text-xs font-medium rounded-full bg-green-100 text-green-800">
+                        {product.category?.name || "No category"}
                       </span>
-                    ) : (
-                      "-"
-                    )}
-                  </td> */}
+                    </td>
 
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="font-semibold text-green-600">
-                      ₹
-                      {product.finalPrice ||
-                        product.price -
-                          (product.price * (product.discount || 0)) / 100}
-                    </span>
-                  </td>
+                    <td className="hidden px-4 py-3 text-sm text-gray-900 whitespace-nowrap sm:table-cell">
+                      {product.brand || "-"}
+                    </td>
 
-                  {/* <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                    <td className="px-4 py-3 whitespace-nowrap">
+                      <span className={`text-sm font-medium ${
+                        product.stock > 10 ? "text-green-600"
+                        : product.stock > 0 ? "text-yellow-600"
+                        : "text-red-600"
+                      }`}>
+                        {product.stock || 0}
+                      </span>
+                    </td>
+
+                    <td className="hidden px-4 py-3 whitespace-nowrap md:table-cell">
+                      {product.discount ? (
+                        <span className="inline-flex px-2 py-0.5 text-xs font-medium rounded-full bg-red-50 text-red-700">
+                          {product.discount}%
+                        </span>
+                      ) : (
+                        <span className="text-gray-400">-</span>
+                      )}
+                    </td>
+
+                    {/* ✅ Final Price BEFORE Status/Featured */}
+                    <td className="px-4 py-3 whitespace-nowrap">
+                      <span className="text-sm font-semibold text-green-600">
+                        ₹{Math.round(finalPrice).toLocaleString("en-IN")}
+                      </span>
+                    </td>
+
+                    <td className="hidden px-4 py-3 whitespace-nowrap md:table-cell">
+                      <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
                         product.status === "active"
                           ? "bg-green-100 text-green-800"
                           : "bg-gray-100 text-gray-800"
-                      }`}
-                    >
-                      {product.status || "draft"}
-                    </span>
-                  </td>
-
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {product.featured ? (
-                      <span className="px-2 py-1 text-xs font-semibold text-orange-700 bg-orange-100 rounded-full">
-                        Featured
+                      }`}>
+                        {product.status || "draft"}
                       </span>
-                    ) : (
-                      "-"
-                    )}
-                  </td> */}
+                    </td>
 
-                  <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                    {product.createdAt
-                      ? new Date(product.createdAt).toLocaleDateString()
-                      : "-"}
-                  </td>
+                    <td className="hidden px-4 py-3 whitespace-nowrap md:table-cell">
+                      {product.featured ? (
+                        <span className="px-2 py-0.5 text-xs font-medium text-orange-700 bg-orange-100 rounded-full">
+                          Featured
+                        </span>
+                      ) : (
+                        <span className="text-gray-400">-</span>
+                      )}
+                    </td>
 
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={() => navigate(`/edit-product/${product._id}`)}
-                        className="text-indigo-600 hover:text-indigo-900"
-                      >
-                        Edit
-                      </button>
+                    <td className="hidden px-4 py-3 text-sm text-gray-500 whitespace-nowrap md:table-cell">
+                      {product.createdAt
+                        ? new Date(product.createdAt).toLocaleDateString("en-IN", {
+                            day: "2-digit", month: "short", year: "numeric",
+                          })
+                        : "-"}
+                    </td>
 
-                      <button
-                        onClick={() => handleDelete(product._id)}
-                        className="text-red-600 hover:text-red-900"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))
+                    <td className="px-4 py-3 whitespace-nowrap">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => navigate(`/edit-product/${product._id}`)}
+                          className="px-2 py-1 text-sm font-medium text-indigo-600 rounded hover:text-indigo-900 hover:bg-indigo-50"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDelete(product._id)}
+                          className="px-2 py-1 text-sm font-medium text-red-600 rounded hover:text-red-900 hover:bg-red-50"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
             )}
           </tbody>
         </table>
       </div>
+
 
       <div className="flex items-center justify-between mt-6">
         <div>

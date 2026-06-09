@@ -14,7 +14,7 @@ import {
 
 const SideBar = ({ collapsed, setCollapsed }) => {
   const [expandedSections, setExpandedSections] = useState({
-    ecommerce: true,
+    ecommerce: false,
     email: false,
     admin: false,
   });
@@ -31,7 +31,7 @@ const SideBar = ({ collapsed, setCollapsed }) => {
       id: "dashboard",
       label: "Dashboard",
       icon: Home,
-      href: "/", 
+      href: "/",
     },
   ];
 
@@ -100,6 +100,7 @@ const SideBar = ({ collapsed, setCollapsed }) => {
 
   const renderMenu = (items, level = 0) => {
     return items.map((item) => {
+      
       const Icon = item.icon;
       const isExpanded = expandedSections[item.id];
       const paddingLeft = 12 + level * 16;
@@ -217,7 +218,7 @@ const SideBar = ({ collapsed, setCollapsed }) => {
                   <Icon size={20} className="flex-shrink-0" />
                   {!collapsed && (
                     <span className="flex-1 font-medium text-left">
-                      {section.label} 
+                      {section.label}
                     </span>
                   )}
                   {!collapsed && (
