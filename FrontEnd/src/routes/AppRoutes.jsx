@@ -4,8 +4,6 @@ import PageLoader from "../components/common/PageLoader";
 import Layout from "../components/layout/Layout";
 import ProtectedRoute from "./ProtectedRoute";
 
-
-
 // Lazy Loaded Pages
 const Home = lazy(() => import("../pages/Home"));
 const Products = lazy(() => import("../pages/Products"));
@@ -18,6 +16,7 @@ const Wishlist = lazy(() => import("../pages/Wishlist"));
 const Login = lazy(() => import("../auth/Login"));
 const Register = lazy(() => import("../auth/Register"));
 const Categories = lazy(() => import("../containers/CategoriesContainer"));
+const OrderTracking = lazy(() => import("../containers/order-tracking"));
 const NotFound = lazy(() => import("../pages/NotFound"));
 
 const AppRoutes = () => {
@@ -75,6 +74,29 @@ const AppRoutes = () => {
                 </ProtectedRoute>
               }
             />
+
+            <Route
+              path="/order-tracking"
+              element={
+                <ProtectedRoute>
+                  <OrderTracking />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/orders/:id"
+              element={
+                <ProtectedRoute>
+                  <OrderTracking />
+                </ProtectedRoute>
+              }
+            />
+
+
+           
+
+
           </Route>
 
           <Route path="/login" element={<Login />} />

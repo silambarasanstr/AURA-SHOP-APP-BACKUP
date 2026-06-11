@@ -2,6 +2,7 @@ import express from "express";
 import {
   createOrder,
   getOrders,
+  getOrderById,       // ✅ new
   updateOrderStatus,
   getOrderStats,
   deleteOrder,
@@ -12,8 +13,9 @@ const router = express.Router();
 
 router.post("/", createOrder);
 router.get("/", getOrders);
+router.get("/stats", getOrderStats);  // ⚠️ must be BEFORE /:id
+router.get("/:id", getOrderById);     // ✅ new
 router.put("/:id", updateOrderStatus);
-router.get("/stats", getOrderStats);
 router.delete("/:id", deleteOrder);
 
 export default router;

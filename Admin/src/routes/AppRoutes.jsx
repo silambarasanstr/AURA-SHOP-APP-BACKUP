@@ -10,6 +10,7 @@ import OrderDetails from "../pages/OrderDetails";
 import Dashboard from "../pages/Dashboard";
 import Login from "../auth/Login";
 import Register from "../auth/Register";
+import AdminRoute from "../routes/AdminRoute";
 
 const AppRoutes = () => {
   return (
@@ -24,12 +25,15 @@ const AppRoutes = () => {
             path="/edit-product/:id"
             element={<AddProductFormContainer />}
           />
-          <Route path="/orders" element={<Orders />} />
+          {/* <Route path="/orders" element={<Orders />} /> */}
+          <Route element={<AdminRoute />}>
+            <Route path="/orders" element={<Orders />} />
+          </Route>
           <Route path="/order-details/:id" element={<OrderDetails />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
-        <Route path="/login" element={<Login/>} />
-        <Route path="/register" element={<Register/>} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </BrowserRouter>
   );

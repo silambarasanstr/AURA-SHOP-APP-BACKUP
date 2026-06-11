@@ -1,15 +1,25 @@
-import api from "./api";
+import api from "./api"; // your axios instance
 
-export const getOrders = async () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-
+export const getOrders = async (userId, role) => {
   const res = await api.get("/orders", {
-    params: {
-      userId: user?._id,
-      role: user?.role,
-    },
+    params: { userId, role },   // ✅ sends ?userId=xxx&role=admin
   });
+  return res.data;
+};
 
+// ✅ new
+export const getOrderById = async (id) => {
+  const res = await api.get(`/orders/${id}`);
+  return res.data;
+};
+
+export const createOrder = async (orderData) => {
+  const res = await api.post("/orders", orderData);
+  return res.data;
+};
+
+export const updateOrderStatus = async (id, status) => {
+  const res = await api.put(`/orders/${id}`, { status });
   return res.data;
 };
 

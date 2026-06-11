@@ -42,22 +42,22 @@ export const updateOrder = async (id, updates) => {
   }
 };
 
-export const deleteOrder = async (id) => {
-  try {
-    const res = await axios.delete(`${API_URL}/${id}`);
-    return res.data;
-  } catch (error) {
-    console.error("Failed to delete order:", error);
-    throw error;
-  }
-};
-
 export const getOrderStats = async () => {
   try {
     const res = await axios.get(`${API_URL}/stats`);
     return res.data;
   } catch (error) {
     console.error("Failed to fetch order stats:", error);
+    throw error;
+  }
+};
+
+export const deleteOrder = async (id) => {
+  try {
+    const res = await axios.delete(`${API_URL}/${id}`);
+    return res.data;
+  } catch (error) {
+    console.error("Failed to delete order:", error);
     throw error;
   }
 };
