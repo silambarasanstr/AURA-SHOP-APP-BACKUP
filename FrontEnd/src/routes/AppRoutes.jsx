@@ -16,7 +16,7 @@ const Wishlist = lazy(() => import("../pages/Wishlist"));
 const Login = lazy(() => import("../auth/Login"));
 const Register = lazy(() => import("../auth/Register"));
 const Categories = lazy(() => import("../containers/CategoriesContainer"));
-const OrderTracking = lazy(() => import("../containers/order-tracking"));
+const OrderTracking = lazy(() => import("../containers/OrderTracking"));
 const NotFound = lazy(() => import("../pages/NotFound"));
 
 const AppRoutes = () => {
@@ -76,15 +76,6 @@ const AppRoutes = () => {
             />
 
             <Route
-              path="/order-tracking"
-              element={
-                <ProtectedRoute>
-                  <OrderTracking />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
               path="/orders/:id"
               element={
                 <ProtectedRoute>
@@ -92,11 +83,6 @@ const AppRoutes = () => {
                 </ProtectedRoute>
               }
             />
-
-
-           
-
-
           </Route>
 
           <Route path="/login" element={<Login />} />

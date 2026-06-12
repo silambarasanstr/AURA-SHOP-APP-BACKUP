@@ -3,6 +3,7 @@ import axios from "axios";
 import { getProfile, updateProfile } from "../services/profileService";
 import toast from "react-hot-toast";
 import Loading from "../components/common/Loading";
+import FormInput from "../components/common/FormInput";
 
 const Profile = () => {
   const [user, setUser] = useState({
@@ -15,7 +16,6 @@ const Profile = () => {
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(false);
-
   const token = localStorage.getItem("token");
 
   const fetchProfile = useCallback(async () => {
@@ -57,8 +57,19 @@ const Profile = () => {
 
     try {
       const data = await updateProfile(user);
+      await fetchProfile();
 
-      setUser((prev) => ({ ...prev, ...data }));
+      const authUser = JSON.parse(localStorage.getItem("user"));
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          ...authUser,
+          ...data,
+        })
+      );
+
+      window.dispatchEvent(new Event("userUpdated"));
       setEditMode(false);
 
       toast.success("Profile updated successfully");
@@ -91,31 +102,12 @@ const Profile = () => {
         <div className="p-8">
           {!editMode ? (
             <>
-              {/* Profile Details */}
+             
               <div className="grid gap-5">
-                <div>
-                  <label className="text-sm font-medium text-gray-500">Full Name</label>
-                  <div className="p-3 mt-1 border rounded-lg bg-gray-50">{user.name || "-"}</div>
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium text-gray-500">Email Address</label>
-                  <div className="p-3 mt-1 border rounded-lg bg-gray-50">{user.email || "-"}</div>
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium text-gray-500">Phone Number</label>
-                  <div className="p-3 mt-1 border rounded-lg bg-gray-50">
-                    {user.phone || "Not Added"}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium text-gray-500">Address</label>
-                  <div className="p-3 mt-1 border rounded-lg bg-gray-50">
-                    {user.address || "Not Added"}
-                  </div>
-                </div>
+                <FormInput label="Name" value={user.name || "-"} />
+                <FormInput label="Email" value={user.email || "-"} />
+                <FormInput label="Phone Number" value={user.phone || "-"} />
+                <FormInput label="Address" value={user.address || "-"} />
               </div>
 
               <button
@@ -127,51 +119,38 @@ const Profile = () => {
             </>
           ) : (
             <form onSubmit={handleUpdate} className="space-y-5">
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-600">Full Name</label>
-                <input
-                  name="name"
-                  value={user.name}
-                  onChange={handleChange}
-                  className="w-full p-3 transition border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Enter your name"
-                />
-              </div>
+              <FormInput
+                label="Name"
+                value={user.name}
+                onChange={handleChange}
+                name="name"
+                placeholder="Enter your name"
+              />
 
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-600">
-                  Email Address
-                </label>
-                <input
-                  name="email"
-                  value={user.email}
-                  disabled
-                  className="w-full p-3 bg-gray-100 border rounded-lg cursor-not-allowed"
-                />
-              </div>
+              <FormInput
+                label="Email"
+                name="email"
+                value={user.email}
+                disabled
+                className="bg-gray-100 cursor-not-allowed"
+              />
 
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-600">Phone Number</label>
-                <input
-                  name="phone"
-                  value={user.phone}
-                  onChange={handleChange}
-                  className="w-full p-3 transition border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Enter phone number"
-                />
-              </div>
+              <FormInput
+                label="Phone Number"
+                value={user.phone}
+                onChange={handleChange}
+                name="phone"
+                placeholder="Enter your phone number"
+              />
 
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-600">Address</label>
-                <textarea
-                  name="address"
-                  value={user.address}
-                  onChange={handleChange}
-                  rows="3"
-                  className="w-full p-3 transition border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Enter address"
-                />
-              </div>
+              <FormInput
+                label="Address"
+                name="address"
+                value={user.address}
+                onChange={handleChange}
+                placeholder="Enter address"
+                textarea
+              />
 
               <div className="flex gap-3 pt-2">
                 <button

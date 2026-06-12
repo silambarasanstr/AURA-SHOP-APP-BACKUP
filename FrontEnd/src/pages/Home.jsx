@@ -10,6 +10,7 @@ import { ShoppingBag, Tag, ArrowRight, Sparkles } from "lucide-react";
 import React, { useEffect } from "react";
 import img1 from "../../assets/banner/bannerimg1.jpg";
 import img2 from "../../assets/banner/bannerimg2.jpg";
+import StatsCard from "../components/home/StatsCard";
 
 const bannerImages = [img1, img2];
 
@@ -68,24 +69,22 @@ const Home = () => {
         </div>
 
         <div>
-          {/* Stats bar — floats below banner */}
           {!productsLoading && !categoriesLoading && (
             <div className="bg-white border-b border-gray-100">
               <div className="flex flex-wrap items-center gap-3 py-3 mx-auto max-w-7xl">
-                <div className="flex items-center gap-2 px-4 py-1.5 border border-gray-200 rounded-full text-[11px] tracking-[0.08em] font-mono text-gray-700 bg-white hover:border-gray-900 hover:shadow-sm transition-all">
-                  <ShoppingBag size={12} className="text-emerald-600" />
-                  <strong className="font-semibold text-gray-900">
-                    {activeProducts.length}
-                  </strong>{" "}
-                  Products
-                </div>
-                <div className="flex items-center gap-2 px-4 py-1.5 border border-gray-200 rounded-full text-[11px] tracking-[0.08em] font-mono text-gray-700 bg-white hover:border-gray-900 hover:shadow-sm transition-all">
-                  <Tag size={12} className="text-blue-600" />
-                  <strong className="font-semibold text-gray-900">
-                    {activeCategories.length}
-                  </strong>{" "}
-                  Categories
-                </div>
+                <StatsCard
+                  icon={ShoppingBag}
+                  count={activeProducts.length}
+                  label="Products"
+                  iconColor="text-emerald-600"
+                />
+
+                <StatsCard
+                  icon={Tag}
+                  count={activeCategories.length}
+                  label="Categories"
+                  iconColor="text-blue-600"
+                />
               </div>
             </div>
           )}

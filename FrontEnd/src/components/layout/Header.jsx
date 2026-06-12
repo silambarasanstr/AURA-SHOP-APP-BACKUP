@@ -7,6 +7,7 @@ import { useCart } from "../../context/CartContext";
 import UserMenu from "./UserMenu";
 import useDropdown from "../../hooks/useDropdown";
 import { User, ChevronDown, Heart, ShoppingCart } from "lucide-react";
+import { useState,useEffect } from "react";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -16,7 +17,21 @@ const Header = () => {
   const cartCount = cartItems?.items?.length || 0;
   const wishlistItems = useSelector((state) => state.wishlist || []);
   const itemCount = wishlistItems.length;
-  const user = JSON.parse(localStorage.getItem("user") || "null");
+  // const user = JSON.parse(localStorage.getItem("user") || "null");
+
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user") || "null"));
+
+  useEffect(() => {
+    const handleUserUpdate = () => {
+      setUser(JSON.parse(localStorage.getItem("user") || "null"));
+    };
+
+    window.addEventListener("userUpdated", handleUserUpdate);
+
+    return () => {
+      window.removeEventListener("userUpdated", handleUserUpdate);
+    };
+  }, []);
 
   const handleLogout = () => {
     logoutUser();
@@ -27,12 +42,8 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="flex items-center justify-between h-16 px-5 mx-auto max-w-7xl">
-
         {/* Logo */}
-        <NavLink
-          to="/"
-          className="text-2xl font-bold tracking-widest text-gray-900 uppercase"
-        >
+        <NavLink to="/" className="text-2xl font-bold tracking-widest text-gray-900 uppercase">
           AU<span className="text-amber-500">R</span>A
         </NavLink>
 
@@ -41,7 +52,6 @@ const Header = () => {
 
         {/* Right actions */}
         <div className="flex items-center gap-1">
-
           {/* Wishlist */}
           <Link
             to="/wishlist"
@@ -81,7 +91,10 @@ const Header = () => {
                 >
                   <User size={16} />
                   <span>{user.name}</span>
-                  <ChevronDown size={14} className={`transition-transform duration-200 ${showMenu ? "rotate-180" : ""}`} />
+                  <ChevronDown
+                    size={14}
+                    className={`transition-transform duration-200 ${showMenu ? "rotate-180" : ""}`}
+                  />
                 </button>
                 {showMenu && <UserMenu handleLogout={handleLogout} />}
               </>
@@ -95,7 +108,6 @@ const Header = () => {
               </Link>
             )}
           </div>
-
         </div>
       </div>
     </header>
