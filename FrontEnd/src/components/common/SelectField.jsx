@@ -1,9 +1,5 @@
-const SelectField = ({
-  value,
-  onChange,
-  options = [],
-  className = "",
-}) => {
+import { memo } from "react";
+const SelectField = memo(({ value, onChange, options = [], className = "" }) => {
   return (
     <select
       value={value}
@@ -17,6 +13,6 @@ const SelectField = ({
       ))}
     </select>
   );
-};
-
+});
+SelectField.displayName = "SelectField";
 export default SelectField;
