@@ -1,5 +1,5 @@
 // Only functions
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext } from "react";
 
 // 1. create context
 export const FormatterContext = createContext(null);

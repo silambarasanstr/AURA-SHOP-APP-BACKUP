@@ -1,19 +1,17 @@
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useState } from "react";
 const BannerSlider = memo(({ images = [] }) => {
   const [current, setCurrent] = useState(0);
-  const imagesLengthRef = useRef(images.length);
+
   useEffect(() => {
-    imagesLengthRef.current = images.length;
-  }, [images.length]);
-  useEffect(() => {
-    if (!images || images.length === 0) return;
+    if (images.length === 0) return;
+
     const interval = setInterval(() => {
-      setCurrent((prev) =>
-        prev === imagesLengthRef.current - 1 ? 0 : prev + 1
-      );
+      setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
     }, 5000);
+
     return () => clearInterval(interval);
-  }, []); // ← empty array: interval ஒரே ஒரு தடவை மட்டும் start ஆகும்
+  }, [images]);
+
   if (!images || images.length === 0) {
     return (
       <div className="relative w-full mx-auto overflow-hidden max-w-8xl bg-gray-200 h-[400px] flex items-center justify-center">
@@ -21,6 +19,7 @@ const BannerSlider = memo(({ images = [] }) => {
       </div>
     );
   }
+
   return (
     <div className="relative w-full mx-auto overflow-hidden max-w-8xl">
       <div
@@ -35,8 +34,7 @@ const BannerSlider = memo(({ images = [] }) => {
             alt={`slide-${index}`}
             className="w-full flex-shrink-0 h-[400px] object-cover border"
             onError={(e) => {
-              e.currentTarget.src =
-                "https://via.placeholder.com/1200x400?text=Banner+Image";
+              e.currentTarget.src = "https://via.placeholder.com/1200x400?text=Banner+Image";
             }}
           />
         ))}
@@ -44,11 +42,15 @@ const BannerSlider = memo(({ images = [] }) => {
       <button
         onClick={() => setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1))}
         className="absolute z-10 flex items-center justify-center w-10 h-10 transition -translate-y-1/2 rounded-full shadow-md left-3 top-1/2 bg-white/80 hover:bg-white"
-      >❮</button>
+      >
+        ❮
+      </button>
       <button
         onClick={() => setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1))}
         className="absolute z-10 flex items-center justify-center w-10 h-10 transition -translate-y-1/2 rounded-full shadow-md right-3 top-1/2 bg-white/80 hover:bg-white"
-      >❯</button>
+      >
+        ❯
+      </button>
       <div className="absolute flex gap-2 transform -translate-x-1/2 bottom-3 left-1/2">
         {images.map((_, index) => (
           <button
@@ -64,5 +66,5 @@ const BannerSlider = memo(({ images = [] }) => {
     </div>
   );
 });
-BannerSlider.displayName = "BannerSlider"; 
+BannerSlider.displayName = "BannerSlider";
 export default BannerSlider;

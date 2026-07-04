@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback } from "react";
-import axios from "axios";
 import { getProfile, updateProfile } from "../services/profileService";
 import toast from "react-hot-toast";
 import Loading from "../components/common/Loading";
@@ -102,7 +101,6 @@ const Profile = () => {
         <div className="p-8">
           {!editMode ? (
             <>
-             
               <div className="grid gap-5">
                 <FormInput label="Name" value={user.name || "-"} />
                 <FormInput label="Email" value={user.email || "-"} />

@@ -1,5 +1,4 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import WishlistContainer from "../containers/WishlistContainer";
 import { useCart } from "../context/CartContext";
 

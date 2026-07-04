@@ -59,16 +59,21 @@ const CategoriesContainer = () => {
       ) : activeCategories.length === 0 ? (
         <div className="py-16 text-center">
           <p className="text-gray-500">No categories match "{search}".</p>
-          <button onClick={() => setSearch("")} className="mt-3 text-sm text-blue-600 hover:underline">
+          <button
+            onClick={() => setSearch("")}
+            className="mt-3 text-sm text-blue-600 hover:underline"
+          >
             Clear search
           </button>
         </div>
       ) : (
-        <div className={
-          viewMode === "grid"
-            ? "grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-            : "flex flex-col gap-4"
-        }>
+        <div
+          className={
+            viewMode === "grid"
+              ? "grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+              : "flex flex-col gap-4"
+          }
+        >
           {activeCategories.map((category) => (
             <CategoryCard key={category._id} category={category} viewMode={viewMode} />
           ))}

@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-import { memo, useCallback } from "react";
+import { memo } from "react";
 
 // ✅ Component outside — never recreates
 const linkClass = ({ isActive }) =>

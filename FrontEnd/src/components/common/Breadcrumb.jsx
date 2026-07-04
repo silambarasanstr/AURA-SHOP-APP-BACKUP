@@ -7,18 +7,13 @@ const Breadcrumb = ({ items }) => {
         <div key={index} className="flex items-center">
           {index !== items.length - 1 ? (
             <>
-              <Link
-                to={item.path}
-                className="transition-colors hover:text-blue-600"
-              >
+              <Link to={item.path} className="transition-colors hover:text-blue-600">
                 {item.label}
               </Link>
               <span className="mx-2">/</span>
             </>
           ) : (
-            <span className="font-medium text-gray-900">
-              {item.label}
-            </span>
+            <span className="font-medium text-gray-900">{item.label}</span>
           )}
         </div>
       ))}

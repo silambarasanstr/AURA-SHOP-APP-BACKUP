@@ -9,6 +9,21 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const demoCredentials = {
+    admin: {
+      email: "admin@example.com",
+      password: "12345",
+    },
+    user: {
+      email: "user@example.com",
+      password: "12345",
+    },
+  };
+
+  const fillDemoCredentials = (role) => {
+    setFormData(demoCredentials[role]);
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -35,32 +50,38 @@ const Login = () => {
     <div className="flex items-center justify-center min-h-screen px-4 bg-gray-100">
       <div className="w-full max-w-md p-6 bg-white border border-gray-200 shadow-lg rounded-xl">
         {/* Heading */}
-        <h2 className="mb-2 text-3xl font-bold text-center text-gray-800">Admin Login</h2>
+        <h2 className="mb-2 text-3xl font-bold text-center text-gray-800">
+          Admin Login
+        </h2>
 
         {/* Form */}
         <form onSubmit={handleLogin} className="space-y-4">
           {/* Email */}
           <div>
-            <label className="block mb-2 text-sm font-semibold text-gray-700">Email Address</label>
+            <label className="block mb-2 text-sm font-semibold text-gray-700">
+              Email Address
+            </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
 
           {/* Password */}
           <div>
-            <label className="block mb-2 text-sm font-semibold text-gray-700">Password</label>
+            <label className="block mb-2 text-sm font-semibold text-gray-700">
+              Password
+            </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
@@ -69,15 +90,73 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400"
+            className="w-full py-2.5 text-sm font-semibold text-white bg-blue-600 rounded hover:bg-blue-700 transition disabled:bg-gray-400"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
+        {/* Demo Accounts */}
+        <div className="mt-6">
+          <h3 className="mb-3 text-sm font-semibold text-center text-gray-600">
+            Demo Accounts
+          </h3>
+
+          <div className="space-y-3">
+            {/* Admin */}
+            <div
+              onClick={() => fillDemoCredentials("admin")}
+              className="p-3 transition border border-blue-200 rounded-lg cursor-pointer bg-blue-50 hover:bg-blue-100"
+            >
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs font-semibold text-blue-700">
+                  👑 Admin
+                </span>
+
+                <span className="text-[11px] text-blue-600">Click to Fill</span>
+              </div>
+
+              <p className="text-xs text-gray-700">
+                <strong>Email:</strong> {demoCredentials.admin.email}
+              </p>
+
+              <p className="text-xs text-gray-700">
+                <strong>Password:</strong> {demoCredentials.admin.password}
+              </p>
+            </div>
+
+            {/* User */}
+            <div
+              onClick={() => fillDemoCredentials("user")}
+              className="p-3 transition border border-green-200 rounded-lg cursor-pointer bg-green-50 hover:bg-green-100"
+            >
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs font-semibold text-green-700">
+                  👤 User
+                </span>
+
+                <span className="text-[11px] text-green-600">
+                  Click to Fill
+                </span>
+              </div>
+
+              <p className="text-xs text-gray-700">
+                <strong>Email:</strong> {demoCredentials.user.email}
+              </p>
+
+              <p className="text-xs text-gray-700">
+                <strong>Password:</strong> {demoCredentials.user.password}
+              </p>
+            </div>
+          </div>
+        </div>
+
         <p className="mt-4 text-sm text-center text-gray-600">
           Don't have an account?{" "}
-          <Link to="/register" className="font-medium text-blue-600 hover:underline">
+          <Link
+            to="/register"
+            className="font-medium text-blue-600 hover:underline"
+          >
             Register
           </Link>
         </p>
@@ -87,4 +166,3 @@ const Login = () => {
 };
 
 export default Login;
-

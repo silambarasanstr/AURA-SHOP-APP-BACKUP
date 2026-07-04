@@ -1,6 +1,6 @@
-import { Trash2, Heart, Share2, ShoppingCart, ArrowRight, Bell, Check } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Trash2, ShoppingCart, ArrowRight, Bell } from "lucide-react";
 import { Link } from "react-router-dom";
-
 
 const StockBadge = ({ product }) => {
   if (product?.stock === 0 || product?.status === "out_of_stock") {
@@ -27,8 +27,17 @@ const StockBadge = ({ product }) => {
   return null;
 };
 
-
 const WishlistCard = ({ product, selected, onSelect, onRemove, onAddToCart, onMoveToCart }) => {
+  const [now, setNow] = useState(() => Date.now());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNow(Date.now());
+    }, 60000); // Update every minute
+
+    return () => clearInterval(interval);
+  }, []);
+
   const isOutOfStock = product?.stock === 0 || product?.status === "out_of_stock";
 
   const originalPrice = product?.originalPrice || null;
@@ -36,12 +45,17 @@ const WishlistCard = ({ product, selected, onSelect, onRemove, onAddToCart, onMo
 
   const formatDate = (timestamp) => {
     if (!timestamp) return null;
-    const diff = Date.now() - timestamp;
+
+    const addedTime = new Date(timestamp).getTime();
+    const diff = now - addedTime;
+
     const days = Math.floor(diff / 86400000);
-    if (days === 0) return "Added today";
+
+    if (days <= 0) return "Added today";
     if (days === 1) return "Added yesterday";
     if (days < 7) return `Added ${days} days ago`;
     if (days < 14) return "Added 1 week ago";
+
     return `Added ${Math.floor(days / 7)} weeks ago`;
   };
 
@@ -76,7 +90,7 @@ const WishlistCard = ({ product, selected, onSelect, onRemove, onAddToCart, onMo
       <Link to={`/products/${product?._id}`}>
         <div className="relative h-48 overflow-hidden bg-gray-100">
           <img
-            src={product?.image || NO_IMAGE}
+            src={product?.image}
             alt={product?.name || "Product"}
             className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
           />

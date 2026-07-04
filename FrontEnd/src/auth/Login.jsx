@@ -7,11 +7,26 @@ import FormInput from "../components/common/FormInput";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false);
+
+  const demoCredentials = {
+    admin: {
+      email: "admin@example.com",
+      password: "12345",
+    },
+    user: {
+      email: "user@example.com",
+      password: "12345",
+    },
+  };
+
+  const fillDemoCredentials = (role) => {
+    setFormData(demoCredentials[role]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,6 +89,53 @@ const Login = () => {
             Login
           </Button>
         </form>
+
+        {/* Demo Accounts */}
+        <div className="mt-6">
+          <h3 className="mb-3 text-sm font-semibold text-center text-gray-600">Demo Accounts</h3>
+
+          <div className="space-y-3">
+            {/* Admin */}
+            <div
+              onClick={() => fillDemoCredentials("admin")}
+              className="p-3 transition border border-blue-200 rounded-lg cursor-pointer bg-blue-50 hover:bg-blue-100"
+            >
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs font-semibold text-blue-700">👑 Admin</span>
+
+                <span className="text-[11px] text-blue-600">Click to Fill</span>
+              </div>
+
+              <p className="text-xs text-gray-700">
+                <strong>Email:</strong> {demoCredentials.admin.email}
+              </p>
+
+              <p className="text-xs text-gray-700">
+                <strong>Password:</strong> {demoCredentials.admin.password}
+              </p>
+            </div>
+
+            {/* User */}
+            <div
+              onClick={() => fillDemoCredentials("user")}
+              className="p-3 transition border border-green-200 rounded-lg cursor-pointer bg-green-50 hover:bg-green-100"
+            >
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs font-semibold text-green-700">👤 User</span>
+
+                <span className="text-[11px] text-green-600">Click to Fill</span>
+              </div>
+
+              <p className="text-xs text-gray-700">
+                <strong>Email:</strong> {demoCredentials.user.email}
+              </p>
+
+              <p className="text-xs text-gray-700">
+                <strong>Password:</strong> {demoCredentials.user.password}
+              </p>
+            </div>
+          </div>
+        </div>
 
         <p className="mt-4 text-sm text-center text-gray-600">
           Don't have an account?{" "}

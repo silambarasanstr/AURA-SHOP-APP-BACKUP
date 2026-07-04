@@ -9,23 +9,18 @@ const paymentOptions = [
   },
 ];
 
-const PaymentMethod = ({ baseTotal = 0, onPaymentChange }) => {
+const PaymentMethod = ({ onPaymentChange }) => {
   const [paymentMethod, setPaymentMethod] = useState("cod");
 
   useEffect(() => {
     onPaymentChange?.({
       method: paymentMethod,
-      codFee: COD_FEE,
+      codFee: paymentMethod === "cod" ? COD_FEE : 0,
     });
-  }, []);
+  }, [paymentMethod, onPaymentChange]);
 
   const handlePaymentMethod = (id) => {
     setPaymentMethod(id);
-
-    onPaymentChange?.({
-      method: id,
-      codFee: id === "cod" ? COD_FEE : 0,
-    });
   };
 
   return (

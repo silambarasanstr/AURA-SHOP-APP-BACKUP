@@ -2,7 +2,7 @@ import api from "./api"; // your axios instance
 
 export const getOrders = async (userId, role) => {
   const res = await api.get("/orders", {
-    params: { userId, role },   // ✅ sends ?userId=xxx&role=admin
+    params: { userId, role }, // ✅ sends ?userId=xxx&role=admin
   });
   return res.data;
 };

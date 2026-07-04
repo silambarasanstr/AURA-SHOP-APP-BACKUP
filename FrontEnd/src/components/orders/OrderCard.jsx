@@ -2,10 +2,10 @@ import React from "react";
 import { MapPin, ShoppingBag, ArrowRight } from "lucide-react";
 
 const STATUS_STYLES = {
-  Pending:   "bg-yellow-100 text-yellow-800",
+  Pending: "bg-yellow-100 text-yellow-800",
   Confirmed: "bg-blue-100 text-blue-800",
-  Processing:"bg-orange-100 text-orange-800",
-  Shipped:   "bg-purple-100 text-purple-800",
+  Processing: "bg-orange-100 text-orange-800",
+  Shipped: "bg-purple-100 text-purple-800",
   Delivered: "bg-green-100 text-green-800",
   Cancelled: "bg-red-100 text-red-800",
 };
@@ -16,7 +16,6 @@ const OrderCard = ({ order, onView, onDelete }) => {
 
   return (
     <div className="p-5 bg-white border border-gray-200 rounded-2xl">
-
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
@@ -25,13 +24,18 @@ const OrderCard = ({ order, onView, onDelete }) => {
             <p className="text-sm font-semibold text-gray-900">{order.orderNumber}</p>
             <p className="text-xs text-gray-400 mt-0.5">
               {new Date(order.createdAt).toLocaleDateString("en-IN", {
-                day: "numeric", month: "short", year: "numeric",
+                day: "numeric",
+                month: "short",
+                year: "numeric",
               })}
-              {" · "}{order.deliveryMethod.label}
+              {" · "}
+              {order.deliveryMethod.label}
             </p>
           </div>
         </div>
-        <span className={`text-xs font-medium px-3 py-1 rounded-full ${STATUS_STYLES[order.status] || "bg-gray-100 text-gray-600"}`}>
+        <span
+          className={`text-xs font-medium px-3 py-1 rounded-full ${STATUS_STYLES[order.status] || "bg-gray-100 text-gray-600"}`}
+        >
           {order.status}
         </span>
       </div>
@@ -62,7 +66,9 @@ const OrderCard = ({ order, onView, onDelete }) => {
       <div className="flex items-center justify-between mt-3">
         <div className="flex items-center gap-1.5 text-xs text-gray-400">
           <MapPin size={13} />
-          <span>{order.address.fullName}, {order.address.city}</span>
+          <span>
+            {order.address.fullName}, {order.address.city}
+          </span>
         </div>
         <div className="flex gap-2">
           {order.status === "Pending" && (
@@ -81,7 +87,6 @@ const OrderCard = ({ order, onView, onDelete }) => {
           </button>
         </div>
       </div>
-
     </div>
   );
 };

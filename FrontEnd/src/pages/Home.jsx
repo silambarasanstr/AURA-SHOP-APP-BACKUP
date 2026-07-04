@@ -47,23 +47,14 @@ const Home = () => {
     () => productData?.products?.filter((p) => p.isActive) ?? [],
     [productData]
   );
-  const activeCategories = useMemo(
-    () => categories?.filter((c) => c.isActive) ?? [],
-    [categories]
-  );
+  const activeCategories = useMemo(() => categories?.filter((c) => c.isActive) ?? [], [categories]);
   // ✅ useMemo add பண்ணோம் — direct compute இல்லை
   const featuredProducts = useMemo(
     () => activeProducts.filter((p) => p.featured),
     [activeProducts]
   );
-  const previewProducts = useMemo(
-    () => activeProducts.slice(0, 8),
-    [activeProducts]
-  );
-  const previewCategories = useMemo(
-    () => activeCategories.slice(0, 8),
-    [activeCategories]
-  );
+  const previewProducts = useMemo(() => activeProducts.slice(0, 8), [activeProducts]);
+  const previewCategories = useMemo(() => activeCategories.slice(0, 8), [activeCategories]);
   useEffect(() => {
     document.title = "Home | My Store";
   }, []);
@@ -77,8 +68,18 @@ const Home = () => {
       {!productsLoading && !categoriesLoading && (
         <div className="bg-white border-b border-gray-100">
           <div className="flex flex-wrap items-center gap-3 px-5 py-3 mx-auto max-w-7xl">
-            <StatsCard icon={ShoppingBag} count={activeProducts.length} label="Products" iconColor="text-emerald-600" />
-            <StatsCard icon={Tag} count={activeCategories.length} label="Categories" iconColor="text-blue-600" />
+            <StatsCard
+             
+              count={activeProducts.length}
+              label="Products"
+            
+            />
+            <StatsCard
+             
+              count={activeCategories.length}
+              label="Categories"
+             
+            />
           </div>
         </div>
       )}

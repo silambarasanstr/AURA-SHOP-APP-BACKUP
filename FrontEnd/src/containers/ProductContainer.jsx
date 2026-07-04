@@ -76,9 +76,15 @@ const ProductContainer = () => {
     [searchParam, category, pageParam, sortParam, setSearchParams]
   );
   const handleSearch = useCallback((v) => updateParams({ search: v, page: 1 }), [updateParams]);
-  const handleCategoryChange = useCallback((id) => updateParams({ category: id, page: 1 }), [updateParams]);
+  const handleCategoryChange = useCallback(
+    (id) => updateParams({ category: id, page: 1 }),
+    [updateParams]
+  );
   const handlePageChange = useCallback((pg) => updateParams({ page: pg }), [updateParams]);
-  const handleSortChange = useCallback((val) => updateParams({ sort: val, page: 1 }), [updateParams]);
+  const handleSortChange = useCallback(
+    (val) => updateParams({ sort: val, page: 1 }),
+    [updateParams]
+  );
   const clearFilters = useCallback(() => setSearchParams({}), [setSearchParams]);
   const hasActiveFilters = searchParam !== "" || category !== "";
   return (
@@ -89,7 +95,10 @@ const ProductContainer = () => {
             <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
               <h2 className="font-semibold text-gray-900">Categories</h2>
               {category && (
-                <button onClick={() => handleCategoryChange("")} className="text-xs text-blue-600 hover:underline">
+                <button
+                  onClick={() => handleCategoryChange("")}
+                  className="text-xs text-blue-600 hover:underline"
+                >
                   Clear
                 </button>
               )}
@@ -113,30 +122,46 @@ const ProductContainer = () => {
             <SelectField value={sortParam} onChange={handleSortChange} options={SORT_OPTIONS} />
           </div>
           <div className="mb-4">
-            <SearchInput value={searchParam} onChange={handleSearch} placeholder="Search products..." />
+            <SearchInput
+              value={searchParam}
+              onChange={handleSearch}
+              placeholder="Search products..."
+            />
           </div>
           {hasActiveFilters && (
             <div className="flex flex-wrap items-center gap-2 mb-4">
               {searchParam && (
                 <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium text-blue-700 rounded-full bg-blue-50">
                   Search: "{searchParam}"
-                  <button onClick={() => handleSearch("")} className="ml-1 hover:text-blue-900">✕</button>
+                  <button onClick={() => handleSearch("")} className="ml-1 hover:text-blue-900">
+                    ✕
+                  </button>
                 </span>
               )}
               {category && (
                 <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium text-blue-700 rounded-full bg-blue-50">
                   Category: {activeCategories.find((c) => c.slug === category)?.name || category}
-                  <button onClick={() => handleCategoryChange("")} className="ml-1 hover:text-blue-900">✕</button>
+                  <button
+                    onClick={() => handleCategoryChange("")}
+                    className="ml-1 hover:text-blue-900"
+                  >
+                    ✕
+                  </button>
                 </span>
               )}
-              <button onClick={clearFilters} className="text-xs text-gray-400 hover:text-gray-600 hover:underline">
+              <button
+                onClick={clearFilters}
+                className="text-xs text-gray-400 hover:text-gray-600 hover:underline"
+              >
                 Clear all
               </button>
             </div>
           )}
           {loading ? (
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-              {Array.from({ length: 8 }).map((_, i) => <ProductSkeleton key={i} />)}
+              {Array.from({ length: 8 }).map((_, i) => (
+                <ProductSkeleton key={i} />
+              ))}
             </div>
           ) : products.length === 0 ? (
             <div className="py-20 text-center">
@@ -144,7 +169,10 @@ const ProductContainer = () => {
               <h2 className="text-2xl font-semibold">No Products Found</h2>
               <p className="mt-2 text-gray-500">Try changing your search or category filter.</p>
               {hasActiveFilters && (
-                <button onClick={clearFilters} className="px-4 py-2 mt-4 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+                <button
+                  onClick={clearFilters}
+                  className="px-4 py-2 mt-4 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+                >
                   Clear filters
                 </button>
               )}
@@ -152,7 +180,9 @@ const ProductContainer = () => {
           ) : (
             <>
               <div className="mb-4 text-sm text-gray-500">
-                {totalCount > 0 ? `Showing ${products.length} of ${totalCount} products` : `${products.length} products found`}
+                {totalCount > 0
+                  ? `Showing ${products.length} of ${totalCount} products`
+                  : `${products.length} products found`}
               </div>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
                 {products.map((product) => (
@@ -160,7 +190,11 @@ const ProductContainer = () => {
                 ))}
               </div>
               {totalPages > 1 && (
-                <Pagination page={pageParam} totalPages={totalPages} onPageChange={handlePageChange} />
+                <Pagination
+                  page={pageParam}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
               )}
             </>
           )}

@@ -54,7 +54,9 @@ const ProductCard = ({ product, onAddToCart, showText }) => {
           </h3>
         </Link>
         <div className="flex items-baseline gap-2 mb-1">
-          <span className={`text-base font-bold ${isOutOfStock ? "text-gray-400" : "text-gray-900"}`}>
+          <span
+            className={`text-base font-bold ${isOutOfStock ? "text-gray-400" : "text-gray-900"}`}
+          >
             ₹{currentPrice.toLocaleString("en-IN")}
           </span>
           {originalPrice && (

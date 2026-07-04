@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const OrderSummary = ({ order }) => {
-    const item = order.items[0];
+  const item = order.items[0];
   return (
     <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl">
       <img
@@ -23,7 +23,7 @@ const OrderSummary = ({ order }) => {
         <p className="mt-0.5 text-xs text-green-600">−₹{order.discount} off</p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default OrderSummary
+export default OrderSummary;

@@ -9,14 +9,18 @@ import orderRoutes from "./routes/orderRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
-import path from "path";    
+import path from "path";
 
 dotenv.config();
 
 const app = express();
 
 // ✅ Middleware
-const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  process.env.CLIENT_URL,
+].filter(Boolean);
 
 app.use(
   cors({
@@ -48,8 +52,6 @@ app.use("/api/users", userRoutes);
 
 // admin
 app.use("/api/admin", adminRoutes);
-
-
 
 app.get("/api/auth/login", (req, res) => {
   res.send("Login API is working ✅");

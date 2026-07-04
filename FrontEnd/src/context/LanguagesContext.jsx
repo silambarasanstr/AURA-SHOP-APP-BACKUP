@@ -4,11 +4,9 @@ import { createContext, useContext, useState } from "react";
 // 1. create context
 export const LanguagesContext = createContext(null);
 
-
 // 2. provider
 export const LanguagesProvider = ({ children }) => {
- 
-    const [languages, setLanguages] = useState([
+  const [languages, setLanguages] = useState([
     { id: 1, name: "English" },
     { id: 2, name: "Spanish" },
     { id: 3, name: "French" },

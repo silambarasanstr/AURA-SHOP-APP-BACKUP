@@ -14,15 +14,21 @@ const OrdersContainer = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Read user from localStorage
   const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user?._id;
+  const role = user?.role;
 
   useEffect(() => {
-    getOrders(user?._id, user?.role)  // ✅ passes userId + role
+    if (!userId) {
+      setLoading(false);
+      return;
+    }
+
+    getOrders(userId, role)
       .then((data) => setOrders(data))
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
-  }, []);
+  }, [userId, role]);
 
   const handleDelete = async (id) => {
     if (!window.confirm("Cancel this order?")) return;
@@ -31,7 +37,7 @@ const OrdersContainer = () => {
       setOrders((prev) => prev.filter((o) => o._id !== id));
       toast.success("Order cancelled");
     } catch (err) {
-      toast.error("Failed to cancel order");
+      toast.error(err?.message || "Failed to cancel order");
     }
   };
 
@@ -59,12 +65,7 @@ const OrdersContainer = () => {
         <h1 className="mb-6 text-2xl font-bold text-gray-800">My Orders</h1>
         <div className="space-y-4">
           {orders.map((order) => (
-            <OrderCard
-              key={order._id}
-              order={order}
-              onView={handleView}
-              onDelete={handleDelete}
-            />
+            <OrderCard key={order._id} order={order} onView={handleView} onDelete={handleDelete} />
           ))}
         </div>
       </div>

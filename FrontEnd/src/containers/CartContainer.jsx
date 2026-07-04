@@ -14,9 +14,9 @@ const CartContainer = () => {
   const items = cartItems?.items || [];
   const subtotal = cartItems?.totalPrice || 0;
   const discount = cartItems?.discount || 0;
-  
+
   const totalItems = cartItems?.items?.reduce((acc, item) => acc + item.quantity, 0);
-  
+
   const grandTotal = (cartItems.totalPrice - cartItems.discount).toFixed(2);
 
   // Loading

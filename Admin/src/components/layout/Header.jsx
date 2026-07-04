@@ -42,17 +42,7 @@ const Header = () => {
           Product Management<span className="text-blue-600"> Dashboard</span>
         </h2>
 
-        {/* Search */}
-        <div className="items-center hidden w-64 px-3 py-2 bg-gray-100 rounded-lg md:flex">
-          <Search size={18} className="text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search products..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full px-2 text-sm bg-transparent outline-none"
-          />
-        </div>
+        
 
         {/* Icons */}
         <div className="flex items-center gap-4">

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const OrderSkeleton = () => {
   return (
@@ -18,7 +18,7 @@ const OrderSkeleton = () => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default OrderSkeleton
+export default OrderSkeleton;

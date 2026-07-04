@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser, getCurrentUser, getToken, registerUser } from "../services/authService";
+import { registerUser } from "../services/authService";
 import toast from "react-hot-toast";
 import Button from "../components/common/Button";
 import FormInput from "../components/common/FormInput";

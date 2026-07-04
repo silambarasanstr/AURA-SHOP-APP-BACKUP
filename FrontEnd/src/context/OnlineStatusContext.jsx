@@ -6,13 +6,11 @@ export const OnlineStatusContext = createContext(null);
 
 // 2. provider
 export const OnlineStatusProvider = ({ children }) => {
-  
   const [isOnline, setIsOnline] = useState(false); // ✅ boolean
 
   const toggleStatus = () => {
     setIsOnline((prev) => !prev);
   };
-
 
   return (
     <OnlineStatusContext.Provider value={{ isOnline, toggleStatus }}>

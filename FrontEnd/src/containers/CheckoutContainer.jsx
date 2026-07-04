@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import axios from "axios";
 import { useCart } from "../context/CartContext";
 import { useNavigate, Link } from "react-router-dom";
@@ -21,21 +21,21 @@ const CheckoutContainer = () => {
   const [phone, setPhone] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
   const [pincode, setPincode] = useState("");
+
   const [deliveryMethod, setDeliveryMethod] = useState({
     id: "standard",
     label: "Standard delivery",
     cost: 49,
   });
+
   const [paymentInfo, setPaymentInfo] = useState({
     method: "cod",
     codFee: 30,
   });
 
-  const items = cartItems?.items || [];
   const subtotal = cartItems?.totalPrice || 0;
   const discount = cartItems?.discount || 0;
   const totalItems = cartItems?.items?.reduce((acc, item) => acc + item.quantity, 0);
-  //const grandTotal = (subtotal - discount + (deliveryMethod?.cost ?? 49)).toFixed(2);
 
   // Should be
   const grandTotal = (
@@ -103,6 +103,14 @@ const CheckoutContainer = () => {
     }
   };
 
+  const handleDeliveryChange = useCallback((data) => {
+    setDeliveryMethod(data);
+  }, []);
+
+  const handlePaymentChange = useCallback((data) => {
+    setPaymentInfo(data);
+  }, []);
+
   // Empty
   if (!cartItems.items.length || cartItems.items.length === 0) {
     return (
@@ -115,10 +123,6 @@ const CheckoutContainer = () => {
       />
     );
   }
-
-  const handlePaymentChange = ({ method, codFee }) => {
-    setPaymentInfo({ method, codFee });
-  };
 
   return (
     <div className="min-h-screen px-3 py-4 bg-gray-100">
@@ -193,8 +197,8 @@ const CheckoutContainer = () => {
                 </div>
 
                 <div className="mt-5">
-                  <DeliveryMethod onDeliveryChange={setDeliveryMethod} />
-                  <PaymentMethod baseTotal={subtotal} onPaymentChange={handlePaymentChange} />
+                  <DeliveryMethod onDeliveryChange={handleDeliveryChange} />
+                  <PaymentMethod onPaymentChange={handlePaymentChange} />
                 </div>
               </div>
             </div>

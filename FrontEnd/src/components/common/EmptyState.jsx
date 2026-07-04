@@ -1,23 +1,13 @@
 import { Link } from "react-router-dom";
 
-const EmptyState = ({
-  icon,
-  title,
-  description,
-  buttonText,
-  buttonLink = "/",
-}) => {
+const EmptyState = ({ icon, title, description, buttonText, buttonLink = "/" }) => {
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] gap-2 px-4 text-center">
       {icon && <div className="text-gray-400">{icon}</div>}
 
-      <h2 className="text-xl font-semibold text-gray-800">
-        {title}
-      </h2>
+      <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
 
-      <p className="text-sm text-gray-500">
-        {description}
-      </p>
+      <p className="text-sm text-gray-500">{description}</p>
 
       {buttonText && (
         <Link

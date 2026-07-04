@@ -23,7 +23,7 @@ const FormInput = ({
           required={required}
           disabled={disabled}
           rows={4}
-          className={`w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
+          className={`w-full px-4 py-2.5 text-sm border border-gray-300 rounded outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
         />
       ) : (
         <input
@@ -34,7 +34,7 @@ const FormInput = ({
           placeholder={placeholder}
           required={required}
           disabled={disabled}
-          className={`w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
+          className={`w-full px-4 py-2.5 text-sm border border-gray-300 rounded outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
         />
       )}
     </div>

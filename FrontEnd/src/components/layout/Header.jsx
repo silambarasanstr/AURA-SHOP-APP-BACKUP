@@ -15,9 +15,7 @@ const Header = memo(() => {
   const cartCount = cartItems?.items?.length || 0;
   // ✅ Specific selector — count மட்டும், array இல்லை
   const itemCount = useSelector((state) => state.wishlist?.length || 0);
-  const [user, setUser] = useState(() =>
-    JSON.parse(localStorage.getItem("user") || "null")
-  );
+  const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user") || "null"));
   useEffect(() => {
     const handleUserUpdate = () => {
       setUser(JSON.parse(localStorage.getItem("user") || "null"));
@@ -39,7 +37,10 @@ const Header = memo(() => {
         </NavLink>
         <NavBar />
         <div className="flex items-center gap-1">
-          <Link to="/wishlist" className="relative flex items-center justify-center w-10 h-10 text-gray-500 transition-colors rounded-lg hover:text-gray-900 hover:bg-gray-100">
+          <Link
+            to="/wishlist"
+            className="relative flex items-center justify-center w-10 h-10 text-gray-500 transition-colors rounded-lg hover:text-gray-900 hover:bg-gray-100"
+          >
             <Heart size={20} />
             {itemCount > 0 && (
               <span className="absolute top-1 right-1 min-w-[16px] h-4 px-0.5 flex items-center justify-center text-[10px] font-bold text-white bg-amber-500 rounded-full">
@@ -47,7 +48,10 @@ const Header = memo(() => {
               </span>
             )}
           </Link>
-          <Link to="/cart" className="relative flex items-center justify-center w-10 h-10 text-gray-500 transition-colors rounded-lg hover:text-gray-900 hover:bg-gray-100">
+          <Link
+            to="/cart"
+            className="relative flex items-center justify-center w-10 h-10 text-gray-500 transition-colors rounded-lg hover:text-gray-900 hover:bg-gray-100"
+          >
             <ShoppingCart size={20} />
             {cartCount > 0 && (
               <span className="absolute top-1 right-1 min-w-[16px] h-4 px-0.5 flex items-center justify-center text-[10px] font-bold text-white bg-amber-500 rounded-full">
@@ -65,12 +69,18 @@ const Header = memo(() => {
                 >
                   <User size={16} />
                   <span>{user.name}</span>
-                  <ChevronDown size={14} className={`transition-transform duration-200 ${showMenu ? "rotate-180" : ""}`} />
+                  <ChevronDown
+                    size={14}
+                    className={`transition-transform duration-200 ${showMenu ? "rotate-180" : ""}`}
+                  />
                 </button>
                 {showMenu && <UserMenu handleLogout={handleLogout} />}
               </>
             ) : (
-              <Link to="/login" className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 transition-all border border-gray-200 rounded-lg hover:text-gray-900 hover:bg-gray-100 hover:border-gray-300">
+              <Link
+                to="/login"
+                className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 transition-all border border-gray-200 rounded-lg hover:text-gray-900 hover:bg-gray-100 hover:border-gray-300"
+              >
                 <User size={16} />
                 <span>Login</span>
               </Link>

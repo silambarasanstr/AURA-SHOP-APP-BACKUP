@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 export function useRenderTime(componentName: string) {
   const startTime = useRef(performance.now());
   useEffect(() => {

@@ -1,11 +1,5 @@
 import { Link } from "react-router-dom";
-import {
-  User,
-  Package,
-  Heart,
-  LogOut,
-  ShoppingCart,
-} from "lucide-react";
+import { User, Package, Heart, LogOut, ShoppingCart } from "lucide-react";
 
 const menuItems = [
   {
@@ -37,17 +31,14 @@ const UserMenu = ({ handleLogout }) => {
       <div className="flex items-center justify-between p-4 border-b">
         <span className="text-gray-600">Hello,</span>
 
-        <Link
-          to="/profile"
-          className="font-semibold text-blue-600 hover:underline"
-        >
+        <Link to="/profile" className="font-semibold text-blue-600 hover:underline">
           My Profile
         </Link>
       </div>
 
       {/* Menu Items */}
       <div className="py-2">
-        {menuItems.map(({ label, icon: Icon, path }) => (
+        {menuItems.map(({ label, path }) => (
           <Link
             key={label}
             to={path}

@@ -1,9 +1,4 @@
-const SearchInput = ({
-  value,
-  onChange,
-  placeholder = "Search...",
-  className = "",
-}) => {
+const SearchInput = ({ value, onChange, placeholder = "Search...", className = "" }) => {
   return (
     <input
       type="text"

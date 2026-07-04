@@ -5,9 +5,7 @@ const ViewToggle = ({ viewMode, onChange }) => {
     <div className="flex overflow-hidden border border-gray-200 rounded-lg">
       <button
         onClick={() => onChange("grid")}
-        className={`p-2 ${
-          viewMode === "grid" ? "bg-gray-100" : "bg-white"
-        }`}
+        className={`p-2 ${viewMode === "grid" ? "bg-gray-100" : "bg-white"}`}
         aria-label="Grid view"
       >
         <Grid2X2 size={20} className="text-gray-500" />
@@ -15,9 +13,7 @@ const ViewToggle = ({ viewMode, onChange }) => {
 
       <button
         onClick={() => onChange("list")}
-        className={`p-2 ${
-          viewMode === "list" ? "bg-gray-100" : "bg-white"
-        }`}
+        className={`p-2 ${viewMode === "list" ? "bg-gray-100" : "bg-white"}`}
         aria-label="List view"
       >
         <List size={20} className="text-gray-500" />

@@ -1,24 +1,26 @@
 import { useState, useEffect } from "react";
 
 const deliveryOptions = [
-  { id: "express",  label: "Express delivery",  sub: "Delivered in 1–2 days",      cost: 99 },
-  { id: "standard", label: "Standard delivery", sub: "Delivered in 3–5 days",      cost: 49 },
-  { id: "pickup",   label: "Store pickup",       sub: "Ready in 2 hrs · Chennai",  cost: 0  },
+  { id: "express", label: "Express delivery", sub: "Delivered in 1–2 days", cost: 99 },
+  { id: "standard", label: "Standard delivery", sub: "Delivered in 3–5 days", cost: 49 },
+  { id: "pickup", label: "Store pickup", sub: "Ready in 2 hrs · Chennai", cost: 0 },
 ];
 
 const DeliveryMethod = ({ onDeliveryChange }) => {
   const [deliveryMethod, setDeliveryMethod] = useState("standard");
 
-  // Fire initial value to parent on mount
   useEffect(() => {
-    const initial = deliveryOptions.find((o) => o.id === "standard");
-    onDeliveryChange?.({ id: initial.id, label: initial.label, cost: initial.cost });
-  }, []);
+    const selected = deliveryOptions.find((o) => o.id === deliveryMethod);
+
+    onDeliveryChange?.({
+      id: selected.id,
+      label: selected.label,
+      cost: selected.cost,
+    });
+  }, [deliveryMethod, onDeliveryChange]);
 
   const handleSelect = (id) => {
     setDeliveryMethod(id);
-    const selected = deliveryOptions.find((o) => o.id === id);
-    onDeliveryChange?.({ id: selected.id, label: selected.label, cost: selected.cost });
   };
 
   return (
@@ -40,14 +42,10 @@ const DeliveryMethod = ({ onDeliveryChange }) => {
           {/* Radio */}
           <div
             className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
-              deliveryMethod === option.id
-                ? "border-green-600 bg-green-600"
-                : "border-gray-300"
+              deliveryMethod === option.id ? "border-green-600 bg-green-600" : "border-gray-300"
             }`}
           >
-            {deliveryMethod === option.id && (
-              <div className="w-1.5 h-1.5 rounded-full bg-white" />
-            )}
+            {deliveryMethod === option.id && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
           </div>
 
           {/* Label */}

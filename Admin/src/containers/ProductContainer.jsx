@@ -4,6 +4,8 @@ import { Search, Download, Plus, ChevronDown } from "lucide-react";
 import { fetchCategories } from "../services/categoryService";
 import { fetchProducts, deleteProduct } from "../services/productService";
 import { useNavigate } from "react-router-dom";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 const ProductContainer = () => {
   const navigate = useNavigate();
@@ -13,6 +15,7 @@ const ProductContainer = () => {
   const [totalItems, setTotalItems] = useState(0);
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   const limit = 3;
 
@@ -21,6 +24,7 @@ const ProductContainer = () => {
       try {
         const data = await fetchProducts({
           search: searchTerm,
+          category: selectedCategory === "all" ? "" : selectedCategory,
           page: currentPage,
           limit,
         });
@@ -34,7 +38,7 @@ const ProductContainer = () => {
     };
 
     loadProducts();
-  }, [searchTerm, currentPage]);
+  }, [searchTerm,selectedCategory, currentPage]);
 
   // 🔹 Load Categories
   useEffect(() => {
@@ -69,6 +73,46 @@ const ProductContainer = () => {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleExport = () => {
+    if (products.length === 0) {
+      alert("No products found");
+      return;
+    }
+
+    const exportData = products.map((product) => ({
+      Name: product.name,
+      Price: product.price,
+      Category: product.category?.name || "",
+      Brand: product.brand || "",
+      Stock: product.stock,
+      Discount: product.discount || 0,
+      Status: product.status,
+      Featured: product.featured ? "Yes" : "No",
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+
+    const workbook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Products");
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+
+    const file = new Blob([excelBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+
+    saveAs(file, "Products.xlsx");
+  };
+
+  const filterCategory = (e) => {
+    setSelectedCategory(e.target.value);
+    setCurrentPage(1);
   };
 
   //const startItem = (currentPage - 1) * limit + 1;
@@ -106,8 +150,13 @@ const ProductContainer = () => {
 
           {/* Filters and Actions */}
           <div className="flex gap-3">
-            <select className="px-4 py-2.5 border border-gray-300 rounded-lg">
+            <select
+              value={selectedCategory}
+              onChange={filterCategory}
+              className="px-4 py-2.5 border border-gray-300 rounded-lg"
+            >
               <option value="all">Category</option>
+
               {categories.map((cat) => (
                 <option key={cat._id} value={cat._id}>
                   {cat.name}
@@ -117,7 +166,10 @@ const ProductContainer = () => {
           </div>
 
           {/* Export Button */}
-          <button className="flex items-center gap-2 px-4 py-2.5 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all">
+          <button
+            onClick={handleExport}
+            className="flex items-center gap-2 px-4 py-2.5 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all"
+          >
             <Download size={18} />
             <span className="hidden sm:inline">Export</span>
           </button>
@@ -139,7 +191,10 @@ const ProductContainer = () => {
           <thead className="border-b border-gray-200 bg-gray-50">
             <tr>
               <th className="w-10 px-4 py-3">
-                <input type="checkbox" className="w-4 h-4 border-gray-300 rounded cursor-pointer accent-blue-600" />
+                <input
+                  type="checkbox"
+                  className="w-4 h-4 border-gray-300 rounded cursor-pointer accent-blue-600"
+                />
               </th>
               <th className="px-4 py-3 text-left">
                 <button className="flex items-center gap-1 text-xs font-medium tracking-wider text-gray-500 uppercase hover:text-gray-800">
@@ -200,7 +255,10 @@ const ProductContainer = () => {
           <tbody className="bg-white divide-y divide-gray-200">
             {products.length === 0 ? (
               <tr>
-                <td colSpan={12} className="px-6 py-10 text-sm text-center text-gray-500">
+                <td
+                  colSpan={12}
+                  className="px-6 py-10 text-sm text-center text-gray-500"
+                >
                   No products found
                 </td>
               </tr>
@@ -208,21 +266,34 @@ const ProductContainer = () => {
               products.map((product) => {
                 const finalPrice =
                   product.finalPrice ??
-                  product.price - (product.price * (product.discount || 0)) / 100;
+                  product.price -
+                    (product.price * (product.discount || 0)) / 100;
 
                 return (
-                  <tr key={product._id} className="transition-colors hover:bg-gray-50">
+                  <tr
+                    key={product._id}
+                    className="transition-colors hover:bg-gray-50"
+                  >
                     <td className="px-4 py-3">
-                      <input type="checkbox" className="w-4 h-4 border-gray-300 rounded cursor-pointer accent-blue-600" />
+                      <input
+                        type="checkbox"
+                        className="w-4 h-4 border-gray-300 rounded cursor-pointer accent-blue-600"
+                      />
                     </td>
 
                     <td className="px-4 py-3">
                       <div className="flex items-center min-w-0 gap-3">
                         <img
                           className="flex-shrink-0 object-cover bg-gray-100 rounded w-9 h-9"
-                          src={product.image || "https://placehold.co/36x36/e2e8f0/94a3b8?text=?"}
+                          src={
+                            product.image ||
+                            "https://placehold.co/36x36/e2e8f0/94a3b8?text=?"
+                          }
                           alt={product.name}
-                          onError={(e) => { e.currentTarget.src = "https://placehold.co/36x36/e2e8f0/94a3b8?text=?"; }}
+                          onError={(e) => {
+                            e.currentTarget.src =
+                              "https://placehold.co/36x36/e2e8f0/94a3b8?text=?";
+                          }}
                         />
                         <span className="text-sm font-medium text-gray-900 truncate max-w-[160px]">
                           {product.name}
@@ -245,11 +316,15 @@ const ProductContainer = () => {
                     </td>
 
                     <td className="px-4 py-3 whitespace-nowrap">
-                      <span className={`text-sm font-medium ${
-                        product.stock > 10 ? "text-green-600"
-                        : product.stock > 0 ? "text-yellow-600"
-                        : "text-red-600"
-                      }`}>
+                      <span
+                        className={`text-sm font-medium ${
+                          product.stock > 10
+                            ? "text-green-600"
+                            : product.stock > 0
+                              ? "text-yellow-600"
+                              : "text-red-600"
+                        }`}
+                      >
                         {product.stock || 0}
                       </span>
                     </td>
@@ -272,11 +347,13 @@ const ProductContainer = () => {
                     </td>
 
                     <td className="hidden px-4 py-3 whitespace-nowrap md:table-cell">
-                      <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                        product.status === "active"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-gray-100 text-gray-800"
-                      }`}>
+                      <span
+                        className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                          product.status === "active"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-gray-100 text-gray-800"
+                        }`}
+                      >
                         {product.status || "draft"}
                       </span>
                     </td>
@@ -293,16 +370,23 @@ const ProductContainer = () => {
 
                     <td className="hidden px-4 py-3 text-sm text-gray-500 whitespace-nowrap md:table-cell">
                       {product.createdAt
-                        ? new Date(product.createdAt).toLocaleDateString("en-IN", {
-                            day: "2-digit", month: "short", year: "numeric",
-                          })
+                        ? new Date(product.createdAt).toLocaleDateString(
+                            "en-IN",
+                            {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                            },
+                          )
                         : "-"}
                     </td>
 
                     <td className="px-4 py-3 whitespace-nowrap">
                       <div className="flex items-center gap-2">
                         <button
-                          onClick={() => navigate(`/edit-product/${product._id}`)}
+                          onClick={() =>
+                            navigate(`/edit-product/${product._id}`)
+                          }
                           className="px-2 py-1 text-sm font-medium text-indigo-600 rounded hover:text-indigo-900 hover:bg-indigo-50"
                         >
                           Edit
@@ -322,7 +406,6 @@ const ProductContainer = () => {
           </tbody>
         </table>
       </div>
-
 
       <div className="flex items-center justify-between mt-6">
         <div>
