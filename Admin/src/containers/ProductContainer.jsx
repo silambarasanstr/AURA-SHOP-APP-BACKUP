@@ -38,7 +38,7 @@ const ProductContainer = () => {
     };
 
     loadProducts();
-  }, [searchTerm,selectedCategory, currentPage]);
+  }, [searchTerm, selectedCategory, currentPage]);
 
   // 🔹 Load Categories
   useEffect(() => {
@@ -376,7 +376,7 @@ const ProductContainer = () => {
                               day: "2-digit",
                               month: "short",
                               year: "numeric",
-                            },
+                            }
                           )
                         : "-"}
                     </td>

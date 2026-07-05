@@ -35,8 +35,6 @@ const AddProductFormContainer = () => {
     status: "active",
   });
 
-  const [activeSection, setActiveSection] = useState("pricing");
-
   // input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -133,7 +131,7 @@ const AddProductFormContainer = () => {
         alert(
           isEditMode
             ? "Product Updated Successfully ✅"
-            : "Product Created Successfully ✅",
+            : "Product Created Successfully ✅"
         );
 
         if (!isEditMode) {

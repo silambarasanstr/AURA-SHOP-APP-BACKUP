@@ -35,30 +35,30 @@ const OrderDetails = () => {
   };
 
   useEffect(() => {
+    const fetchOrderDetails = async () => {
+      try {
+        setLoading(true);
+
+        const data = await getOrders();
+        const ordersArray = Array.isArray(data) ? data : data.orders || [];
+
+        const foundOrder = ordersArray.find((o) => o._id === id || o.id === id);
+
+        if (foundOrder) {
+          setOrder(foundOrder);
+          setNewStatus(foundOrder.status);
+        } else {
+          setError("Order not found");
+        }
+      } catch (err) {
+        setError(err.message || "Failed to load order details");
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchOrderDetails();
   }, [id]);
-
-  const fetchOrderDetails = async () => {
-    try {
-      setLoading(true);
-      const data = await getOrders();
-      const ordersArray = Array.isArray(data) ? data : data.orders || [];
-      const foundOrder = ordersArray.find((o) => o._id === id || o.id === id);
-
-      if (foundOrder) {
-        setOrder(foundOrder);
-        setNewStatus(foundOrder.status);
-        setError(null);
-      } else {
-        setError("Order not found");
-      }
-    } catch (err) {
-      setError("Failed to load order details");
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleStatusUpdate = async () => {
     try {
@@ -340,8 +340,6 @@ const OrderDetails = () => {
             </span>
           </div>
         </div>
-
-       
       </div>
     </div>
   );

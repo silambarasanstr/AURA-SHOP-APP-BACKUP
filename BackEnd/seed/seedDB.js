@@ -1,4 +1,4 @@
-import dns from "dns";
+
 import dotenv from "dotenv";
 import connectDB from "../config/db.js";
 import slugify from "slugify";
@@ -7,8 +7,7 @@ import Product from "../models/Product.js";
 import categories from "./categories.json" with { type: "json" };
 import products from "./products.json" with { type: "json" };
 
-// 🌐 Force Node.js to use Google DNS (fixes querySrv ECONNREFUSED on Windows)
-dns.setServers(['8.8.8.8', '8.8.4.4']);
+
 
 dotenv.config();
 console.log(process.env.MONGO_URI,"====>simbu");

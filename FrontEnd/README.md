@@ -1,208 +1,235 @@
-# AURA Shop - Frontend
+# 🛍️ Aura Shop App
 
-A modern e-commerce frontend built with React 19, Vite, Redux Toolkit, and Tailwind CSS.
+A modern and responsive E-commerce web application built with the MERN Stack. It provides a seamless shopping experience with secure authentication, product browsing, cart management, and responsive design.
 
-## Quick Start
+---
 
-### Prerequisites
+## 🚀 Live Demo
 
-- Node.js 16+
-- npm or yarn
+Frontend: https://your-frontend-url.vercel.app
 
-### Installation
+Backend API: https://your-backend-url.onrender.com
 
-1. Clone or navigate to the project directory
-2. Install dependencies:
+---
+
+## 📸 Screenshots
+
+> Add screenshots inside a `screenshots` folder.
+
+| Home | Product Details |
+|------|-----------------|
+| ![](screenshots/home.png) | ![](screenshots/product-details.png) |
+
+| Cart | Login |
+|------|-------|
+| ![](screenshots/cart.png) | ![](screenshots/login.png) |
+
+---
+
+# ✨ Features
+
+- User Registration
+- User Login
+- JWT Authentication
+- Protected Routes
+- Product Listing
+- Product Details
+- Search Products
+- Shopping Cart
+- Add to Cart
+- Remove from Cart
+- Update Quantity
+- Responsive UI
+- Toast Notifications
+- Loading Spinner
+- Environment Variables
+
+---
+
+# 🛠 Tech Stack
+
+## Frontend
+
+- React.js
+- Vite
+- React Router DOM
+- Redux Toolkit
+- Tailwind CSS
+- Axios
+- Lucide React
+
+## Backend
+
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT
+- bcrypt
+
+---
+
+# 📂 Folder Structure
+
+```
+AURA-SHOP-APP
+│
+├── FrontEnd
+│   ├── src
+│   ├── public
+│   ├── package.json
+│   └── vite.config.js
+│
+├── BackEnd
+│   ├── controllers
+│   ├── middleware
+│   ├── models
+│   ├── routes
+│   ├── utils
+│   ├── config
+│   ├── server.js
+│   └── package.json
+│
+└── README.md
+```
+
+---
+
+# ⚙️ Installation
+
+## Clone Repository
 
 ```bash
-npm install
-# or
-yarn install
+git clone https://github.com/your-username/AURA-SHOP-APP.git
 ```
 
-3. Create `.env` file from `.env.example`:
+---
+
+## Install Frontend
 
 ```bash
-cp .env.example .env
+cd FrontEnd
+
+yarn
 ```
 
-4. Update `.env` with your backend API URL if needed
+---
 
-### Development
-
-Start the development server:
+## Install Backend
 
 ```bash
-npm run dev
+cd BackEnd
+
+yarn
 ```
 
-For mock API development (optional):
+---
 
-```bash
-npm install -g json-server
-json-server --watch src/data/db.json
-```
+# 🌍 Environment Variables
 
-The app will be available at `http://localhost:5173` (or your configured port)
+## Frontend
 
-## Available Commands
+### .env.development
 
-| Command           | Description                       |
-| ----------------- | --------------------------------- |
-| `npm run dev`     | Start development server with HMR |
-| `npm run build`   | Build for production              |
-| `npm run preview` | Preview production build locally  |
-| `npm run lint`    | Run ESLint to check code quality  |
-
-## Project Structure
-
-```
-src/
-├── app/                    # Redux store configuration
-│   ├── store.js           # Redux store setup
-│   ├── rootReducer.js     # Combined reducers
-│   └── AppProviders.jsx   # App context/redux providers
-├── components/            # Reusable UI components
-│   ├── common/           # Shared components (Button, Banner, etc.)
-│   └── layout/           # Layout components (Header, Footer, etc.)
-├── containers/           # Container/smart components
-├── pages/                # Page components
-├── routes/               # Route configuration
-├── services/             # API service modules
-├── features/             # Redux slices (auth, cart, etc.)
-├── hooks/                # Custom React hooks
-├── context/              # React Context providers
-├── data/                 # Mock data files
-└── assets/               # Static assets
-```
-
-## Features
-
-✨ **Shopping Cart** - Add/remove items, manage quantities  
-✨ **Product Catalog** - Browse and filter products  
-✨ **User Authentication** - Login/logout functionality  
-✨ **Checkout** - Complete purchase flow  
-✨ **Order History** - View past orders  
-✨ **Newsletter** - Email subscription  
-✨ **Multi-language** - i18n support  
-✨ **Dark/Light Theme** - Theme switching  
-✨ **Offline Support** - Online status detection
-
-## Technology Stack
-
-- **React 19.2** - UI library
-- **Vite 7.3** - Lightning-fast build tool
-- **Redux Toolkit 2.11** - State management
-- **React Router 7.13** - Client-side routing
-- **Tailwind CSS 3.4** - Utility-first CSS
-- **Axios 1.13** - HTTP client
-- **ESLint 9.39** - Code linting
-- **PostCSS** - CSS processing
-
-## Configuration Files
-
-- **vite.config.js** - Vite configuration
-- **tailwind.config.js** - Tailwind CSS theme
-- **postcss.config.js** - PostCSS plugins
-- **eslint.config.js** - ESLint rules
-- **.prettierrc** - Code formatting rules
-- **.gitignore** - Git ignored files
-
-## Environment Variables
-
-Create a `.env` file (see `.env.example`):
-
-```
+```env
 VITE_API_URL=http://localhost:5000/api
-VITE_BACKEND_URL=http://localhost:5000
-VITE_ENV=development
 ```
 
-## Code Quality
+### .env.production
 
-- **ESLint** - Enforces coding standards and React best practices
-- **Prettier** - Automatic code formatting (100 char line width)
-- **React Hooks Linting** - Detects missing dependencies
-- **React Refresh** - Fast HMR without full page reload
+```env
+VITE_API_URL=https://your-backend-url.onrender.com/api
+```
 
-## Performance
+---
 
-- **Code Splitting** - Automatic via Vite and React Router
-- **Lazy Loading** - Route-based code splitting
-- **Tree Shaking** - Unused code elimination
-- **Fast Refresh** - Instant UI updates during development
+## Backend
 
-## Styling
+```env
+PORT=5000
 
-Uses Tailwind CSS with custom configuration:
+MONGO_URI=your_mongodb_uri
 
-- Responsive design utilities
-- Dark mode support (via ThemeContext)
-- Custom color schemes
-- Pre-configured spacing and typography
+JWT_SECRET=your_secret_key
+```
 
-## Authentication Flow
+---
 
-1. User logs in via auth service
-2. Credentials validated by backend
-3. Auth token stored in Redux state
-4. Protected routes check auth state
-5. Unauthenticated users redirected to login
+# ▶️ Run Project
 
-## API Integration
-
-API calls are centralized in `src/services/`:
-
-- `api.js` - Axios instance with base config
-- `authAPI.js` - Authentication endpoints
-- `productService.js` - Product endpoints
-- `categoryService.js` - Category endpoints
-- `orderService.js` - Order endpoints
-
-All services use the configured API base URL from environment variables.
-
-## Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-
-## Troubleshooting
-
-**Port already in use:**
+Backend
 
 ```bash
-npm run dev -- --port 3000
+yarn dev
 ```
 
-**Clear cache and reinstall:**
+Frontend
 
 ```bash
-rm -rf node_modules package-lock.json
-npm install
+yarn dev
 ```
 
-**HMR not working:**
-Add to `.env`:
+---
+
+# 📦 Production Build
+
+```bash
+yarn build
+```
+
+Preview
+
+```bash
+yarn preview
+```
+
+---
+
+# 📡 REST APIs
+
+## Authentication
 
 ```
-VITE_HMR_HOST=localhost
-VITE_HMR_PORT=5173
+POST /api/auth/register
+POST /api/auth/login
 ```
 
-## Contributing
+## Products
 
-1. Create a feature branch
-2. Make your changes
-3. Run `npm run lint` to check code quality
-4. Commit with clear messages
-5. Push and create a pull request
+```
+GET /api/products
+GET /api/products/:id
+POST /api/products
+PUT /api/products/:id
+DELETE /api/products/:id
+```
 
-## Support
+## Cart
 
-For issues or questions, check:
+```
+GET /api/cart
+POST /api/cart
+DELETE /api/cart/:id
+```
 
-- Backend documentation in `../BackEnd`
-- Redux DevTools (install browser extension)
-- Network tab in browser DevTools for API debugging
+---
+
+# 🚀 Deployment
+
+| Service | Platform |
+|---------|----------|
+| Frontend | Vercel |
+| Backend | Render |
+| Database | MongoDB Atlas |
+
+---
+
+# 👨‍💻 Author
+
+**Silambarasan**
+
+Frontend Developer
+
+---
+
+⭐ If you like this project, don't forget to give it a star!

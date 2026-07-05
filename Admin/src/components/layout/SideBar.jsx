@@ -139,9 +139,7 @@ const SideBar = ({ collapsed, setCollapsed }) => {
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-100">
         {!collapsed && (
-          <h2 className="text-sm font-semibold text-gray-900">
-            AURA-SHOP-APP
-          </h2>
+          <h2 className="text-sm font-semibold text-gray-900">AURA-SHOP-APP</h2>
         )}
 
         <button
@@ -150,9 +148,7 @@ const SideBar = ({ collapsed, setCollapsed }) => {
         >
           <ChevronsLeft
             size={18}
-            className={`transition-transform ${
-              collapsed ? "rotate-180" : ""
-            }`}
+            className={`transition-transform ${collapsed ? "rotate-180" : ""}`}
           />
         </button>
       </div>
@@ -166,9 +162,7 @@ const SideBar = ({ collapsed, setCollapsed }) => {
             className="flex items-center gap-3 px-3 py-2.5 text-sm text-blue-600 rounded-lg hover:bg-blue-50"
           >
             <item.icon size={20} />
-            {!collapsed && (
-              <span className="font-medium">{item.label}</span>
-            )}
+            {!collapsed && <span className="font-medium">{item.label}</span>}
           </Link>
         ))}
 

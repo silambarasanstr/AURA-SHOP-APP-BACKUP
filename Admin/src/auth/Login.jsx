@@ -21,7 +21,8 @@ const Login = () => {
   };
 
   const fillDemoCredentials = (role) => {
-    setFormData(demoCredentials[role]);
+    setEmail(demoCredentials[role].email);
+    setPassword(demoCredentials[role].password);
   };
 
   const handleLogin = async (e) => {

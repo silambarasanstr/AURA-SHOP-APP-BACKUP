@@ -1,13 +1,13 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { logoutUser } from "../../services/authService";
 import { toast } from "react-hot-toast";
-import { Search, ShoppingCart, User, ChevronDown, LogOut } from "lucide-react";
+import { ShoppingCart, User, ChevronDown, LogOut } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
 const Header = () => {
   const menuRef = useRef(null);
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
+
   const user = JSON.parse(localStorage.getItem("user") || "null");
   const [showMenu, setShowMenu] = useState(false);
 
@@ -29,11 +29,6 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const linkClass = ({ isActive }) =>
-    isActive
-      ? "text-black font-semibold"
-      : "text-gray-500 hover:text-black transition";
-
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
       <div className="flex items-center justify-between px-4 py-3 mx-auto max-w-7xl">
@@ -41,8 +36,6 @@ const Header = () => {
         <h2 className="text-2xl font-semibold tracking-tight">
           Product Management<span className="text-blue-600"> Dashboard</span>
         </h2>
-
-        
 
         {/* Icons */}
         <div className="flex items-center gap-4">

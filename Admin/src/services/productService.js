@@ -1,49 +1,37 @@
+import api from "./api";
+
+// Get All Products
 export const fetchProducts = async (params = {}) => {
-  const query = new URLSearchParams(params).toString();
+  const { data } = await api.get("/products", {
+    params,
+  });
 
-  const res = await fetch(`http://localhost:5000/api/products?${query}`);
-
-  const data = await res.json();
   return data;
 };
 
+// Create Product
 export const createProduct = async (productData) => {
-  const res = await fetch("http://localhost:5000/api/products", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(productData),
-  });
-
-  const data = await res.json();
+  const { data } = await api.post("/products", productData);
   return data;
 };
 
+// Delete Product
 export const deleteProduct = async (id) => {
-  const res = await fetch(`http://localhost:5000/api/products/${id}`, {
-    method: "DELETE",
-  });
-  const data = await res.json();
+  const { data } = await api.delete(`/products/${id}`);
+
   return data;
 };
 
+// Update Product
 export const updateProductApi = async (id, updatedData) => {
-  const res = await fetch(`http://localhost:5000/api/products/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updatedData),
-  });
-  const data = await res.json();
+  const { data } = await api.put(`/products/${id}`, updatedData);
+
   return data;
 };
 
+// Get Product By Id
 export const fetchProductById = async (id) => {
-  const res = await fetch(
-    `http://localhost:5000/api/products/${id}`
-  );
+  const { data } = await api.get(`/products/${id}`);
 
-  return await res.json();
+  return data;
 };

@@ -1,4 +1,8 @@
+import dns from "dns";
 import mongoose from "mongoose";
+
+// 🌐 Force Node.js to use Google DNS (fixes querySrv ECONNREFUSED on Windows)
+dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 const connectDB = async () => {
   try {

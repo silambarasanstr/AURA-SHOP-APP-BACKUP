@@ -82,9 +82,7 @@ const Orders = () => {
             ?.toLowerCase()
             .includes(searchTerm.toLowerCase()) ||
           order._id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          order.address?.email
-            ?.toLowerCase()
-            .includes(searchTerm.toLowerCase()),
+          order.address?.email?.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -116,7 +114,7 @@ const Orders = () => {
     const element = document.createElement("a");
     element.setAttribute(
       "href",
-      "data:text/plain;charset=utf-8," + encodeURIComponent(dataStr),
+      "data:text/plain;charset=utf-8," + encodeURIComponent(dataStr)
     );
     element.setAttribute("download", `orders-${Date.now()}.json`);
     element.style.display = "none";
@@ -127,7 +125,7 @@ const Orders = () => {
 
   const paginatedOrders = filteredOrders.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
+    currentPage * itemsPerPage
   );
   const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
 
@@ -321,7 +319,8 @@ const Orders = () => {
                       }`}
                     >
                       <td className="px-6 py-4 font-mono text-sm text-gray-900">
-                         #{order.orderNumber || order._id.slice(-6).toUpperCase()}
+                        #
+                        {order.orderNumber || order._id.slice(-6).toUpperCase()}
                       </td>
                       <td className="px-6 py-4 text-sm font-medium text-gray-900">
                         {order.address?.fullName || "N/A"}

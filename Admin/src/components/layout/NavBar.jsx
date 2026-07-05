@@ -7,7 +7,6 @@ const NavBar = () => {
   return (
     <div className="bg-white shadow ">
       <div className="container mx-auto p-5 ">
-        
         <nav className="space-x-6  ">
           <NavLink to="/" end className={linkClass}>
             Home
