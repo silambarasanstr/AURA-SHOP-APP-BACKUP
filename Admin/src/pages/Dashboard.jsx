@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Package, ShoppingCart, Users, IndianRupee } from "lucide-react";
+import { getAdminProduct, getAdminStats } from "../services/dashboardServices";
 import { getOrders } from "../services/orderService";
 
 const Dashboard = () => {
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
   const [stats, setStats] = useState({
     totalUsers: 0,
     totalOrders: 0,
@@ -15,25 +18,58 @@ const Dashboard = () => {
 
   useEffect(() => {
     const loadDashboard = async () => {
-      try {
-        const [productsRes, statsRes, ordersRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/admin/products"),
-          axios.get("http://localhost:5000/api/admin/stats"),
-          getOrders(),
-        ]);
+      setLoading(true);
+      setError("");
 
-        setProducts(productsRes.data.products || []);
-        setStats(
-          statsRes.data || {
-            totalUsers: 0,
-            totalOrders: 0,
-            totalProducts: 0,
-            totalRevenue: 0,
-          }
-        );
-        setOrders(ordersRes || []);
+      try {
+        const [productsRes, statsRes, ordersRes] =
+          await Promise.allSettled([
+            getAdminProduct(),
+            getAdminStats(),
+            getOrders(),
+          ]);
+
+        // Products
+        if (productsRes.status === "fulfilled") {
+          setProducts(productsRes.value?.products || []);
+        } else {
+          console.error("Products Error:", productsRes.reason);
+        }
+
+        // Stats
+        if (statsRes.status === "fulfilled") {
+          setStats(
+            statsRes.value || {
+              totalUsers: 0,
+              totalOrders: 0,
+              totalProducts: 0,
+              totalRevenue: 0,
+            }
+          );
+        } else {
+          console.error("Stats Error:", statsRes.reason);
+        }
+
+        // Orders
+        if (ordersRes.status === "fulfilled") {
+          setOrders(ordersRes.value?.orders || ordersRes.value || []);
+        } else {
+          console.error("Orders Error:", ordersRes.reason);
+        }
+
+        // Show error only if every request failed
+        if (
+          productsRes.status === "rejected" &&
+          statsRes.status === "rejected" &&
+          ordersRes.status === "rejected"
+        ) {
+          setError("Failed to load dashboard data.");
+        }
       } catch (err) {
         console.error("Dashboard Error:", err);
+        setError("Something went wrong.");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -44,6 +80,22 @@ const Dashboard = () => {
     Number(n).toLocaleString("en-IN", {
       maximumFractionDigits: 0,
     });
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen text-lg font-semibold">
+        Loading dashboard...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen text-lg font-semibold text-red-500">
+        {error}
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen p-6 bg-gray-100">
@@ -129,10 +181,10 @@ const Dashboard = () => {
                       order.status === "Completed"
                         ? "bg-green-100 text-green-600"
                         : order.status === "Pending"
-                          ? "bg-yellow-100 text-yellow-600"
-                          : order.status === "Cancelled"
-                            ? "bg-red-100 text-red-600"
-                            : "bg-blue-100 text-blue-600"
+                        ? "bg-yellow-100 text-yellow-600"
+                        : order.status === "Cancelled"
+                        ? "bg-red-100 text-red-600"
+                        : "bg-blue-100 text-blue-600"
                     }`}
                   >
                     {order.status}

@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "../components/layout/Layout";
 import Home from "../pages/Home";
 import Profile from "../pages/Profile";
-import About from "../pages/About";
 import ProductContainer from "../containers/ProductContainer";
 import AddProductFormContainer from "../containers/AddProductFormContainer";
 import Orders from "../pages/Orders";
@@ -17,7 +16,6 @@ const AppRoutes = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
-          {/* <Route path="/" element={<Home />} /> */}
           <Route path="/" element={<Dashboard />} />
           <Route path="/products" element={<ProductContainer />} />
           <Route path="/add-products" element={<AddProductFormContainer />} />
@@ -25,7 +23,7 @@ const AppRoutes = () => {
             path="/edit-product/:id"
             element={<AddProductFormContainer />}
           />
-          {/* <Route path="/orders" element={<Orders />} /> */}
+
           <Route element={<AdminRoute />}>
             <Route path="/orders" element={<Orders />} />
           </Route>
