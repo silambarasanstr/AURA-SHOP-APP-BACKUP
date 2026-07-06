@@ -22,12 +22,11 @@ const Dashboard = () => {
       setError("");
 
       try {
-        const [productsRes, statsRes, ordersRes] =
-          await Promise.allSettled([
-            getAdminProduct(),
-            getAdminStats(),
-            getOrders(),
-          ]);
+        const [productsRes, statsRes, ordersRes] = await Promise.allSettled([
+          getAdminProduct(),
+          getAdminStats(),
+          getOrders(),
+        ]);
 
         // Products
         if (productsRes.status === "fulfilled") {
@@ -98,13 +97,13 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen p-6 bg-gray-100">
-      <h1 className="mb-2 text-3xl font-bold">Dashboard</h1>
+    <div>
+      <h1 className="mb-2 text-3xl font-bold text-gray-900">Dashboard</h1>
       <p className="mb-6 text-gray-500">Welcome back, Admin 👋</p>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 gap-5 mb-8 md:grid-cols-2 lg:grid-cols-4">
-        <div className="p-5 bg-white shadow rounded-xl">
+      <div className="grid grid-cols-1 gap-5 mb-5 md:grid-cols-2 lg:grid-cols-4">
+        <div className="p-5 bg-white rounded shadow">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500">Total Products</p>
@@ -114,7 +113,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="p-5 bg-white shadow rounded-xl">
+        <div className="p-5 bg-white rounded shadow">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500">Total Orders</p>
@@ -124,7 +123,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="p-5 bg-white shadow rounded-xl">
+        <div className="p-5 bg-white rounded shadow">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500">Total Sales</p>
@@ -136,7 +135,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="p-5 bg-white shadow rounded-xl">
+        <div className="p-5 bg-white rounded shadow">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500">Customers</p>
@@ -147,10 +146,9 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Recent Orders & Top Products */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Recent Orders */}
-        <div className="p-5 bg-white shadow rounded-xl">
+        <div className="p-5 bg-white rounded shadow">
           <h2 className="mb-4 text-xl font-semibold">Recent Orders</h2>
 
           {orders.length === 0 ? (
@@ -181,10 +179,10 @@ const Dashboard = () => {
                       order.status === "Completed"
                         ? "bg-green-100 text-green-600"
                         : order.status === "Pending"
-                        ? "bg-yellow-100 text-yellow-600"
-                        : order.status === "Cancelled"
-                        ? "bg-red-100 text-red-600"
-                        : "bg-blue-100 text-blue-600"
+                          ? "bg-yellow-100 text-yellow-600"
+                          : order.status === "Cancelled"
+                            ? "bg-red-100 text-red-600"
+                            : "bg-blue-100 text-blue-600"
                     }`}
                   >
                     {order.status}
@@ -196,7 +194,7 @@ const Dashboard = () => {
         </div>
 
         {/* Top Products */}
-        <div className="p-5 bg-white shadow rounded-xl">
+        <div className="p-5 bg-white rounded shadow">
           <h2 className="mb-4 text-xl font-semibold">Top Products</h2>
 
           {products.length === 0 ? (

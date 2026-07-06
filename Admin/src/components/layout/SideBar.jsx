@@ -50,10 +50,10 @@ const SideBar = ({ collapsed, setCollapsed }) => {
       }`}
     >
       {/* Header */}
-      <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-gray-200">
         {!collapsed && (
           <div>
-            <h1 className="text-lg font-bold text-blue-600">AURA SHOP</h1>
+            <h1 className="font-bold text-blue-600 text-md">AURA SHOP</h1>
             <p className="text-xs text-gray-500">Admin Panel</p>
           </div>
         )}
@@ -64,7 +64,7 @@ const SideBar = ({ collapsed, setCollapsed }) => {
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className={`w-5 h-5 transition-transform ${
+            className={`w-4 h-4 transition-transform ${
               collapsed ? "rotate-180" : ""
             }`}
             fill="none"
@@ -74,7 +74,7 @@ const SideBar = ({ collapsed, setCollapsed }) => {
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth={2}
+              strokeWidth={1}
               d="M11 19l-7-7 7-7M20 19l-7-7 7-7"
             />
           </svg>
@@ -92,7 +92,7 @@ const SideBar = ({ collapsed, setCollapsed }) => {
               to={item.href}
               end={item.href === "/"}
               className={({ isActive }) =>
-                `flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-200
+                `flex items-center gap-3 rounded px-2 py-3 transition-all duration-200
                 ${
                   isActive
                     ? "bg-blue-600 text-white shadow"
@@ -103,7 +103,7 @@ const SideBar = ({ collapsed, setCollapsed }) => {
               <Icon size={20} className="flex-shrink-0" />
 
               {!collapsed && (
-                <span className="font-medium">{item.label}</span>
+                <span className="text-sm font-medium">{item.label}</span>
               )}
             </NavLink>
           );

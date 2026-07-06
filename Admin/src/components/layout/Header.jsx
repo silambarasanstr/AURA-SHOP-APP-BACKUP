@@ -31,11 +31,9 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
-      <div className="flex items-center justify-between px-4 py-3 mx-auto max-w-7xl">
+      <div className="flex items-center justify-between px-4 py-3">
         {/* Logo */}
-        <h2 className="text-2xl font-semibold tracking-tight">
-          Product Management<span className="text-blue-600"> Dashboard</span>
-        </h2>
+        <h2 className="text-xl font-bold">Product Management Dashboard</h2>
 
         {/* Icons */}
         <div className="flex items-center gap-4">

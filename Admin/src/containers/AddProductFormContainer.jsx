@@ -180,12 +180,12 @@ const AddProductFormContainer = () => {
   const finalPrice = price - (price * discount) / 100;
 
   return (
-    <div className="min-h-screen p-6 bg-gray-50">
+    <div>
       <form onSubmit={handleSubmit} className="mx-auto max-w-7xl">
         {/* HEADER */}
         <div className="flex items-start justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-bold">Add a product</h1>
+            <h1 className="mb-2 text-3xl font-bold text-gray-900">Add a product</h1>
             <p className="mt-2 text-gray-600">
               Create and publish your product
             </p>
@@ -199,7 +199,7 @@ const AddProductFormContainer = () => {
               !formData.category ||
               loading
             }
-            className="px-6 py-3 text-white bg-blue-600 rounded-lg disabled:bg-gray-400"
+            className="px-6 py-3 text-white bg-blue-600 rounded cursor-pointer disabled:bg-gray-400"
           >
             {loading
               ? isEditMode
@@ -215,19 +215,19 @@ const AddProductFormContainer = () => {
           {/* LEFT SIDE */}
           <div className="space-y-6 lg:col-span-2">
             {/* TITLE */}
-            <div className="p-6 bg-white border rounded-lg">
+            <div className="p-6 bg-white border rounded">
               <label className="block mb-3 font-bold">Product Title</label>
               <input
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
                 placeholder="Enter product name"
-                className="w-full p-3 border rounded-lg"
+                className="w-full p-3 border rounded"
               />
             </div>
 
             {/* DESCRIPTION */}
-            <div className="p-6 bg-white border rounded-lg">
+            <div className="p-6 bg-white border rounded">
               <ReactQuillEditor
                 value={formData.description}
                 onChange={handleQuillChange}
@@ -235,24 +235,24 @@ const AddProductFormContainer = () => {
             </div>
 
             {/* IMAGE */}
-            <div className="p-6 bg-white border rounded-lg">
+            <div className="p-6 bg-white border rounded">
               <label className="block mb-3 font-bold">Image URL</label>
               <input
                 name="image"
                 value={formData.image}
                 onChange={handleInputChange}
                 placeholder="https://..."
-                className="w-full p-3 border rounded-lg"
+                className="w-full p-3 border rounded"
               />
               {formData.image && (
                 <img
                   src={formData.image}
                   alt="preview"
-                  className="object-cover w-full h-48 mt-4 border rounded-lg"
+                  className="object-cover w-full h-48 mt-4 border rounded"
                 />
               )}
             </div>
-            <div className="p-6 bg-white border rounded-lg">
+            <div className="p-6 bg-white border rounded">
               <label className="block mb-3 font-bold">Gallery Images</label>
 
               <textarea
@@ -265,7 +265,7 @@ const AddProductFormContainer = () => {
                     images: e.target.value.split("\n").filter(Boolean),
                   })
                 }
-                className="w-full p-3 border rounded-lg"
+                className="w-full p-3 border rounded"
               />
 
               {formData.images.length > 0 && (
@@ -275,7 +275,7 @@ const AddProductFormContainer = () => {
                       key={index}
                       src={img}
                       alt=""
-                      className="object-cover w-full h-20 rounded-lg"
+                      className="object-cover w-full h-20 rounded"
                     />
                   ))}
                 </div>
@@ -286,7 +286,7 @@ const AddProductFormContainer = () => {
           {/* RIGHT SIDE */}
           <div className="space-y-6">
             {/* CATEGORY */}
-            <div className="p-6 bg-white border rounded-lg">
+            <div className="p-6 bg-white border rounded">
               <div className="flex justify-between mb-4">
                 <h2 className="font-bold">Category</h2>
                 <MoreVertical size={18} />
@@ -296,7 +296,7 @@ const AddProductFormContainer = () => {
                 name="category"
                 value={formData.category}
                 onChange={handleInputChange}
-                className="w-full p-3 border rounded-lg"
+                className="w-full p-3 border rounded"
               >
                 <option value="">Select category</option>
                 {categories.map((cat) => (
@@ -307,7 +307,7 @@ const AddProductFormContainer = () => {
               </select>
             </div>
 
-            <div className="p-6 bg-white border rounded-lg">
+            <div className="p-6 bg-white border rounded">
               <h2 className="mb-4 font-bold">Product Information</h2>
 
               <div className="space-y-3">
@@ -317,7 +317,7 @@ const AddProductFormContainer = () => {
                   value={formData.brand}
                   onChange={handleInputChange}
                   placeholder="Brand Name"
-                  className="w-full p-3 border rounded-lg"
+                  className="w-full p-3 border rounded"
                 />
 
                 <input
@@ -326,7 +326,7 @@ const AddProductFormContainer = () => {
                   value={formData.sku}
                   onChange={handleInputChange}
                   placeholder="SKU"
-                  className="w-full p-3 border rounded-lg"
+                  className="w-full p-3 border rounded"
                 />
 
                 <input
@@ -335,13 +335,13 @@ const AddProductFormContainer = () => {
                   value={formData.stock}
                   onChange={handleInputChange}
                   placeholder="Available Stock"
-                  className="w-full p-3 border rounded-lg"
+                  className="w-full p-3 border rounded"
                 />
               </div>
             </div>
 
             {/* PRICING */}
-            <div className="p-6 bg-white border rounded-lg">
+            <div className="p-6 bg-white border rounded">
               <div className="mt-4 space-y-4">
                 <input
                   type="number"
@@ -349,7 +349,7 @@ const AddProductFormContainer = () => {
                   value={formData.price}
                   onChange={handleInputChange}
                   placeholder="Product Price"
-                  className="w-full p-3 border rounded-lg"
+                  className="w-full p-3 border rounded"
                 />
 
                 <input
@@ -358,7 +358,7 @@ const AddProductFormContainer = () => {
                   value={formData.discount}
                   onChange={handleInputChange}
                   placeholder="Discount %"
-                  className="w-full p-3 border rounded-lg"
+                  className="w-full p-3 border rounded"
                 />
 
                 <div className="p-4 rounded-lg bg-green-50">
@@ -372,7 +372,7 @@ const AddProductFormContainer = () => {
             </div>
 
             {/* Add Product Options Card */}
-            <div className="p-6 bg-white border rounded-lg">
+            <div className="p-6 bg-white border rounded">
               <h2 className="mb-4 font-bold">Product Options</h2>
 
               <label className="flex items-center gap-3">
@@ -390,14 +390,14 @@ const AddProductFormContainer = () => {
               </label>
             </div>
 
-            <div className="p-6 bg-white border rounded-lg">
+            <div className="p-6 bg-white border rounded">
               <h2 className="mb-4 font-bold">Product Status</h2>
 
               <select
                 name="status"
                 value={formData.status}
                 onChange={handleInputChange}
-                className="w-full p-3 border rounded-lg"
+                className="w-full p-3 border rounded"
               >
                 <option value="active">Active</option>
 

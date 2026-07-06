@@ -122,7 +122,7 @@ const ProductContainer = () => {
   return (
     <div className="space-y-3">
       <div>
-        <h1 className="mb-6 text-3xl font-bold text-gray-900">Products</h1>
+        <h1 className="mb-2 text-3xl font-bold text-gray-900">Products</h1>
 
         <div className="mb-4">
           <span>All </span>
