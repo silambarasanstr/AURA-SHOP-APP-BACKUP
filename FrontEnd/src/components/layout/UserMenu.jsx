@@ -38,7 +38,7 @@ const UserMenu = ({ handleLogout }) => {
 
       {/* Menu Items */}
       <div className="py-2">
-        {menuItems.map(({ label, path }) => (
+        {menuItems.map(({ label, path, icon: Icon }) => (
           <Link
             key={label}
             to={path}

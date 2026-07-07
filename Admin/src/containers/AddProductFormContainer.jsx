@@ -185,9 +185,11 @@ const AddProductFormContainer = () => {
         {/* HEADER */}
         <div className="flex items-start justify-between mb-8">
           <div>
-            <h1 className="mb-2 text-3xl font-bold text-gray-900">Add a product</h1>
-            <p className="mt-2 text-gray-600">
-              Create and publish your product
+            <h1 className="mb-2 text-3xl font-bold text-gray-900">
+              Add a product
+            </h1>
+            <p className="mb-6 text-gray-500">
+              Create and publish your product 👋
             </p>
           </div>
 

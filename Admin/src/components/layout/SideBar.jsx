@@ -1,11 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import {
-  Home,
-  Package,
-  ShoppingCart,
-  PlusCircle,
-} from "lucide-react";
+import { Home, Package, ShoppingCart, PlusCircle } from "lucide-react";
 
 const SideBar = ({ collapsed, setCollapsed }) => {
   const user = JSON.parse(localStorage.getItem("user"));

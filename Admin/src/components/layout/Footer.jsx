@@ -6,8 +6,6 @@ const Footer = () => {
         <p className="text-sm text-gray-600">
           © 2026 My App. All rights reserved.
         </p>
-
-       
       </div>
     </footer>
   );

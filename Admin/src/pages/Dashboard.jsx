@@ -103,7 +103,7 @@ const Dashboard = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 gap-5 mb-5 md:grid-cols-2 lg:grid-cols-4">
-        <div className="p-5 bg-white rounded shadow">
+        <div className="p-5 bg-white border border-gray-300 rounded shadow cursor-pointer">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500">Total Products</p>
@@ -113,7 +113,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="p-5 bg-white rounded shadow">
+        <div className="p-5 bg-white border border-gray-300 rounded shadow cursor-pointer">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500">Total Orders</p>
@@ -123,7 +123,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="p-5 bg-white rounded shadow">
+        <div className="p-5 bg-white border border-gray-300 rounded shadow cursor-pointer">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500">Total Sales</p>
@@ -135,7 +135,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="p-5 bg-white rounded shadow">
+        <div className="p-5 bg-white border border-gray-300 rounded shadow cursor-pointer">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500">Customers</p>

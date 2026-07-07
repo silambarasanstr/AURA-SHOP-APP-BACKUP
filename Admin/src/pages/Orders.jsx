@@ -138,20 +138,20 @@ const Orders = () => {
   }
 
   return (
-    <div className="min-h-screen p-4 bg-gray-50 md:p-6">
+    <div>
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900">Orders</h1>
-          <p className="mt-2 text-gray-600">
-            Manage all customer orders in one place
+          <h1 className="mb-2 text-3xl font-bold text-gray-900">Orders</h1>
+          <p className="mb-6 text-gray-500">
+            Manage all customer orders in one place 👋
           </p>
         </div>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 gap-5 mb-8 md:grid-cols-2 xl:grid-cols-4">
           {/* Total Orders */}
-          <div className="p-5 transition-all duration-300 border border-gray-300 shadow-sm bg-gradient-to-br from-blue-50 to-white rounded-2xl hover:shadow-lg hover:-translate-y-1">
+          <div className="p-5 transition-all duration-300 border border-gray-300 rounded shadow-sm cursor-pointer bg-gradient-to-br from-blue-50 to-white hover:shadow-lg hover:-translate-y-1">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-500">
@@ -168,7 +168,7 @@ const Orders = () => {
           </div>
 
           {/* Pending */}
-          <div className="p-5 transition-all duration-300 border border-gray-300 shadow-sm bg-gradient-to-br from-yellow-50 to-white rounded-2xl hover:shadow-lg hover:-translate-y-1">
+          <div className="p-5 transition-all duration-300 border border-gray-300 rounded shadow-sm cursor-pointer bg-gradient-to-br from-yellow-50 to-white hover:shadow-lg hover:-translate-y-1">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-500">Pending</p>
@@ -183,7 +183,7 @@ const Orders = () => {
           </div>
 
           {/* Delivered */}
-          <div className="p-5 transition-all duration-300 border border-gray-300 shadow-sm bg-gradient-to-br from-green-50 to-white rounded-2xl hover:shadow-lg hover:-translate-y-1">
+          <div className="p-5 transition-all duration-300 border border-gray-300 rounded shadow-sm cursor-pointer bg-gradient-to-br from-green-50 to-white hover:shadow-lg hover:-translate-y-1">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-500">Completed</p>
@@ -198,7 +198,7 @@ const Orders = () => {
           </div>
 
           {/* Revenue */}
-          <div className="p-5 transition-all duration-300 border border-gray-300 shadow-sm bg-gradient-to-br from-purple-50 to-white rounded-2xl hover:shadow-lg hover:-translate-y-1">
+          <div className="p-5 transition-all duration-300 border border-gray-300 rounded shadow-sm cursor-pointer bg-gradient-to-br from-purple-50 to-white hover:shadow-lg hover:-translate-y-1">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-500">
@@ -223,7 +223,7 @@ const Orders = () => {
         )}
 
         {/* Filters Section */}
-        <div className="p-6 mb-6 bg-white border border-gray-300 rounded-lg shadow">
+        <div className="p-6 mb-6 bg-white border border-gray-300 rounded shadow">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {/* Search */}
             <div className="md:col-span-2">
@@ -277,10 +277,10 @@ const Orders = () => {
         </div>
 
         {/* Orders Table */}
-        <div className="overflow-hidden bg-white border border-gray-300 rounded-lg shadow">
+        <div className="overflow-hidden bg-white border border-gray-300 rounded shadow">
           {paginatedOrders.length === 0 ? (
             <div className="py-12 text-center">
-              <p className="text-lg text-gray-500">No orders found</p>
+              <p className="text-gray-500 text-md">No orders found</p>
             </div>
           ) : (
             <div className="overflow-x-auto">

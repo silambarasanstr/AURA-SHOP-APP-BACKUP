@@ -11,9 +11,13 @@ import useDropdown from "../../hooks/useDropdown";
 const Header = memo(() => {
   const navigate = useNavigate();
   const { cartItems } = useCart();
+  
+  
   const { isOpen: showMenu, dropdownRef: menuRef, toggleDropdown } = useDropdown();
+
+  
   const cartCount = cartItems?.items?.length || 0;
-  // ✅ Specific selector — count மட்டும், array இல்லை
+  
   const itemCount = useSelector((state) => state.wishlist?.length || 0);
   const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user") || "null"));
   useEffect(() => {
@@ -23,12 +27,17 @@ const Header = memo(() => {
     window.addEventListener("userUpdated", handleUserUpdate);
     return () => window.removeEventListener("userUpdated", handleUserUpdate);
   }, []);
-  // ✅ useCallback — every render-ல் recreate ஆகாது
+  
+
+
   const handleLogout = useCallback(() => {
     logoutUser();
     toast.success("Logged Out Successfully");
     navigate("/login");
   }, [navigate]);
+
+
+  
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="flex items-center justify-between h-16 px-5 mx-auto max-w-7xl">
@@ -60,6 +69,7 @@ const Header = memo(() => {
             )}
           </Link>
           <div className="w-px h-5 mx-2 bg-gray-200" />
+         
           <div className="relative" ref={menuRef}>
             {user ? (
               <>

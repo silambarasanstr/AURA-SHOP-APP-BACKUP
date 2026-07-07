@@ -17,6 +17,7 @@ const useDropdown = () => {
   }, []);
 
   const toggleDropdown = () => {
+    console.log("Clicked");
     setIsOpen((prev) => !prev);
   };
 
