@@ -1,10 +1,13 @@
 const Footer = () => {
   return (
-    <footer className="mt-5 bg-gray-100 border-t">
-      <div className="flex flex-col justify-end px-4 py-4 mx-auto items-ends-center md:flex-row">
-        {/* Left */}
-        <p className="text-sm text-gray-600">
-          © 2026 My App. All rights reserved.
+    <footer className="border-t border-gray-200 bg-gray-50">
+      <div className="flex items-center justify-between px-6 min-h-14">
+        <p className="text-sm text-gray-500">
+          © 2026 AURA SHOP. All rights reserved.
+        </p>
+
+        <p className="hidden text-xs text-gray-400 sm:block">
+          Product Management Dashboard
         </p>
       </div>
     </footer>
