@@ -36,7 +36,16 @@ const Register = () => {
   return (
     <div className="flex items-center justify-center min-h-screen px-4 bg-gray-100">
       <div className="w-full max-w-md p-6 bg-white border border-gray-200 shadow-lg rounded-xl">
-        <h2 className="mb-2 text-3xl font-bold text-center text-gray-800">Register</h2>
+        {/* Header */}
+        <div className="mb-5 text-center">
+          <div className="flex items-center justify-center w-12 h-12 mx-auto mb-3 text-xl text-white bg-blue-600 shadow rounded-xl">
+            💰
+          </div>
+
+          <h1 className="text-xl font-bold text-gray-800">Auro Shop Ecommerce</h1>
+
+          <p className="mt-1 text-xs text-gray-500">Create your account</p>
+        </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <FormInput
             label="Name"
@@ -70,7 +79,7 @@ const Register = () => {
         </form>
         <p className="mt-4 text-sm text-center text-gray-500">
           Already have an account?{" "}
-          <Link to="/login" className="text-blue-500 hover:underline">
+          <Link to="/login" className="font-medium text-blue-600 hover:underline">
             Login here
           </Link>
         </p>
