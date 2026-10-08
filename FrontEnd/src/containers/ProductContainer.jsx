@@ -22,20 +22,25 @@ const ProductContainer = () => {
   usePageTitle("Products | My Store");
   const { addToCart } = useCart();
   const [searchParams, setSearchParams] = useSearchParams();
+  
   const category = searchParams.get("category") || "";
   const searchParam = searchParams.get("search") || "";
   const pageParam = Number(searchParams.get("page")) || 1;
   const sortParam = searchParams.get("sort") || "";
+  
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
+  
   const { data: categoriesData } = useFetch(getCategories);
   // ✅ useMemo — every render-ல் new array create ஆகாது
+ 
   const activeCategories = useMemo(
     () => categoriesData?.filter((c) => c.isActive) ?? [],
     [categoriesData]
   );
+  
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -85,12 +90,17 @@ const ProductContainer = () => {
     (val) => updateParams({ sort: val, page: 1 }),
     [updateParams]
   );
+ 
   const clearFilters = useCallback(() => setSearchParams({}), [setSearchParams]);
   const hasActiveFilters = searchParam !== "" || category !== "";
+
+  
   return (
     <div className="px-3 py-4 mx-auto max-w-7xl">
       <div className="flex flex-col gap-4 md:flex-row">
-        <aside className="w-full bg-white border border-gray-200 shadow-sm rounded-xl md:w-64 h-fit">
+        <aside className="w-full bg-white border border-gray-200 rounded shadow-sm md:w-64 h-fit">
+          
+          
           <div>
             <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
               <h2 className="font-semibold text-gray-900">Categories</h2>
@@ -176,6 +186,7 @@ const ProductContainer = () => {
                   Clear filters
                 </button>
               )}
+            
             </div>
           ) : (
             <>
@@ -184,6 +195,7 @@ const ProductContainer = () => {
                   ? `Showing ${products.length} of ${totalCount} products`
                   : `${products.length} products found`}
               </div>
+              
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
                 {products.map((product) => (
                   <ProductCard key={product._id} product={product} onAddToCart={addToCart} />

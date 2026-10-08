@@ -9,12 +9,16 @@ import Loading from "../components/common/Loading";
 import useFetch from "../hooks/useFetch";
 import { getCategories } from "../services/categoryService";
 import { getProducts } from "../services/productService";
+
 const img1 = new URL("../../assets/banner/bannerimg1.jpg", import.meta.url).href;
 const img2 = new URL("../../assets/banner/bannerimg2.jpg", import.meta.url).href;
+
 const bannerImages = [img1, img2];
+
 const SectionLabel = ({ children }) => (
   <span className="text-[0.65rem] tracking-[0.2em] uppercase text-gray-400">{children}</span>
 );
+
 const SectionHeader = ({ label, title, viewAllLink }) => (
   <div className="flex items-end justify-between mb-8">
     <div>
@@ -39,22 +43,28 @@ const SectionHeader = ({ label, title, viewAllLink }) => (
     )}
   </div>
 );
+
 const Divider = () => <div className="h-px mx-5 bg-gray-200" />;
 const Home = () => {
   const { data: productData, loading: productsLoading } = useFetch(getProducts);
   const { data: categories, loading: categoriesLoading } = useFetch(getCategories);
+
   const activeProducts = useMemo(
     () => productData?.products?.filter((p) => p.isActive) ?? [],
     [productData]
   );
+
   const activeCategories = useMemo(() => categories?.filter((c) => c.isActive) ?? [], [categories]);
   // ✅ useMemo add பண்ணோம் — direct compute இல்லை
+
   const featuredProducts = useMemo(
     () => activeProducts.filter((p) => p.featured),
     [activeProducts]
   );
+
   const previewProducts = useMemo(() => activeProducts.slice(0, 8), [activeProducts]);
   const previewCategories = useMemo(() => activeCategories.slice(0, 8), [activeCategories]);
+
   useEffect(() => {
     document.title = "Home | My Store";
   }, []);
@@ -64,29 +74,23 @@ const Home = () => {
       <div className="relative">
         <BannerSlider images={bannerImages} />
       </div>
+
       {/* Stats */}
+      
       {!productsLoading && !categoriesLoading && (
-        <div className="bg-white border-b border-gray-100">
+        <div className="bg-gray-200 border-b border-gray-100">
           <div className="flex flex-wrap items-center gap-3 px-5 py-3 mx-auto max-w-7xl">
-            <StatsCard
-             
-              count={activeProducts.length}
-              label="Products"
-            
-            />
-            <StatsCard
-             
-              count={activeCategories.length}
-              label="Categories"
-             
-            />
+            <StatsCard count={activeProducts.length} label="Products" />
+            <StatsCard count={activeCategories.length} label="Categories" />
+            <StatsCard count={featuredProducts.length} label="featured Products" />
           </div>
         </div>
       )}
+
       {/* Featured Products */}
-      {!productsLoading && featuredProducts.length > 0 && (
+      {!productsLoading && featuredProducts && (
         <>
-          <section className="px-5 py-14 bg-gray-50">
+          <section className="px-5 border py-14 bg-gray-50">
             <div className="mx-auto max-w-7xl">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-gray-900 text-gray-50 rounded-full font-mono text-[0.62rem] tracking-[0.15em] uppercase mb-3">
                 <Sparkles size={10} /> Featured
@@ -94,7 +98,7 @@ const Home = () => {
               <SectionHeader
                 label="Handpicked for you"
                 title="Top Picks"
-                viewAllLink={featuredProducts.length > 4 ? "/products?featured=true" : null}
+                viewAllLink={featuredProducts.length > 2 ? "/products?featured=true" : null}
               />
               <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(200px,1fr))]">
                 {featuredProducts.slice(0, 4).map((product) => (
@@ -106,13 +110,14 @@ const Home = () => {
           <Divider />
         </>
       )}
+
       {/* All Products */}
       <section className="px-5 bg-white py-14">
         <div className="mx-auto max-w-7xl">
           <SectionHeader
             label={!productsLoading ? `${activeProducts.length} items available` : "Loading…"}
             title="Shop Products"
-            viewAllLink={activeProducts.length > 8 ? "/products" : null}
+            viewAllLink={activeProducts.length > 2 ? "/products" : null}
           />
           {productsLoading ? (
             <Loading />
@@ -130,6 +135,7 @@ const Home = () => {
           )}
         </div>
       </section>
+      
       {/* Categories */}
       <section className="px-5 bg-gray-900 py-14">
         <div className="mx-auto max-w-7xl">
@@ -142,7 +148,7 @@ const Home = () => {
                 Shop by Category
               </h2>
             </div>
-            {activeCategories.length > 4 && (
+            {activeCategories.length > 2 && (
               <Link
                 to="/categories"
                 className="text-[0.72rem] tracking-[0.1em] text-gray-50 flex items-center gap-1.5 no-underline border-b border-white/40 pb-px transition-opacity duration-200 hover:opacity-60"

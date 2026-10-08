@@ -40,8 +40,8 @@ const ProductDetailContainer = () => {
       })
       .catch((err) => {
         console.log(err);
-        setLoading(false);
-      });
+      })
+      .finally(() => setLoading(false));
   }, [id]);
 
   const renderStars = (rating = 0) => {
@@ -86,10 +86,10 @@ const ProductDetailContainer = () => {
 
   return (
     <div className="px-4 py-10 mx-auto max-w-7xl">
-      <div className="grid gap-10 p-6 bg-white border border-gray-300 shadow-xl md:grid-cols-2 rounded-3xl">
+      <div className="grid gap-10 p-6 bg-white border border-gray-300 rounded shadow md:grid-cols-2">
         {/* LEFT — Images */}
         <div>
-          <div className="overflow-hidden border border-gray-100 rounded-2xl bg-gray-50">
+          <div className="overflow-hidden border border-gray-100 rounded bg-gray-50">
             <img
               src={selectedImage || product.image}
               alt={product.name}
@@ -168,7 +168,7 @@ const ProductDetailContainer = () => {
                 Out of Stock
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-green-700 bg-green-100 rounded-full">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-green-700 bg-green-100 rounded-full border-2 border-green-300 ">
                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                 In Stock ({product.stock} available)
               </span>
@@ -179,7 +179,7 @@ const ProductDetailContainer = () => {
           {!isOutOfStock && (
             <div className="flex items-center gap-4">
               <span className="text-sm font-semibold text-gray-600">Quantity</span>
-              <div className="flex items-center overflow-hidden border border-gray-200 rounded-xl">
+              <div className="flex items-center overflow-hidden border border-gray-200 rounded">
                 <button
                   onClick={handleDecreaseQuantity}
                   className="w-10 h-10 text-lg font-medium text-gray-600 transition-colors hover:bg-gray-100"
@@ -205,7 +205,7 @@ const ProductDetailContainer = () => {
             <button
               onClick={handleAddToCart}
               disabled={isOutOfStock}
-              className={`flex-1 py-3 rounded-xl font-semibold text-white transition-all active:scale-95 ${
+              className={`flex-1 py-3 rounded font-semibold text-white transition-all active:scale-95 ${
                 isOutOfStock ? "bg-gray-300 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
               }`}
             >
@@ -214,45 +214,13 @@ const ProductDetailContainer = () => {
 
             <button
               onClick={() => navigate("/cart")}
-              className="flex-1 py-3 font-semibold text-gray-700 transition-all border border-gray-200 rounded-xl hover:bg-gray-50 active:scale-95"
+              className="flex-1 py-3 font-semibold text-gray-700 transition-all border-2 border-gray-200 rounded hover:bg-gray-50 active:scale-95"
             >
               View Cart
             </button>
 
             {/* ✅ WishlistButton inline with action buttons */}
             <WishlistButton product={product} showText={false} />
-          </div>
-
-          {/* Product Info */}
-          <div className="p-5 border border-gray-100 bg-gray-50 rounded-2xl">
-            <h3 className="mb-3 text-sm font-semibold tracking-wide text-gray-500 uppercase">
-              Product Details
-            </h3>
-            {[
-              { label: "Brand", value: product.brand || "N/A" },
-              { label: "Category", value: product.category?.name || "N/A" },
-              { label: "SKU", value: product.sku || "N/A" },
-              {
-                label: "Featured",
-                value: product.featured ? (
-                  <span className="px-2.5 py-0.5 text-xs font-semibold text-white bg-orange-500 rounded-full">
-                    Yes
-                  </span>
-                ) : (
-                  <span className="text-gray-500">No</span>
-                ),
-              },
-            ].map(({ label, value }, i, arr) => (
-              <div
-                key={label}
-                className={`flex justify-between items-center py-2.5 ${
-                  i < arr.length - 1 ? "border-b border-gray-200" : ""
-                }`}
-              >
-                <span className="text-sm text-gray-500">{label}</span>
-                <span className="text-sm font-medium text-gray-800">{value}</span>
-              </div>
-            ))}
           </div>
         </div>
       </div>

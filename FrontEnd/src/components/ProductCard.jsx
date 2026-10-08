@@ -32,7 +32,7 @@ const ProductCard = ({ product, onAddToCart, showText }) => {
   const currentPrice = Number(product?.price || 0);
   const originalPrice = product?.originalPrice || null;
   return (
-    <div className="relative overflow-hidden transition duration-300 bg-white border border-gray-200 shadow-sm rounded-xl hover:shadow-md">
+    <div className="relative p-2 overflow-hidden transition duration-300 bg-white border border-gray-400 shadow-sm rounded-xl hover:shadow-md">
       <div className="absolute z-10 top-2 right-2">
         <WishlistButton showText={showText} product={product} />
       </div>
