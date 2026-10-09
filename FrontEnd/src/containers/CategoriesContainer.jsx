@@ -20,10 +20,12 @@ const CategoriesContainer = () => {
   const [viewMode, setViewMode] = useState("grid");
   const { data: categories, loading } = useFetch(getCategories);
   // ✅ totalActive memoized — JSX-ல் direct filter இல்லை
+  
   const totalActive = useMemo(
     () => categories?.filter((c) => c.isActive).length ?? 0,
     [categories]
   );
+  
   const activeCategories = useMemo(() => {
     let list = categories?.filter((c) => c.isActive) ?? [];
     if (search.trim()) {
@@ -36,15 +38,23 @@ const CategoriesContainer = () => {
       list = [...list].sort((a, b) => (b.productCount ?? 0) - (a.productCount ?? 0));
     return list;
   }, [categories, search, sortBy]);
+
+
+  
+  
   if (loading) return <Loading />;
+  
   return (
     <div className="px-4 py-10 mx-auto max-w-7xl">
+      
       <div className="mb-6">
         <h1 className="text-3xl font-bold">Shop By Category</h1>
         <p className="mt-1 text-gray-500">
           {activeCategories.length} categor{activeCategories.length === 1 ? "y" : "ies"} available
         </p>
       </div>
+
+      
       <div className="flex flex-wrap items-center gap-3 mb-8">
         <div className="relative flex-1 min-w-[200px]">
           <SearchInput value={search} onChange={setSearch} placeholder="Search categories..." />
@@ -52,6 +62,9 @@ const CategoriesContainer = () => {
         <SelectField value={sortBy} onChange={setSortBy} options={SORT_OPTIONS} />
         <ViewToggle viewMode={viewMode} onChange={setViewMode} />
       </div>
+
+
+
       {totalActive === 0 ? (
         <div className="py-16 text-center">
           <p className="text-gray-500">Categories will be available soon.</p>

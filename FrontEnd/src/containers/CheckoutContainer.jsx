@@ -8,6 +8,8 @@ import EmptyState from "../components/common/EmptyState";
 import DeliveryMethod from "../components/checkout/DeliveryMethod";
 import PaymentMethod from "../components/checkout/PaymentMethod";
 import usePageTitle from "../hooks/usePageTitle";
+import createOrder from "../services/orderService";
+
 const NO_IMAGE = "https://via.placeholder.com/60?text=No+Image";
 import ProductImg from "../../assets/product/product1.png";
 
@@ -88,12 +90,11 @@ const CheckoutContainer = () => {
     setLoading(true);
 
     try {
-      await axios.post("http://localhost:5000/api/orders", orderData);
+      await createOrder(orderData);
+      // await axios.post("http://localhost:5000/api/orders", orderData);
 
       toast.success("Order Placed Successfully ✅");
-
       clearCart();
-
       navigate("/orders");
     } catch (err) {
       console.error(err);
